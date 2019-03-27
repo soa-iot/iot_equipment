@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>设备分类展示</title>
+	<link rel="stylesheet" type="text/css"	 href="css/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="css/equipmentManage.css">	
+</head>
+<body>
+	<div class="easyui-layout" style="width:100%;height:100%;"  fit="true" >
+	
+		<!-- 左侧导航栏  -->
+		<div data-options="region:'west',split:true" title="设备管理" 
+				style="width:15%;height:100%">
+			<ul class="easyui-tree equpment-type" id="tree"> 
+				<li>
+					<span>设备大类</span>
+					<ul>
+						<li><span id="easyui-tree-first">全部设备</span></li>
+						<li><span>仪表设备</span></li>
+						<li><span>机械设备</span></li>
+						<li><span>电气设备</span></li>
+						<li><span>分析化验设备</span></li>
+					</ul>
+				</li>
+				<li>
+					<span>仪表设备</span>
+					<ul>
+						<li><span>压力表</span></li>
+						<li><span>压力差压变送器</span></li>
+						<li><span>温度计</span></li>
+						<li><span>温度变送器</span></li>
+						<li><span>气动切断阀</span></li>
+						<li><span>气动调节阀</span></li>
+						<li><span>液位计(含远程)</span></li>
+						<li><span>流量计</span></li>
+						<li><span>节流装置</span></li>
+						<li><span>在线分析仪</span></li>
+						<li><span>振动温度探头</span></li>
+						<li><span>DCS SIS系统</span></li>
+						<li><span>FGS系统</span></li>
+						<li><span>固定式报警仪</span></li>
+						<li><span>其他</span></li>
+					</ul>
+				</li>
+				<li>
+					<span>机械设备</span>
+					<ul>
+						<li><span>C类设备</span></li>
+						<li><span>D类设备</span></li>
+						<li><span>E类设备</span></li>
+						<li><span>F类设备</span></li>
+						<li><span>H类设备</span></li>
+						<li><span>R类设备</span></li>
+						<li><span>K类设备</span></li>
+						<li><span>P类设备</span></li>
+						<li><span>机修类</span></li>
+						<li><span>车辆类</span></li>
+						<li><span>其他</span></li>
+					</ul>
+				</li>
+				<li><span>电气设备</span>
+					<ul>
+						
+						<li><span>电动机</span></li>
+						<li><span>UPS电源系统</span></li>
+						<li><span>EPS电源系统</span></li>
+						<li><span>干式变压器</span></li>
+						<li><span>低压配电柜</span></li>
+						<li><span>高压配电柜</span></li>
+						<li><span>直流电源系统</span></li>
+						<li><span>现场配电箱</span></li>
+						<li><span>其他</span></li>
+					</ul>
+				</li>
+				<li>
+					<span>分析化验设备</span>
+					<ul>
+						<li><span>A类分析仪器</span></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- 右侧列表展示区  -->
+		<div  data-options="region:'center',title:'净化厂设备全生命周期管理台账'" style="width:85%;" >
+			<div id="equipment_search_toolbar" style="padding:3px">
+			
+				<!-- 通用搜索 -->
+				<div style="">
+					<span>装置列名:</span>
+					<!--<input type="text" name="WEL_NAME" id=""
+							>-->
+					<select class="easyui-combobox"  name="WEL_NAME" 
+							style="width:10%;line-height:20px;border:1px solid #ccc">
+						<option value="主体装置一列">主体装置一列</option>
+						<option value="主体装置二列">主体装置二列</option>
+						<option value="主体装置三列">主体装置三列</option>
+						<option value="主体装置四列">主体装置四列</option>
+						<option value="主体装置五列">主体装置五列</option>
+						<option value="主体装置六列">主体装置六列</option>
+						<option value="主体装置七列">主体装置七列</option>
+					</select>
+					<span>装置单元:</span>
+					<!--<input type="text" name="WEL_UNIT" id=""
+							style="width:10%;line-height:20px;border:1px solid #ccc">-->
+					<select class="easyui-combobox" name="WEL_UNIT" 
+							style="width:10%;line-height:20px;border:1px solid #ccc">
+						<option value="1100单元">1100单元</option>
+						<option value="1200单元">1200单元</option>
+						<option value="1300单元">1300单元</option>
+						<option value="1400单元">1400单元</option>
+						<option value="2100单元">2100单元</option>
+						<option value="2200单元">2200单元</option>
+						<option value="2300单元">2300单元</option>
+						<option value="2400单元">2400单元</option>
+						<option value="3000单元">3000单元</option>
+						<option value="3100单元">3100单元</option>
+						<option value="3200单元">3200单元</option>
+						<option value="3300单元">3300单元</option>
+						<option value="3500单元">3500单元</option>
+					</select>
+					<span>设备类别:</span>
+					<input type="text" name="EQU_MEMO_ONE" id="" 
+							style="width:10%;line-height:20px;border:1px solid #ccc">										
+					<span>设备位号:</span>
+					<input type="text" name="EQU_POSITION_NUM" id="" 
+							style="width:10%;line-height:20px;border:1px solid #ccc">
+					<span>设备名称:</span>
+					<input type="text" name="EQU_NAME" id="" 
+							style="width:10%;line-height:20px;border:1px solid #ccc">
+					<span>&nbsp&nbsp&nbsp</span>		
+					<a href="#" class="easyui-linkbutton equipment_highSearch" 
+							data-options="iconCls:'icon-add'"
+							style="width:15%;padding-top:2px">高级搜索</a>
+				</div>
+				
+				<!-- 高级搜索 -->
+				<div class="equipment_highSearch_item " style="display:none">															
+				</div>	
+
+				<!-- 表格编辑功能按钮 -->
+				<div>		
+					<a href="#" class="easyui-linkbutton equipment_search" 
+							data-options="iconCls:'icon-search'" >查询</a>
+					<a href="javascript:return false;" class="easyui-linkbutton equipment_add" 
+							data-options="iconCls:'icon-add'" disabled="true" >新增</a>
+					<a href="#" class="easyui-linkbutton equipment_modify" 
+							data-options="iconCls:'icon-edit'" disabled="true" >修改</a>
+					<a href="#" class="easyui-linkbutton equipment_delete" 
+							data-options="iconCls:'icon-remove'" disabled="true" >删除</a>					
+					<a href="#" class="easyui-linkbutton equipment_importExcel" 
+							data-options="iconCls:'down'" disabled="true">导入</a>					
+					<a href="#" class="easyui-linkbutton equipment_exportExcel" id="exports"
+							data-options="iconCls:'open'" disabled="true"  >导出</a>
+					<span  style="width:36%"></span>
+					<a href="#" style="margin-left:40%;" class="easyui-linkbutton equipment_bin" 
+							data-options="iconCls:'icon-tip'" disabled="true">回收站</a>						
+				</div>				
+			</div>
+			
+			<!-- 数据表格 -->
+			<table id="equipement_table"  fit="true"></table>
+		</div>
+	</div>
+	
+	<!-- 上传Excel弹出页面 -->
+	<div id="equipment_uploadExcel" class="easyui-window" title="选择上传Excel" 
+			style="width:600px;height:200px" closed="true"
+			data-options="iconCls:'icon-save',modal:true,region:'center'">
+		<form id="importFileForm" method="post" enctype="multipart/form-data" >
+			<table style="width:90%;margin:10px;height:70px;">
+            	<tr>
+	                <td width="15px;"></td>
+	                <td colspan="3">
+						<input type="text" style="display:none" name="equ_type" >
+	                	<input type="file" class="easyui-filebox" 								
+	                			id="fileImport" name="fileImport" style="width:460px;">
+	                </td>
+				</tr>
+	            <tr>
+	                <td colspan="4">
+	                	<label id="fileName" ></label>
+	                </td>
+	            </tr>
+	            <tr>
+	                <td colspan="4">
+	                    <label id="uploadInfo" ></label>
+	                </td>
+	            </tr>
+	        </table>
+	        <div style="text-align:center;clear:both;margin:5px;">
+            	<a id="equipment_uploadExcelDetail" class="easyui-linkbutton" 
+            			data-options="iconCls:'icon-ok'" 
+            			href="javascript:void(0)">上传</a>
+            	<a id="equipment_closeExcelDetail" class="easyui-linkbutton" 
+            			data-options="iconCls:'icon-cancel'"  href="javascript:void(0)">关闭</a>
+        	</div>
+		</form>
+	</div>
+	
+	<!-- 新增行弹出页面 -->
+	<div id="addTableRow" class="easyui-window" title="新增行信息" 
+			style="width:360px;height:450px" closed="true"
+			data-options="iconCls:'icon-save',modal:true,region:'center'">	
+	</div>
+	
+	<!-- 修改行弹出页面 -->
+	<div id="modifyTableRow" class="easyui-window" title="修改行信息" 
+			style="width:360px;height:450px" closed="true"
+			data-options="iconCls:'icon-save',modal:true,region:'center'">	
+	</div>
+	
+	<!-- 右键行弹出页面 -->
+	<div class="easyui-menu" style="width:100px;display:none" id="menu" data-options="onClick:rightMenoCF">
+		<div data-options="name:'detail'" iconCls="icon-search" >查看设备详情</div>
+		<div data-options="name:'hisoperate'" iconCls="icon-search" >查看历史操作</div>
+	</div>
+	
+	<!-- 导出按钮选项 -->
+	<div class="easyui-menu" style="display:none;width:100px" id="exportList">
+		<ul style="list-style:none">
+			
+			<li style="margin-top:5px"><a href="#" class="easyui-linkbutton equipment_modifyBatch" 
+							data-options="iconCls:'open'" disabled="true"  >批量修改</a></li>
+			<li style="margin-top:5px"><a href="#" class="easyui-linkbutton equipment_addBatch"
+							data-options="iconCls:'open'" disabled="true"  >批量新增</a></li>
+			<li style="margin-top:5px"><a href="#" class="easyui-linkbutton equipment_gram"
+							data-options="iconCls:'open'" disabled="true"  >导出台账</a></li>
+		</ul>
+	</div>
+	
+	<!-- 历史操作弹出框-->
+	<div style="display:none">
+		<table> </table>
+	</div>
+
+	
+	<!-- js书写  -->
+ 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="js/equipment.js"></script>
+	<script type="text/javascript" src="js/universal.js"></script>
+	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/equipmentManage.js"></script>
+</body>
+</html>

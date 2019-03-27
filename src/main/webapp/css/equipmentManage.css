@@ -1,0 +1,12 @@
+body {
+	margin : 0px;
+	padding : 0px
+}
+
+.equipment_highSearch_itemOpen {
+	display: block;
+}
+
+.equipment_highSearch_itemClose {
+	display: none;
+}

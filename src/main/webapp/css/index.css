@@ -1,0 +1,261 @@
+@charset "utf-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", "SimSun",
+		"\5b8b\4f53";
+	font-size: 14px;
+	outline: none;
+}
+
+/**--a--**/
+a {
+	text-decoration: none;
+	cursor: pointer;
+	background: transparent;
+}
+
+.table {
+	display: table;
+	width: 100%;
+}
+
+.table-row {
+	display: table-row;
+	width: 100%;
+}
+
+.table-cell {
+	display: table-cell;
+}
+
+/* 页眉-顶部 */
+.sys-header {
+	height: 50px;
+	vertical-align: middle;
+	overflow: hidden;
+}
+
+.header-left {
+	padding: 10px 0px 5px 10px;
+}
+
+.header-left a {
+	display: inline-block;
+}
+
+.header-left span {
+	display: inline-block;
+	color: #ff3600;
+	font-size: 1.5em;
+	position: relative;
+	top: -15px;
+	z-index:30;
+}
+
+.header-right {
+	padding: 10px 10px 5px 0px;
+	vertical-align: middle;
+	min-width: 170px;
+	text-align: right;
+	position: relative;
+	z-index:30;
+}
+
+/* IE10+ */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)  {
+	.header-right {
+		padding: 10px 80px 5px 0px !important;
+	}
+}
+
+.header-left img{
+	border: 0px;
+}
+
+.menu-title {
+	text-align: left;
+	display: table-caption;
+	min-width: 90px;
+	cursor: pointer;
+	padding-left: 5px;
+	position: relative;
+	top: -5px;
+}
+
+.menu-title span {
+	display: block;
+}
+
+.menu-title span:first-child {
+	color: #ff3600;
+}
+
+/**--下拉导航--**/
+.nav-menu {
+	display: inline-block;
+	position:relative;
+	z-index:30;
+}
+
+.nav-menu ul {
+	list-style: none;
+	position: relative;
+	display: inline-table;
+}
+
+.nav-menu ul ul {
+	display: none;
+}
+
+.nav-menu ul li:hover {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-menu ul li:hover>ul {
+	display: block;
+}
+
+.nav-menu ul li a {
+	color: #fff;
+	display: block;
+	padding: 5px;
+}
+
+.nav-menu ul ul {
+	background: #fff;
+	border-radius: 0px;
+	padding: 0;
+	position: fixed;
+	z-index: 30;
+}
+
+.nav-menu ul ul li {
+	border: 1px solid #f2f2f2;
+	position: relative;
+}
+
+.nav-menu ul ul li a {
+	color: #333;
+}
+
+.nav-menu ul ul li a:hover {
+	color: #06c;
+	background-color: #fafafa;
+}
+
+.nav-menu ul ul ul {
+	position: absolute;
+	top: 0;
+}
+
+.nav-menu.dow-l ul ul {
+	right: 0%;
+}
+
+.nav-menu.dow-r ul ul {
+	left: 0%;
+}
+
+.nav-menu.dow-l ul ul ul {
+	right: 100%;
+}
+
+.nav-menu.dow-r ul ul ul {
+	left: 100%;
+}
+
+/*---------------------左边导航---------------------*/
+.aside-menu {
+	width: 80px;
+	background-color: #376185;
+	position: fixed;
+	top: 69px;
+	left: 0;
+	bottom: 0;
+	z-index:20;
+	margin: auto;
+	overflow-y: auto;
+}
+
+.aside-menu::-webkit-scrollbar{width:0px;}
+
+.menu-dt{
+	display:table;
+	width: 100%;
+	height: 40px;
+	cursor: pointer;
+	vertical-align:middle;
+	padding:8px 0px;
+	margin:0px auto;
+	border-bottom: 1px solid #fff;
+}
+
+.menu-dt>i{
+	display:block;
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.8em;
+}
+
+.menu-dt>span{
+	display:block;
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.menu-dt:hover{
+	background-color: #3c5374;
+}
+
+.menu-selected{
+	background-color: #3c5374;
+}
+
+.menu-dt:last-child{
+	border-bottom: 0px;
+}
+
+/**----------------------内容----------------------**/
+.main-content {
+	width: 100%;
+	height: calc(100% - 69px);
+	padding-left: 80px;
+	box-sizing: border-box;
+	position:relative;
+	z-index: 1;
+	overflow: hidden;
+}
+
+.content-page {
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	position:relative;
+	z-index: 1;
+}
+
+/**----------------------滚动条----------------------**/
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+	background-color: #F5F5F5;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
+	background-color: rgb(189, 192, 183);
+}

@@ -1,0 +1,308 @@
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+<!--  <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+-->	
+	<!-- 批量修改模板 -->
+	<servlet>
+		<servlet-name>ModifyEquipmentBatchServlet</servlet-name>
+		<servlet-class>com.soa.CZ_PIOTMS.server.ModifyEquipmentBatchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ModifyEquipmentBatchServlet</servlet-name>
+		<url-pattern>/modifyEquipmentBatchServlet.action</url-pattern>
+	</servlet-mapping>
+
+	<!-- 恢复设备数据 -->
+	<servlet>
+		<servlet-name>ResaveEquipentData</servlet-name>
+		<servlet-class>com.soa.CZ_PIOTMS.server.ResaveEquipentData</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResaveEquipentData</servlet-name>
+		<url-pattern>/resaveEquipentData.action</url-pattern>
+	</servlet-mapping>
+
+	<!-- 单个设备查询 -->
+	<servlet>
+		<servlet-name>GetEquipmentPositionNum</servlet-name>
+		<servlet-class>com.soa.CZ_PIOTMS.server.GetEquipmentPositionNum</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetEquipmentPositionNum</servlet-name>
+		<url-pattern>/getEquipmentNum.action</url-pattern>
+	</servlet-mapping>
+
+	<!-- 设备删除记录 -->
+	<servlet>
+		<servlet-name>GetEquipmentDelHisOperate</servlet-name>
+		<servlet-class>com.soa.CZ_PIOTMS.server.GetEquipmentDelHisOperate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetEquipmentDelHisOperate</servlet-name>
+		<url-pattern>/getEquipmentDelHisOperate.action</url-pattern>
+	</servlet-mapping>
+
+	<!-- 设备操作记录 -->
+	<servlet>
+		<servlet-name>GetEquipmentHisOperate</servlet-name>
+		<servlet-class>com.soa.CZ_PIOTMS.server.GetEquipmentHisOperate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetEquipmentHisOperate</servlet-name>
+		<url-pattern>/getEquipmentHisOperate.action</url-pattern>
+	</servlet-mapping>
+
+	<!-- 设备设备 -->
+	<servlet>
+		<servlet-name>GetEqupmentDetailInfo</servlet-name>
+		<servlet-class>com.soa.equipment.GetEqupmentDetailInfo</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetEqupmentDetailInfo</servlet-name>
+		<url-pattern>/getEqupmentDetailInfo.action</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 插入设备 -->
+	<servlet>
+		<servlet-name>InsertEquipentData</servlet-name>
+		<servlet-class>com.soa.equipment.InsertEquipentData</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InsertEquipentData</servlet-name>
+		<url-pattern>/insertEquipentData.action</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 更新设备 -->
+	<servlet>
+		<servlet-name>ModifyEquipentData</servlet-name>
+		<servlet-class>com.soa.equipment.ModifyEquipentData</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ModifyEquipentData</servlet-name>
+		<url-pattern>/modifyEquipentData.action</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 删除设备 -->
+	<servlet>
+		<servlet-name>DeleteEquipentData</servlet-name>
+		<servlet-class>com.soa.equipment.DeleteEquipentData</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteEquipentData</servlet-name>
+		<url-pattern>/deleteEquipentData.action</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 设备权限 -->
+	<servlet>
+		<servlet-name>EquipmentAutority</servlet-name>
+		<servlet-class>com.soa.equipment.EquipmentAutority</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EquipmentAutority</servlet-name>
+		<url-pattern>/equipmentAutority.action</url-pattern>
+	</servlet-mapping>
+
+<!--查询备件-->
+ 
+ 	<servlet>
+		<servlet-name>GetEquipmentSpareServlet</servlet-name>
+		<servlet-class>com.soa.equipment.GetEquipmentSpareServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetEquipmentSpareServlet</servlet-name>
+		<url-pattern>/getEquipmentSpareInfo.do</url-pattern>
+	</servlet-mapping>
+	
+	 	<servlet>
+		<servlet-name>GetEquipmentAttachmentServlet</servlet-name>
+		<servlet-class>com.soa.equipment.GetEquipmentAttachmentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetEquipmentAttachmentServlet</servlet-name>
+		<url-pattern>/getEquipmentAttachmentInfo.do</url-pattern>
+	</servlet-mapping>
+ <!--增加备件-->
+ 	<servlet>
+		<servlet-name>AddEquipmentSpare</servlet-name>
+		<servlet-class>com.soa.equipment.AddEquipmentSpare</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddEquipmentSpare</servlet-name>
+		<url-pattern>/AddEquipmentSpare.do</url-pattern>
+	</servlet-mapping>
+ 
+
+	<servlet>
+		<servlet-name>addPictureServlet</servlet-name>
+		<servlet-class>com.soa.equipment.addPictureServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>addPictureServlet</servlet-name>
+		<url-pattern>/addPicture.do</url-pattern>
+	</servlet-mapping>
+ 
+	<!--备件附件操作-->
+	<servlet>
+		<servlet-name>DeleteEquipmentAttachmentServlet</servlet-name>
+		<servlet-class>com.soa.equipment.DeleteEquipmentAttachmentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteEquipmentAttachmentServlet</servlet-name>
+		<url-pattern>/equipmentAttachmentDelete.do</url-pattern>
+	</servlet-mapping>
+	<!--excel批量调入-->
+		<servlet>
+		<servlet-name>ImportOfEquServlet</servlet-name>
+		<servlet-class>com.soa.equipment.ImportEquipmentByExcel</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ImportOfEquServlet</servlet-name>
+		<url-pattern>/ImportOfEquServlet.action</url-pattern>
+	</servlet-mapping>
+
+	<!--修改备件-->
+	<servlet>
+		<servlet-name>ChangeEquipmentSpareServlet</servlet-name>
+		<servlet-class>com.soa.equipment.ChangeEquipmentSpareServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangeEquipmentSpareServlet</servlet-name>
+		<url-pattern>/changeEquipmentSpare.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteEquipmentSpare</servlet-name>
+		<servlet-class>com.soa.equipment.DeleteEquipmentSpare</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteEquipmentSpare</servlet-name>
+		<url-pattern>/equipmentSpareDelete.do</url-pattern>
+	</servlet-mapping>
+
+	
+	
+	<servlet>
+		<servlet-name>deletePicServlet</servlet-name>
+		<servlet-class>com.soa.equipment.deletePicServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deletePicServlet</servlet-name>
+		<url-pattern>/deletePicServlet.do</url-pattern>
+	</servlet-mapping>
+	
+ <servlet>
+		<servlet-name>Equipment2D</servlet-name>
+		<servlet-class>com.soa.equipment.Equipment2DServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Equipment2D</servlet-name>
+		<url-pattern>/equipmentInfo.action</url-pattern>
+	</servlet-mapping>
+
+   <servlet>
+    <servlet-name>ExportExcelOfEquServlet</servlet-name>
+    <servlet-class>com.soa.equipment.ExportExcelOfEquServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExportExcelOfEquServlet</servlet-name>
+    <url-pattern>/ExportExcelOfEquServlet.action</url-pattern>
+  </servlet-mapping>
+  
+     <servlet>
+    <servlet-name>updateExcelOfEquServlet</servlet-name>
+    <servlet-class>com.soa.equipment.updateExcelOfEquServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateExcelOfEquServlet</servlet-name>
+    <url-pattern>/updateExcelOfEquServlet.action</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>IndexMainServlet</servlet-name>
+    <servlet-class>com.soa.equipment.IndexMainServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndexMainServlet</servlet-name>
+    <url-pattern>/index.action</url-pattern>
+  </servlet-mapping>
+  
+    <!-- 
+ 
+  <servlet>
+    <servlet-name>FileDownloadServlet</servlet-name>
+    <servlet-class>com.soa.equipment.FileDownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileDownloadServlet</servlet-name>
+    <url-pattern>/fileDownload.action</url-pattern>
+  </servlet-mapping>
+  最新整改信息结束-->
+   <!--  add by zhugang 2017.11.1  for exportExcel ability   ==start== -->
+   <servlet>
+    <servlet-name>ExcelServlet</servlet-name>
+    <servlet-class>com.soa.equipment.ExportExcelServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExcelServlet</servlet-name>
+    <url-pattern>/ExportExcelServlet.action</url-pattern>
+  </servlet-mapping>
+  <!--  add by zhugang 2017.11.1  for exportExcel ability   ==end== -->
+
+ 
+  <servlet>
+    <servlet-name>GetEquipmentInfoByKeyServlet</servlet-name>
+    <servlet-class>com.soa.equipment.GetEquipmentInfoByKeyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetEquipmentInfoByKeyServlet</servlet-name>
+    <url-pattern>/GetEquipmentInfoByKey</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetEquipIDServlet</servlet-name>
+    <servlet-class>com.soa.equipment.GetEquipIDServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetEquipIDServlet</servlet-name>
+    <url-pattern>/GetEquipIDServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>EquipmentInfoServlet</servlet-name>
+    <servlet-class>com.soa.equipment.EquipmentInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EquipmentInfoServlet</servlet-name>
+    <url-pattern>/EquipmentInfoServlet.action</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>QueryEquipmentInfoServlet</servlet-name>
+    <servlet-class>com.soa.equipment.QueryEquipmentInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>QueryEquipmentInfoServlet</servlet-name>
+    <url-pattern>/QueryEquipmentInfoServlet.action</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>EquipmentImageServlet</servlet-name>
+    <servlet-class>com.soa.equipment.EquipmentImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EquipmentImageServlet</servlet-name>
+    <url-pattern>/EquipmentImageServlet.action</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>EquipmentInspectionImageServlet</servlet-name>
+    <servlet-class>com.soa.equipment.EquipmentInspectionImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EquipmentInspectionImageServlet</servlet-name>
+    <url-pattern>/EquipmentInspectionImageServlet.action</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>equipmentManage.html</welcome-file>
+</welcome-file-list>
+   <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <trim-directive-whitespaces>true</trim-directive-whitespaces>
+    </jsp-property-group>
+  </jsp-config>
+</web-app>

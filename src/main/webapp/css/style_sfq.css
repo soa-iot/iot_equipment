@@ -1,0 +1,48 @@
+body {
+  /*background-color: #eee;*/
+
+  font-family: "Open Sans", Arial;
+}
+
+header {
+  background-color: #2cc185;
+  color: #fff;
+  padding: 2em 1em;
+  margin-bottom: 1.5em;
+}
+
+h1 {
+  font-weight: 300;
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+}
+
+button {
+  background-color: #2cc185;
+  color: #fff;
+  border: 0;
+  padding: 1em 1.5em;
+}
+
+button:hover {
+  background-color: #239768;
+  color: #fff;
+}
+
+button:focus {
+  background-color: #239768;
+  color: #fff;
+}
+
+ @media (min-width:480px) {
+
+.container { max-width: 80%; }
+}
+ @media (min-width:768px) {
+
+.container { max-width: 100%; }
+}

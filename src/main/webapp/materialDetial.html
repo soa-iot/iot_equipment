@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>物资需求单查询</title>
+<link rel="stylesheet" type="text/css" href="css/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+*{
+	padding:0;
+	margin:0;
+	font-family: 'Arial', sans-serif;
+	font-size: 14px;
+}
+
+td {
+	text-align: left;
+}
+
+.datagrid-header-row td {
+	font-weight: bold;
+}
+
+.search-table{
+	width:100%;
+    background: #EDF6FA;
+    padding: 5px 0px;
+}
+
+.search-table td{
+	min-width: 60px;
+}
+
+.search-table td input{
+	width: 150px !important;
+}
+
+.search-td{
+	min-width: 50px;
+	text-align: center;
+}
+</style>
+<script type="text/javascript">
+	var planHeader = "";
+	function reloadData() {
+		planHeader = $('#planHeader').textbox('getValue');
+		var beginDate = $('#beginDate').datebox('getValue');
+		var endDate = $('#endDate').datebox('getValue');
+		var applyDept = $('#applyDept').textbox('getValue');
+		var applyPerson = $('#applyPerson').textbox('getValue');
+		var planProject = $('#planProject').textbox('getValue');
+		var applyType = $('#applyType').combobox('getValue');
+		$("#dgHeader").datagrid("reload", {
+			"PLAN_HEADER_ID" : planHeader,
+			"beginDate" : beginDate,
+			"endDate" : endDate,
+			"APPLY_DEPT" : applyDept,
+			"APPLY_PERSON" : applyPerson,
+			"PLAN_PROJECT" : planProject,
+			"APPLY_TYPE":applyType
+		});
+	}
+	function onClickRow(index, row) {
+		var row = $("#dgHeader").datagrid("getData").rows[index];
+		planHeader = row.PLAN_HEADER_ID;
+
+		if (planHeader) {
+			$("#dgDetail").datagrid("reload", {
+				"PLAN_HEADER_ID" : planHeader,				
+			});			
+		}
+	}
+	function reloadAllData() {
+		$('#planHeader').textbox('clear');
+		$('#beginDate').datebox('clear');
+		$('#endDate').datebox('clear');
+		$('#applyDept').textbox('clear');
+		$('#applyPerson').textbox('clear');
+		$('#planProject').textbox('clear');
+		$('#applyType').combobox('clear');
+		$("#dgHeader").datagrid("reload", {});
+	}
+
+	function loadSuccess() {
+		var row = $("#dgHeader").datagrid("getData").rows[0];
+		planHeader = row.PLAN_HEADER_ID;
+	//	alert(useApplyHeader);
+		if (planHeader) {
+			$("#dgDetail").datagrid("reload", {
+				"PLAN_HEADER_ID" : planHeader,				
+			});			
+		}else{
+			alert("此需求计划单为异常单！");
+		}
+	}	
+	function fixWidth(percent) {
+		return document.body.clientWidth * percent;
+	}
+	function reformat(value){
+	//	alert(value);
+		if(value== 1 ){
+	        return "月计划";
+	    }else if(value == 2 ){
+	        return "急料";
+	    }else{
+	    	return "无此类型";
+	    }
+	}		
+	
+	function print(){
+		var checkedRows = $("#dgHeader").datagrid("getChecked");
+		if(checkedRows){			
+			if(checkedRows.length == 1){
+				var header = checkedRows[0].PLAN_HEADER_ID;
+				var piid = checkedRows[0].PIID;
+				if(!$.isEmptyObject(piid)){
+					window.location.href = "/CZ_PIOTMS/materialServlet.action?TYPE=1&PLAN_HEADER_ID="+header;					
+				}else{
+					alert("此条记录暂时不能打印，请确认此申请单是否已经过审批!");
+					return;
+				}
+			}else{
+				alert("只能选择一条申请单记录打印!");
+				return;
+			}
+		}else {
+			alert("请选择一条需要打印的申请单记录!");
+			return;
+		}
+	}
+	function init() {
+		var url = location.search; //获取url中"?"符后的字串
+	    var theRequest = new Object();
+	    if (url.indexOf("?") != -1) {
+	        var str = url.substr(1);
+	        strs = str.split("&");
+	        for(var i = 0; i < strs.length; i ++) {
+	            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+	        }
+	    }
+	    //console.log(theRequest);
+	    var PIID = theRequest.PIID;
+	 	$.ajax({
+			type : 'post',
+			url : './materialDemandPlanUserCheckServlet.action',
+		//	data :{"userName":} ,
+			dataType : 'json',
+			success : function(data){
+				var message = data.message;
+				switch(message.trim()){
+				case 'ok':
+					$("#dgHeader").datagrid({url:'./materialDemandPlanHeaderServlet.action'});
+					$("#dgHeader").datagrid("load", {
+						"PIID":PIID
+					});
+					$("#dgDetail").datagrid({url:'./materialDemandPlanDetailServlet.action'});
+					break;
+				case 'error':
+					return;
+					break;
+				default:
+					break;					
+				}
+			},
+			error : function() {
+			}
+		});  
+	}
+</script>
+</head>
+<body onload="init()">
+	<table id="searchTable" class="search-table">
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td  class="search-td">
+				<a href="javascript:void(0);"
+				onclick="print()" class="easyui-linkbutton"
+				iconCls="icon-ok">打印</a>
+			</td>
+		</tr>
+	</table>
+	<div>
+		<table id="dgHeader" class="easyui-datagrid"
+			style="height: 265px" data-options="rownumbers:true,singleSelect:true,striped:true,
+	method:'post',onClickRow:onClickRow,fitColumns:false,fit:false,
+	onLoadSuccess:loadSuccess,checkOnSelect: false, selectOnCheck: false,pagination:true,pageSize:5,pageList : [5]">
+			<thead>
+				<tr>
+					<th
+						data-options="field:'RN',checkbox:true,width:fixWidth(0.02),align:'center'"></th>
+					<th
+						data-options="field:'PLAN_HEADER_ID',width:fixWidth(0.2),align:'center'">单号</th>
+					<th
+						data-options="field:'APPLY_DEPT',width:fixWidth(0.1),align:'center'">申请部门</th>
+					<th
+						data-options="field:'APPLY_PERSON',width:fixWidth(0.08),align:'center'">申请人</th>				
+					<th
+						data-options="field:'PLAN_PROJECT',width:fixWidth(0.25),align:'center'">计划项目</th>
+					<th
+						data-options="field:'APPLY_TYPE',formatter:reformat,width:fixWidth(0.1),align:'center'">申请类型</th>
+					<th
+						data-options="field:'APPLY_DATE',width:fixWidth(0.2),align:'center'">申请日期</th>
+				</tr>
+			</thead>
+		</table>
+			
+		<table id="dgDetail" class="easyui-datagrid"
+			style="height: 265px" data-options="rownumbers:true,singleSelect:true,striped:true,
+	method:'post',fitColumns:false,fit:false,pagination:true,pageSize:5,pageList : [5]">
+			<thead>
+				<tr>
+					<th
+						data-options="field:'MATERIAL_CODE',width:fixWidth(0.2),align:'center'">物料编码</th>
+					<th
+						data-options="field:'MATERIAL_NAME',width:fixWidth(0.25),align:'center'">物料名称</th>
+					<th
+						data-options="field:'SPECI_MODEL',width:fixWidth(0.2),align:'center'">规格型号</th>
+					<th
+						data-options="field:'MATERIAL_QUA',width:fixWidth(0.15),align:'center'">物料材质</th>					
+					<th data-options="field:'UNIT',width:fixWidth(0.05),align:'center'">单位</th>
+					<th
+						data-options="field:'APPLY_NUM',width:fixWidth(0.1),align:'center'">申请数量</th>					
+				</tr>
+			</thead>
+		</table>		
+	</div>
+</body>
+</html>

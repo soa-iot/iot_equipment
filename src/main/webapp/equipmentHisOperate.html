@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  	<title>设备历史操作记录</title>
+	<link rel="stylesheet" type="text/css" href="js/layui/css/layui.css">
+</head>
+<body>
+	<div>
+		<!-- 标题 -->
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>历史操作记录表</legend>
+		</fieldset>
+	
+		<!-- 表格 -->
+		<div style="margin-top:1%;margin-left:2%;margin-right:2%">
+			<table class="layui-hide" id="table_operate" lay-filter="table_operate"></table>
+		</div>
+		
+		<!-- js书写  -->
+		<script type="text/html" id="toolbar">
+			搜索时间：
+			<div class="layui-inline">
+    			<input class="layui-input" name="id" id="input_equipment" autocomplete="off">
+  			</div>
+			<div class="layui-btn-container">				
+    			<button class="layui-btn layui-btn-sm" lay-event="button_equipment">搜索</button>
+  			</div>
+		</script>
+		<script type="text/html" id="bar">
+  			<a class="layui-btn layui-btn-xs" lay-event="resave">恢复</a>
+		</script>
+      	<script type="text/html" id="operateType">
+  			{{#  if(d.TYPE == 'insert'){ }}
+    			<div style="background-color:#9BE01A">新增</div>
+  			{{#  } else if (d.TYPE == 'update'){ }}
+    			<div style="background-color:#FD7B3C">修改</div>
+  			{{#  }else if (d.TYPE == 'delete'){  }}
+    			<div style="background-color:#EAF00F">删除</div>
+  			{{#  }else{ }}
+				<div style="">{{d.TYPE}}</div>	
+			{{#  }  }}
+		</script>
+		
+	 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/equipment.js"></script>
+		<script type="text/javascript" src="js/universal.js"></script>
+		<script type="text/javascript" src="js/equipmentHisOperate.js"></script>
+	</div>
+</body>
+</html>

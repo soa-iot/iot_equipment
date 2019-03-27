@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>设备库存信息</title>
+<link rel="stylesheet" type="text/css" href="css/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+<meta charset="UTF-8">
+</head>
+<body>
+	 <div id="spare_tb" style="height:auto">
+		
+		<a href="javascript:void(0)" class="easyui-linkbutton edit" data-options="iconCls:'icon-edit',plain:true" >修改</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton remove" data-options="iconCls:'icon-remove',plain:true" >删除</a>
+	</div>
+	<table id="spare_table"></table>
+	<!-- 编辑框 -->
+	<div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
+		closed="true" buttons="#dlg-buttons">
+	<form id="fm" method="post">
+		<div class="fitem">
+			<label>名称:</label>
+			<input name="MATERIAL_NAME" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>规格型号:</label>
+			<input name="MATERIAL_SPECIFICATIONS" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>理想库存量:</label>
+			<input name="REASONABLE_INVENTORY" required="true">
+		</div>
+		<div class="fitem">
+			<label>库存量:</label>
+			<input name="ACTUAL_INVENTORY" class="easyui-validatebox"  required="true">
+		</div>
+		<div class="fitem">
+			<label>单位:</label>
+			<input name="UNIT" class="easyui-validatebox" >
+		</div>
+		<div class="fitem">
+			<label>备注:</label>
+			<input name="REMARKONE" class="easyui-validatebox" >
+		</div>
+		<div class="fitem" style="display:none">
+			<label>设备类别:</label>
+			<input name="SPARE_PARTS_TYPE" class="easyui-validatebox" >
+		</div>
+		<div class="fitem" style="display:none">
+			<label>设备位号:</label>
+			<input name="REMARKTWO" class="easyui-validatebox" >
+		</div>
+		
+	</form>
+</div>
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+</div>
+<script>
+$(function(){
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null)
+			return unescape(r[2]);
+		return null;
+	}
+	var href=window.location.href ;
+     $('#spare_table').datagrid({
+    	   toolbar:'#spare_tb',
+            url: "getEquipmentSpareInfo.do?EQU_POSITION_NUM="+getQueryString("EQU_POSITION_NUM")+"&EQU_MEMO_ONE="+getQueryString("EQU_MEMO_ONE")+"",
+            method: 'get',
+            singleSelect:true,
+            pageSize:10,
+            pagination:true,
+            loadMsg:'加载中...',
+            fitColumns:true,
+            columns: [[
+				{ field: 'MATERIAL_ID', title: '备件主键', width: 200 ,hidden:true},
+                { field: 'MATERIAL_NAME', title: '备件名称', width: 200 },
+				{ field: 'MATERIAL_SPECIFICATIONS', title: '备件型号', width: 200 },
+				{ field: 'UNIT', title: '单位', width: 200 },
+				{ field: 'REASONABLE_INVENTORY', title: '理想库存', width: 200 },
+				{ field: 'ACTUAL_INVENTORY', title: '实际库存', width: 200 },
+				{ field: 'REMARKONE', title: '备注', width: 200 },
+				{ field: 'SPARE_PARTS_TYPE', title: '设备类别', width: 200,hidden:true },
+				{ field: 'REMARKTWO', title: '设备位号', width: 200,hidden:true }
+            ]]
+        });
+     
+	//增加库存
+	function addEquipmentSpare(){
+		$('#dlg').dialog('open').dialog('setTitle','新增库存');
+		$('#fm').form('submit',{
+			url: "AddEquipmentSpare.do",
+			onSubmit: function(){
+				return $(this).form('validate');
+			},
+			success: function(result){
+				if (result.msg=='0'){
+					$('#dlg').dialog('close');		// close the dialog
+					$('#spare_table').datagrid('reload');	// reload the user data
+	
+				} else {
+					$.messager.show({
+						title: 'Error',
+						msg: '新增库存失败 '
+					});
+				}
+			}
+		});
+	}
+	//修改库存
+	function editEquipmentSpare(){
+		 $('#dlg').dialog('close');
+		var row = $('#spare_table').datagrid('getSelected');
+		if (row){
+			$('#dlg').dialog('open').dialog('标题','修改库存');
+			 var MATERIAL_ID=$row.MATERIAL_ID;
+			$('#fm').form('load',row);
+			$('#fm').form('submit',{
+				url: "changeEquipmentSpare.do",
+				onSubmit: function(){
+					return $(this).form('validate');
+				},
+				success: function(result){
+					if (result.msg=='0'){
+						$('#dlg').dialog('close');		// close the dialog
+						$('#spare_table').datagrid('reload');	// reload the user data
+		
+					} else {
+						$.messager.show({
+							title: 'Error',
+							msg: '修改库存失败 '
+						});
+					}
+				}
+			});
+		}else{
+			$.messager.alert('提示','请选择要修改的库存信息');
+		}
+	}
+     //删除库存
+     function deleteAttachment(){
+    	 $('#dlg').dialog('close');
+    	 $row=$("#spare_table").datagrid('getSelected');
+    	 if($row){
+    	 var MATERIAL_ID=$row.MATERIAL_ID;
+    	 	$.ajax({
+    	 		url:'equipmentSpareDelete.do',
+    	 		data:{"MATERIAL_ID":MATERIAL_ID},
+    	 		type:'get',
+    	 		dataType:'json',
+    	 		success:function(data){
+    	 			if(data.msg=='0'){
+    	 			 var index=$("#spare_table").datagrid('getRowIndex',$row);
+    	 				$("#spare_table").datagrid('deleteRow',index);
+    	 			}
+    	 		}
+    	 	});
+    	 }else{
+    	 	$.messager.alert('提示','请选择要删除的附件','info');
+    	 }
+    	 }
+    	 //tianji
+    
+    	 $('#spare_tb a:eq(0)').on('click',editEquipmentSpare)
+    	  $('#spare_tb a:eq(1)').on('click',deleteAttachment)
+    	 
+});
+</script>
+</body>
+</html>
