@@ -48,6 +48,8 @@ var addRowUrl = "insertEquipentData.action",
  * 页面初始化
  */
 $(function(){	
+	console.log( '------------currentLastMenoId---------------');
+	console.log( currentLastMenoId );
 	/*
 	 * 数据库新增字段    设备大类：TOTAL_EQUIPMENT、SECONDCLASS_EQUIPMENT
 	 */	
