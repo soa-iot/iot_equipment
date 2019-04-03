@@ -13,6 +13,8 @@
 	 * 参数页面初始化
 	 */
 	//初始化日期input_time
+	console.log(layui.laydate);
+	console.log(laydate);
 	laydate.render({
 		elem: '#input_time',
 		type: 'date',

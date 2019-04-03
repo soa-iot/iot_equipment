@@ -5,7 +5,7 @@
 	<!-- 批量修改模板 -->
 	<servlet>
 		<servlet-name>ModifyEquipmentBatchServlet</servlet-name>
-		<servlet-class>com.soa.CZ_PIOTMS.server.ModifyEquipmentBatchServlet</servlet-class>
+		<servlet-class>com.soa.equipment.ModifyEquipmentBatchServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ModifyEquipmentBatchServlet</servlet-name>
@@ -15,7 +15,7 @@
 	<!-- 恢复设备数据 -->
 	<servlet>
 		<servlet-name>ResaveEquipentData</servlet-name>
-		<servlet-class>com.soa.CZ_PIOTMS.server.ResaveEquipentData</servlet-class>
+		<servlet-class>com.soa.equipment.ResaveEquipentData</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ResaveEquipentData</servlet-name>
@@ -25,7 +25,7 @@
 	<!-- 单个设备查询 -->
 	<servlet>
 		<servlet-name>GetEquipmentPositionNum</servlet-name>
-		<servlet-class>com.soa.CZ_PIOTMS.server.GetEquipmentPositionNum</servlet-class>
+		<servlet-class>com.soa.equipment.GetEquipmentPositionNum</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetEquipmentPositionNum</servlet-name>
@@ -35,7 +35,7 @@
 	<!-- 设备删除记录 -->
 	<servlet>
 		<servlet-name>GetEquipmentDelHisOperate</servlet-name>
-		<servlet-class>com.soa.CZ_PIOTMS.server.GetEquipmentDelHisOperate</servlet-class>
+		<servlet-class>com.soa.equipment.GetEquipmentDelHisOperate</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetEquipmentDelHisOperate</servlet-name>
@@ -45,7 +45,7 @@
 	<!-- 设备操作记录 -->
 	<servlet>
 		<servlet-name>GetEquipmentHisOperate</servlet-name>
-		<servlet-class>com.soa.CZ_PIOTMS.server.GetEquipmentHisOperate</servlet-class>
+		<servlet-class>com.soa.equipment.GetEquipmentHisOperate</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetEquipmentHisOperate</servlet-name>

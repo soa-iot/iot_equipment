@@ -52,13 +52,13 @@ public class GetEquipmentDelHisOperate extends HttpServlet {
 		
 		if( pageNumStr == null || pageSizeStr == null   ) {
 			try {
-				json.put( "state" , 1 );
+				json.put( "state" , 0 );
 				json.put( "messge" , "查询历史删除数据失败，分页查询参数为空" );
 				json.put( "data" , "" );
 			} catch ( Exception e) {
 				e.printStackTrace();
 				try {
-					json.put( "state" , 1 );
+					json.put( "state" , 0 );
 					json.put( "messge" , "查询历史删除数据失败，分页查询参数为空" );
 					json.put( "count" , 0 );
 					json.put( "data" , "" );
@@ -111,14 +111,14 @@ public class GetEquipmentDelHisOperate extends HttpServlet {
 		
 		if( lists.isEmpty()) {
 			try {
-				json.put( "state" , 1 );
+				json.put( "state" , 0 );
 				json.put( "messge" , "获取设备操作历史信息失败" );
 				json.put( "data" , "" );
 				json.put( "count" , 0 );
 			} catch (Exception e) {
 				e.printStackTrace();
 				try {
-					json.put( "state" , 1 );
+					json.put( "state" , 0 );
 					json.put( "messge" , "获取设备操作历史信息失败" );
 					json.put( "data" , "" );
 					json.put( "count" , 0 );

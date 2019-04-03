@@ -1,3 +1,5 @@
+var ipPort = "http://localhost:10238";
+
 /*
  * 参数定义
  */
@@ -6,13 +8,13 @@ var addRowUrl = "insertEquipentData.action",
 	modifyRowUrl = "modifyEquipentData.action",
 	deleteRowUrl = "deleteEquipentData.action",
 	searchDataUrl = "getEqupmentDetailInfo.action",
-	excelDownloadUrl = "http://10.89.90.118:10239/CZ_PIOTMS/ExportExcelOfEquServlet.action",
-	excelUploadUrl = "http://10.89.90.118:10239/CZ_PIOTMS/ImportOfEquServlet.action",
-	modifyBatchUrl = "http://10.89.90.118:10239/CZ_PIOTMS/modifyEquipmentBatchServlet.action",
-	equipmentDetailUrl = "http://10.89.90.118:10239/CZ_PIOTMS/equipment_detail.html",
-	equipmentDelInfoUrl = "http://10.89.90.118:10239/CZ_PIOTMS/equipmentHisDelOperate.html",
-	getHisOperateUrl=  "http://10.89.90.118:10239/CZ_PIOTMS/equipmentHisOperate.html",
-	findUserAuthorityUrl = "equipmentAutority.action",
+	excelDownloadUrl = ipPort + "/iot_equipment/ExportExcelOfEquServlet.action",
+	excelUploadUrl = ipPort + "/iot_equipment/ImportOfEquServlet.action",
+	modifyBatchUrl = ipPort + "/iot_equipment/modifyEquipmentBatchServlet.action",
+	equipmentDetailUrl = "/iot_equipment/equipment_detail.html",
+	equipmentDelInfoUrl = "/iot_equipment/equipmentHisDelOperate.html",
+	getHisOperateUrl= "/iot_equipment/equipmentHisOperate.html",
+	findUserAuthorityUrl = ipPort + "/iot_usermanager/user/authority",
 	//表格id
 	tableId = "#equipement_table",
 	//当前用户名
@@ -48,8 +50,9 @@ var addRowUrl = "insertEquipentData.action",
  * 页面初始化
  */
 $(function(){	
-	console.log( '------------currentLastMenoId---------------');
-	console.log( currentLastMenoId );
+	console.log( '------------location---------------');
+	console.log( getUrlParamValueByName ( "userid" )  );
+	console.log( getUrlParamValueByName ( "currentLastMenoId" ) );
 	/*
 	 * 数据库新增字段    设备大类：TOTAL_EQUIPMENT、SECONDCLASS_EQUIPMENT
 	 */	
@@ -89,8 +92,8 @@ $(function(){
 	    selectOnCheck : true,
 	    singleSelect : true,
 	    pageNumber : 1,
-	    pageSize : 10000,
-	    pageList : [100, 1000, 5000, 10000],
+	    pageSize : 50,
+	    pageList : [50 , 100 ,150 , 200],
 		onRowContextMenu : rightClickRowFunction,
 	    onClickCell : tableSingleClick,
 	    //onDblClickCell : tableDbclickCell,
@@ -123,7 +126,7 @@ $(function(){
 	//初始化表格
 	$( tableId ).datagrid( tableOption );
 	
-	//初始化用户工具栏权限
+	//初始化用户工具栏权限	
 	findUserAuthority();
 	
 	//动态生成工具栏按钮权限
@@ -161,29 +164,18 @@ $(function(){
 	 * 工具栏按钮-查询用户任务权限
 	 */
 	function findUserAuthority(){
-		console.log( '工具栏按钮-查询用户任务权限……' );
+		console.log( '工具栏按钮-查询用户任务权限……' );		
+//		$.getJSON( findUserAuthorityUrl+"/" + getUrlParamValueByName ( "userid" ) + 
+//				"/" + getUrlParamValueByName ( "currentLastMenoId" ), findAuthoritySuccessFunction );	
 		$.ajax({
-		    type : "get",
-		    url : findUserAuthorityUrl ,
-		    data : {
-		    	"userName" : currentUserName
-		    },
-		    async : false, //默认
-		    dataType : "json",
-		    beforeSend : function(XMLHttpRequest){
-		    },
-		    complete : function(XMLHttpRequest, textStatus){
-		    },
-		    success : findAuthoritySuccessFunction,
-		    error : function(){
-		    	$.messager.show({
-					title : '提示页面',
-					msg : '请求失败，',
-					timeout : 2000,
-					showType:'slide'
-				});
-		    }		       
-		}); 
+            type: "GET",//请求方式
+            async:false,
+            url: findUserAuthorityUrl+"/" + getUrlParamValueByName ( "userid" ) + 
+				"/" + getUrlParamValueByName ( "currentLastMenoId" ),
+            dataType: "jsonp", //数据类型可以为 text xml json  script  jsonp
+            jsonp: "callback",
+            success:findAuthoritySuccessFunction
+         })
 	}
 	
 	/*
@@ -191,19 +183,13 @@ $(function(){
 	 */
 	function findAuthoritySuccessFunction( jsonData ){
 		console.log( '工具栏按钮-查询用户任务权限成功回调函数……' );
+		console.log( jsonData )
 		if( jsonData != null ){
-			if( jsonData.data != null && jsonData.state == 0 ){
-				//赋值
-				currentUserAuthority = jsonData.data.split( "," ) ;
-				console.log( currentUserAuthority );
-			}else{
-				$.messager.show({
-					title : '提示页面',
-					msg : '查询成功，数据为空',
-					timeout : 2000,
-					showType:'slide'
-				});
-			}
+			//赋值
+			$.each( jsonData, function( index, item ){
+				currentUserAuthority.push( item.name );
+			})
+			console.log( currentUserAuthority );
 		}else{
 			$.messager.show({
 				title : '提示页面',
@@ -219,6 +205,7 @@ $(function(){
 	 */
 	function setCurrentAuthority(){
 		console.log( '工具栏按钮-当前状态下按钮权限……' );
+		console.log( currentNodeName );
 		if( currentNodeName == "仪表设备" || currentNodeName == "机械设备" 
 				|| currentNodeName == "电气设备" || currentNodeName == "分析化验设备" 
 				|| currentNodeName == "全部设备" ){ 
@@ -487,6 +474,7 @@ $(function(){
 	/*
 	 * 左侧树结构-单击事件
 	 */
+	 var needCheck='no';
 	$( '.equpment-type' ).tree({		
 		onClick: function( node ){
 			console.log( '左侧树结构-单击事件……' );
@@ -511,7 +499,7 @@ $(function(){
 				$( '.equipment_highSearch_item' ).append( searchToolHtml );
 			}
 			//动态生成工具栏按钮权限
-			//setCurrentAuthority();
+			setCurrentAuthority();
 			//高级搜索隐藏与显示
 			if( currentNodeName == "仪表设备" || currentNodeName == "机械设备" 
 				|| currentNodeName == "电气设备" || currentNodeName == "分析化验设备" 
@@ -538,7 +526,7 @@ $(function(){
 				//$( tableId ).datagrid( 'load', {
 				//	"EQU_MEMO_ONE" : currentNodeName
 				//});
-				tableOption.queryParams = {"EQU_MEMO_ONE" : currentNodeName};
+				tableOption.queryParams = {"EQU_MEMO_ONE" : currentNodeName,"needCheck":needCheck};
 				
 			}
 			$( tableId ).datagrid( tableOption );			
@@ -768,6 +756,10 @@ $(function(){
 	/*
 	 * 导入上传功能-单击事件
 	 */
+	 $('#equipment_closeExcelDetail').click(function(){
+		 $('#importFileForm label').html("");
+		 $("#equipment_uploadExcel").window("close");
+	 });
 	function importExcelUploadFunction(){
 		console.log( '导入上传功能-单击事件……' );
 		//获取上传文件信息 
@@ -817,15 +809,21 @@ $(function(){
                 processData : false,
                 dataType : "json",
                 success : function ( jsonData ) {
-					        				$.messager.show({
-            					title : '提示页面',
-            					msg : '导入成功',
-            					timeout : 2000,
-            					showType : 'slide'
-            				});
-   		$('#equipment_uploadExcel').window('closed');
+      	if( jsonData.state==0 ){
+            			$.messager.show({
+        					title : '提示页面',
+        					msg : '导入成功',
+        					timeout : 2000,
+        					showType : 'slide'
+        				});
+            			$('#equipment_uploadExcel').window('close');
+            			$('#equipement_table').datagrid('reload'); 
+                	}else{
+                		$( '#uploadInfo' ).append(
+                   			 "<span style='color:Red'>"+jsonData.msg+"("+jsonData.data+")"+"</span>"
+                   	)
+                	} 
 				
-                    
                 },
                 error : function ( returnInfo ) {
                     //上传失败时显示上传失败信息
@@ -962,6 +960,43 @@ $(function(){
 		
 	}
 		 */
+/*
+		
+$.ajax({
+	url:'getNeedCheckCounts.action?needCheck=yes',
+	dataType:'json',
+	success:function(returnData){
+		
+		$('.checkEqu>span').html(returnData.total);
+		$('.equipment_checkEqu').click(function(){
+		if($('#checkEqu').is(':checked')){
+			needCheck='yes';
+		$('#tree>li:contains("设备大类")').hide();
+		var needCheckEqu=returnData.data;
+		var arr=[];
+		
+			for(var a=0;a<needCheckEqu.length;a++){
+				arr.push(needCheckEqu[a].EQU_MEMO_ONE)
+			}
+		console.log(arr.indexOf("压力表"));
+		//将不存在检修的设备类型影藏
+
+    $('.equpment-type ul>li').each(function(i){
+		console.log($(this).text());
+    	if(arr.indexOf($(this).text())==-1){
+    		$(this).hide();
+    	}
+    }); 
+}else{
+	$('#tree :hidden').show();
+	needCheck='no';
+}
+});
+	}
+});
+*/
+
+
 })
 
 /*
@@ -1000,12 +1035,14 @@ function rightMenoCF( item ){
 		var url=equipmentDetailUrl + 
 			"?a=1&DETAIL_URL=1&EQU_ID="+EQU_ID+"&EQU_MEMO_ONE=" + 
 			encodeURI(encodeURI(EQU_MEMO_ONE)) + "&EQU_POSITION_NUM=" + EQU_POSITION_NUM;
-		self.parent.addTab(EQU_POSITION_NUM, url, "icon-filter");
+		//self.parent.addTab(EQU_POSITION_NUM, url, "icon-filter");
+		location.href=url;
 	}else if( item.name == "hisoperate" ){
 		var url = getHisOperateUrl + "?EQU_ID="+EQU_ID + 
 		"&EQU_POSITION_NUM=" + encodeURI(encodeURI(EQU_POSITION_NUM)) + 
 		"&EQU_MEMO_ONE=" + encodeURI(encodeURI(EQU_MEMO_ONE));
-	self.parent.addTab( "设备历史操作记录", url, "icon-back");
+	//self.parent.addTab( "设备历史操作记录", url, "icon-back");
+	location.href=url;
 	}			
 }
 
@@ -1232,7 +1269,8 @@ function exportXTCF(){
 function binCF(){
 	console.log( '---------回收站单击事件----------' );
 	//跳转页面
-	self.parent.addTab( "设备回收站", equipmentDelInfoUrl, "icon-cut");
+	//self.parent.addTab( "设备回收站", equipmentDelInfoUrl, "icon-cut");
+	location.href=equipmentDelInfoUrl;
 }
 
 
@@ -1262,3 +1300,5 @@ function formToJson(data) {
    data="{\""+data+"\"}";
    return data;
 }
+
+

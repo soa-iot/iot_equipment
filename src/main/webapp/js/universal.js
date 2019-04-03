@@ -2,7 +2,7 @@
  * 引入其他插件
  */
 //引入layui插件
-document.write('<script type="text/javascript" src="js/layui.js"></script>');
+//document.write('<script type="text/javascript" src="js/layui.js"></script>');
 /**
     一、js目录
 		1.layui验证扩展方法

@@ -49,14 +49,14 @@ public class GetEquipmentHisOperate extends HttpServlet {
 		
 		if( positionNum == null ) {
 			try {
-				json.put( "state" , 1 );
+				json.put( "state" , 0 );
 				json.put( "messge" , "查询历史操作数据失败" );
 				json.put( "count" , 0 );
 				json.put( "data" , "" );
 			} catch ( Exception e) {
 				e.printStackTrace();
 				try {
-					json.put( "state" , 1 );
+					json.put( "state" , 0 );
 					json.put( "messge" , "查询历史操作数据失败，设备尾号为空" );
 					json.put( "count" , 0 );
 					json.put( "data" , "" );
@@ -69,14 +69,14 @@ public class GetEquipmentHisOperate extends HttpServlet {
 		}	
 		if( pageNumStr == null || pageSizeStr == null   ) {
 			try {
-				json.put( "state" , 1 );
+				json.put( "state" , 0 );
 				json.put( "messge" , "查询历史操作数据失败，分页查询参数为空" );
 				json.put( "count" , 0 );
 				json.put( "data" , "" );
 			} catch ( Exception e) {
 				e.printStackTrace();
 				try {
-					json.put( "state" , 1 );
+					json.put( "state" , 0 );
 					json.put( "messge" , "查询历史操作数据失败，分页查询参数为空" );
 					json.put( "count" , 0 );
 				} catch ( Exception e1) {
@@ -113,14 +113,14 @@ public class GetEquipmentHisOperate extends HttpServlet {
 		
 		if( lists.isEmpty()) {
 			try {
-				json.put( "state" , 1 );
+				json.put( "state" , 0 );
 				json.put( "messge" , "获取设备操作历史信息失败" );
 				json.put( "count" , 0 );
 				json.put( "data" , "" );
 			} catch (Exception e) {
 				e.printStackTrace();
 				try {
-					json.put( "state" , 1 );
+					json.put( "state" , 0 );
 					json.put( "messge" , "获取设备操作历史信息失败" );
 					json.put( "count" , 0 );
 					json.put( "data" , "" );
