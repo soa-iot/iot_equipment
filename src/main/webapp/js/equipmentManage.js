@@ -40,7 +40,7 @@ equipementAuthEventConfig = {
 	"回收站" : "binCF"
 };
 
-var equipment_file_url = "http://192.168.18.22:10237/soa-elfinder-web/";
+var equipment_file_url = "http://192.168.18.114:10238/soa-elfinder-web/";
 
 /**
  * 页面初始化
@@ -59,28 +59,48 @@ $(function() {
 			},
 			// { field:'EQU_ID', title:'设备ID', align:'center',width:"80" },
 			{
-				field : 'WEL_NAME',
-				title : '装置列',
-				align : 'center',
-				width : "80"
-			}, {
-				field : 'WEL_UNIT',
-				title : '装置单元',
-				align : 'center',
-				width : "80"
-			}, {
-				field : 'EQU_MEMO_ONE',
-				title : '设备类别',
-				align : 'center',
-				width : "80"
-			}, {
-				field : 'EQU_POSITION_NUM',
-				title : '设备位号',
+				field : 'EQU_MEMO_TWO',
+				title : '设备状态',
 				align : 'center',
 				width : "80"
 			}, {
 				field : 'EQU_NAME',
-				title : '设备名称',
+				title : '名称',
+				align : 'center',
+				width : "80"
+			}, {
+				field : 'ELEC',
+				title : '功能描述',
+				align : 'center',
+				width : "80"
+			}, {
+				field : 'EQU_MODEL',
+				title : '规格型号',
+				align : 'center',
+				width : "80"
+			}, {
+				field : 'MEASURE_PRIN',
+				title : '数量',
+				align : 'center',
+				width : "80"
+			}, {
+				field : 'FLUX',
+				title : '单位',
+				align : 'center',
+				width : "80"
+			}, {
+				field : 'EQU_MANUFACTURER',
+				title : '制造厂',
+				align : 'center',
+				width : "80"
+			}, {
+				field : 'EQU_COMMISSION_DATE',
+				title : '投用时间',
+				align : 'center',
+				width : "80"
+			}, {
+				field : 'CAPCITY',
+				title : '备注',
 				align : 'center',
 				width : "80"
 			}];
@@ -123,7 +143,7 @@ $(function() {
 		toolbar : "#equipment_search_toolbar",
 		striped : true,
 		queryParams : {
-			"SECONDCLASS_EQUIPMENT" : "全部设备"
+			"EQU_MEMO_ONE" : "控制系统"
 		},
 		method : "post",
 		pagination : true,
@@ -136,7 +156,6 @@ $(function() {
 		pageList : [50, 100, 150, 200],
 		onRowContextMenu : rightClickRowFunction,
 		onClickCell : tableSingleClick
-		,
 		// onDblClickCell : tableDbclickCell,
 		// onAfterEdit : onAfterEdit
 	};
@@ -288,7 +307,33 @@ $(function() {
 			$(equipementAuthorityConfig["导出"]).on('click', function() {
 						eval(equipementAuthEventConfig["导出"] + "()");
 					}).removeClass('l-btn-disabled');
+
+			$(equipementAuthorityConfig["新增"]).on('click', function() {
+						eval(equipementAuthEventConfig["新增"] + "()");
+					}).removeClass('l-btn-disabled');
+
+			$(equipementAuthorityConfig["修改"]).on('click', function() {
+						eval(equipementAuthEventConfig["修改"] + "()");
+					}).removeClass('l-btn-disabled');
+
+			$(equipementAuthorityConfig["删除"]).on('click', function() {
+						eval(equipementAuthEventConfig["删除"] + "()");
+					}).removeClass('l-btn-disabled');
+			$(equipementAuthorityConfig["批量新增"]).on('click', function() {
+						eval(equipementAuthEventConfig["批量新增"] + "()");
+					}).removeClass('l-btn-disabled');
+			$(equipementAuthorityConfig["批量修改"]).on('click', function() {
+						eval(equipementAuthEventConfig["批量修改"] + "()");
+					}).removeClass('l-btn-disabled');
+			$(equipementAuthorityConfig["导入"]).on('click', function() {
+						eval(equipementAuthEventConfig["导入"] + "()");
+					}).removeClass('l-btn-disabled');
+
+			$(equipementAuthorityConfig["回收站"]).on('click', function() {
+						eval(equipementAuthEventConfig["回收站"] + "()");
+					}).removeClass('l-btn-disabled');
 		}
+
 	}
 
 	/*
@@ -655,17 +700,18 @@ $(function() {
 	function activeGenerateSearchToolHtml(currentNodeName) {
 		console.log('表格工具栏-动态生成……');
 		// 重新动态生成html
-		var activeHtml = '<p style="height:5px;margin:0px;padding:0px;"></p>';
+		var activeHtml = '<div style = "display:-webkit-inline-box;width:100%;height=10px;"></div>';
 
 		$.each(equipmentStructure, function(key, value) {
 			if (currentNodeName == key && currentNodeName != '全部设备'
 					&& currentNodeName != '仪表设备' && currentNodeName != '机械设备'
 					&& currentNodeName != '电气设备' && currentNodeName != '分析化验设备') {
 				var remark = 0;
+				activeHtml += '<div style = "display:table"><div style = "display:table-row;width:100%">';
 				$.each(value, function(key1, value1) {
 					remark = parseInt(remark) + 1;
 					activeHtml = activeHtml
-							+ ' <span>'
+							+ '<div style = "display:table-cell;width:20%;"><span>'
 							+ key1
 							+ ':</span> '
 							+ ' <input type="text" name="'
@@ -674,15 +720,16 @@ $(function() {
 							+ ' id="'
 							+ value1
 							+ '" '
-							+ ' style="width:10%;line-height:20px;border:1px solid #ccc"> ';
+							+ ' style="line-height:20px;border:1px solid #ccc"></div>';
 					// 换行
-					if (remark == 6) {
+					if (remark % 5 == 0) {
 						activeHtml = activeHtml
-								+ '<p style="height:5px;margin:0px;padding:0px;"></p>';
+								+ '</div><div style = "display:-webkit-inline-box;width:100%;height=10px;"></div><div style = "display:table-row;width:100%;">';
 					}
 				})
 			}
-		})
+		});
+		activeHtml += '</div></div>';
 		// console.log( activeHtml );
 		return activeHtml;
 	}
@@ -694,9 +741,15 @@ $(function() {
 		console.log('表格列-动态生成……');
 		var totalTableColumns = [];
 		console.log(baseTableColumns);
-		$.each(baseTableColumns, function(key, value) {
-					totalTableColumns.push(value);
-				})
+		/*
+		 * $.each(baseTableColumns, function(key, value) {
+		 * totalTableColumns.push(value); })
+		 */
+		var checkbox = {
+			field : 'ck',
+			checkbox : true
+		};
+		totalTableColumns.push(checkbox);
 		$.each(equipmentStructure, function(key, value) {
 			if (currentNodeName == key && currentNodeName != '全部设备'
 					&& currentNodeName != '仪表设备' && currentNodeName != '机械设备'
@@ -749,6 +802,15 @@ $(function() {
 				})
 			}
 		})
+
+		middleActiveHtml = middleActiveHtml
+				+ ' <div style="margin-left:40px;"> ' + ' 	<label for="name">'
+				+ '设备类型' + ':</label>     '
+				+ '   	<input class="easyui-validatebox" type="text"    '
+				+ '   		name="' + 'EQU_MEMO_ONE'
+				+ '" data-options="required:true" /> ' + ' </div>  '
+				+ '<p style="height:5px;margin:0px;padding:0px;"></p>';
+
 		// 特殊分类字段
 		var secondEquipmentType = ' <div  style="margin-left:40px;"> '
 				+ ' 	<label for="name">设备大类:</label>     '
@@ -1093,7 +1155,8 @@ function rightMenoCF(item) {
 		location.href = url;
 	} else if (item.name == "file") {
 		// 查看设备文件（陈宇林修改）
-		var url = equipment_file_url + "?dirClass=" + EQU_ID +"#elf_A_aGVscA_E_E";
+		var url = equipment_file_url + "?dirClass=" + EQU_ID
+				+ "#elf_A_aGVscA_E_E";
 		location.href = url;
 	}
 }

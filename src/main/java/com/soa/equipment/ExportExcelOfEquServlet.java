@@ -26,1010 +26,590 @@ import org.json.JSONObject;
 import com.soa.util.DataUtil;
 import com.soa.util.Im_ExportExcel;
 
-public class ExportExcelOfEquServlet extends HttpServlet{
+public class ExportExcelOfEquServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private String excelContents[][];
 
-	protected void service(HttpServletRequest req, HttpServletResponse res)
-		throws ServletException, IOException {
+	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
 		String nowDate = sdf.format(new Date(System.currentTimeMillis()));
-		String excelName = (new StringBuilder(String.valueOf(nowDate)))
-				.append("设备基础信息").toString();
-		res.setHeader("Content-Disposition",
-				(new StringBuilder("attachment;filename="))
-				.append(new String(excelName.getBytes("gb2312"), "ISO8859-1"))
-				.append(".xls").toString());
+		String excelName = (new StringBuilder(String.valueOf(nowDate))).append("设备基础信息").toString();
+		res.setHeader("Content-Disposition", (new StringBuilder("attachment;filename="))
+				.append(new String(excelName.getBytes("gb2312"), "ISO8859-1")).append(".xls").toString());
 		res.setHeader("Connection", "close");
 		res.setHeader("Content-Type", "application/vnd.ms-excel;charset=UTF-8");
 		OutputStream out = res.getOutputStream();
-				
+
 		/*
 		 * 参数定义
 		 */
-		//设备对应的后端附件存储位置,初始化excel配置信息
-		Map<String,String> equipAttachLocationUrlConfig = new HashMap<String,String>();
-		equipAttachLocationUrlConfig.put( "压力表", "E:/仪表设备/仪表设备/压力表" );
-		equipAttachLocationUrlConfig.put( "压力差压变送器", "E:/仪表设备/压力差压变送器" );
-		equipAttachLocationUrlConfig.put( "温度计", "E:/仪表设备/温度计" );
-		equipAttachLocationUrlConfig.put( "温度变送器", "E:/仪表设备/温度变送器" );
-		equipAttachLocationUrlConfig.put( "气动切断阀", "E:/仪表设备/气动切断阀" );
-		equipAttachLocationUrlConfig.put( "气动调节阀", "E:/仪表设备/气动调节阀" );
-		equipAttachLocationUrlConfig.put( "液位计(含远程)", "E:/仪表设备/液位计(含远程)" );
-		equipAttachLocationUrlConfig.put( "流量计", "E:/仪表设备/流量计" );
-		equipAttachLocationUrlConfig.put( "节流装置", "E:/仪表设备/节流装置" );
-		equipAttachLocationUrlConfig.put( "在线分析仪", "E:/仪表设备/在线分析仪" );
-		equipAttachLocationUrlConfig.put( "振动温度探头", "E:/仪表设备/振动温度探头" );
-		equipAttachLocationUrlConfig.put( "DCS SIS系统", "E:/仪表设备/DCS/SIS系统" );
-		equipAttachLocationUrlConfig.put( "FGS系统", "E:/仪表设备/FGS系统" );
-		equipAttachLocationUrlConfig.put( "固定式报警仪", "E:/仪表设备/固定式报警仪" );
-		equipAttachLocationUrlConfig.put( "其他", "E:/仪表设备/其他" );
-		equipAttachLocationUrlConfig.put( "C类设备", "E:/机械设备/C类设备" );
-		equipAttachLocationUrlConfig.put( "D类设备", "E:/机械设备/D类设备" );
-		equipAttachLocationUrlConfig.put( "E类设备", "E:/机械设备/D类设备" );
-		equipAttachLocationUrlConfig.put( "F类设备", "E:/机械设备/F类设备" );
-		equipAttachLocationUrlConfig.put( "H类设备", "E:/机械设备/H类设备" );
-		equipAttachLocationUrlConfig.put( "R类设备", "E:/机械设备/R类设备" );
-		equipAttachLocationUrlConfig.put( "P类设备", "E:/机械设备/P类设备" );
-		equipAttachLocationUrlConfig.put( "K类设备", "E:/机械设备/K类设备" );
-		equipAttachLocationUrlConfig.put( "机修类", "E:/机械设备/机修类" );
-		equipAttachLocationUrlConfig.put( "车辆类", "E:/机械设备/车辆类" );
-		equipAttachLocationUrlConfig.put( "其他", "E:/机械设备/其他" );
-		equipAttachLocationUrlConfig.put( "EPS电源系统", "E:/机械设备/EPS电源系统" );
-		equipAttachLocationUrlConfig.put( "UPS电源系统", "E:/机械设备/UPS电源系统" );
-		equipAttachLocationUrlConfig.put( "低压配电柜", "E:/机械设备/低压配电柜" );
-		equipAttachLocationUrlConfig.put( "电动机", "E:/机械设备/电动机" );
-		equipAttachLocationUrlConfig.put( "干式变压器", "E:/机械设备/干式变压器" );
-		equipAttachLocationUrlConfig.put( "高压配电柜", "E:/机械设备/高压配电柜" );
-		equipAttachLocationUrlConfig.put( "现场配电箱", "E:/机械设备/现场配电箱" );
-		equipAttachLocationUrlConfig.put( "直流电源系统", "E:/机械设备/直流电源系统" );
-		equipAttachLocationUrlConfig.put( "A类分析仪器", "E:/机械设备/A类分析仪器" );
+		// 设备对应的后端附件存储位置,初始化excel配置信息
+		Map<String, String> equipAttachLocationUrlConfig = new HashMap<String, String>();
 
-		//Excel标题配置信息
-		Map<String,String> excelTitleConfig = new HashMap<String,String>();
-		excelTitleConfig.put( "压力表", "遂宁龙王庙天然气净化厂压力表台账" );
-		excelTitleConfig.put( "压力差压变送器", "遂宁龙王庙天然气净化厂压力差压变送器台账" );
-		excelTitleConfig.put( "温度计", "遂宁龙王庙天然气净化厂温度计台账" );
-		excelTitleConfig.put( "温度变送器", "遂宁龙王庙天然气净化厂温度变送器台账" );
-		excelTitleConfig.put( "气动切断阀", "遂宁龙王庙天然气净化厂气动切断阀台账" );
-		excelTitleConfig.put( "气动调节阀", "遂宁龙王庙天然气净化厂气动调节阀台账" );
-		excelTitleConfig.put( "液位计(含远程)", "遂宁龙王庙天然气净化厂液位计(含远程)台账" );
-		excelTitleConfig.put( "流量计", "遂宁龙王庙天然气净化厂流量计台账" );
-		excelTitleConfig.put( "节流装置", "遂宁龙王庙天然气净化厂节流装置台账" );
-		excelTitleConfig.put( "在线分析仪", "遂宁龙王庙天然气净化厂在线分析仪台账" );
-		excelTitleConfig.put( "振动温度探头", "遂宁龙王庙天然气净化厂振动温度探头台账" );
-		excelTitleConfig.put( "DCS SIS系统", "遂宁龙王庙天然气净化厂DCS SIS系统台账" );
-		excelTitleConfig.put( "FGS系统", "遂宁龙王庙天然气净化厂FGS系统台账" );
-		excelTitleConfig.put( "固定式报警仪", "遂宁龙王庙天然气净化厂固定式报警仪台账" );
-		excelTitleConfig.put( "其它", "遂宁龙王庙天然气净化厂其它台账" );
-		excelTitleConfig.put( "P类设备", "遂宁龙王庙天然气净化厂P类台账" );
-		excelTitleConfig.put( "K类设备", "遂宁龙王庙天然气净化厂K类台账" );
-		excelTitleConfig.put( "C类设备", "遂宁龙王庙天然气净化厂C类设备台账" );
-		excelTitleConfig.put( "D类设备", "遂宁龙王庙天然气净化厂D类设备台账" );
-		excelTitleConfig.put( "E类设备", "遂宁龙王庙天然气净化厂E类设备台账" );
-		excelTitleConfig.put( "F类设备", "遂宁龙王庙天然气净化厂F类设备台账" );
-		excelTitleConfig.put( "H类设备", "遂宁龙王庙天然气净化厂H类设备台账" );
-		excelTitleConfig.put( "R类设备", "遂宁龙王庙天然气净化厂R类设备台账" );
-		excelTitleConfig.put( "机修类", "遂宁龙王庙天然气净化厂机修类台账" );
-		excelTitleConfig.put( "车辆类", "遂宁龙王庙天然气净化厂车辆类台账" );
-		excelTitleConfig.put( "其他", "遂宁龙王庙天然气净化厂其他台账" );
-		excelTitleConfig.put( "EPS电源系统", "遂宁龙王庙天然气净化厂EPS电源系统台账" );
-		excelTitleConfig.put( "UPS电源系统", "遂宁龙王庙天然气净化厂UPS电源系统台账" );
-		excelTitleConfig.put( "低压配电柜", "遂宁龙王庙天然气净化厂低压配电柜台账" );
-		excelTitleConfig.put( "电动机", "遂宁龙王庙天然气净化厂电动机台账" );
-		excelTitleConfig.put( "干式变压器", "遂宁龙王庙天然气净化厂干式变压器台账" );
-		excelTitleConfig.put( "高压配电柜", "遂宁龙王庙天然气净化厂高压配电柜台账" );
-		excelTitleConfig.put( "现场配电箱", "遂宁龙王庙天然气净化厂现场配电箱台账" );
-		excelTitleConfig.put( "直流电源系统", "遂宁龙王庙天然气净化厂直流电源系统台账" );
-		excelTitleConfig.put( "A类分析仪器", "遂宁龙王庙天然气净化厂A类分析仪器台账" );
+		equipAttachLocationUrlConfig.put("控制系统", "九龙山天然气净化厂控制系统台账");
+		equipAttachLocationUrlConfig.put("DCS系统", "九龙山天然气净化厂DCS系统台账");
+		equipAttachLocationUrlConfig.put("SIS/FGS系统", "九龙山天然气净化厂SIS/FGS系统台账");
+		equipAttachLocationUrlConfig.put("导热油控制系统", "九龙山天然气净化厂导热油控制系统台账");
+		equipAttachLocationUrlConfig.put("除盐水控制系统", "九龙山天然气净化厂除盐水控制系统台账");
+		equipAttachLocationUrlConfig.put("硫磺过滤机控制系统", "九龙山天然气净化厂硫磺过滤机控制系统台账");
+		equipAttachLocationUrlConfig.put("火炬控制系统", "九龙山天然气净化厂火炬控制系统台账");
+		equipAttachLocationUrlConfig.put("变频供水控制系统", "九龙山天然气净化厂变频供水控制系统台账");
+		equipAttachLocationUrlConfig.put("检测回路", "九龙山天然气净化厂检测回路台账");
+		equipAttachLocationUrlConfig.put("控制回路", "九龙山天然气净化厂控制回路台账");
+		equipAttachLocationUrlConfig.put("控制系统安全联锁回路", "九龙山天然气净化厂控制系统安全联锁回路台账");
+		equipAttachLocationUrlConfig.put("气动（电动）切断阀", "九龙山天然气净化厂气动（电动）切断阀台账");
+		equipAttachLocationUrlConfig.put("气动（电动）调节阀", "九龙山天然气净化厂气动（电动）调节阀台账");
+		equipAttachLocationUrlConfig.put("电工器具", "九龙山天然气净化厂电工器具台账");
+		equipAttachLocationUrlConfig.put("静设备", "九龙山天然气净化厂静设备台账");
+		equipAttachLocationUrlConfig.put("动设备", "九龙山天然气净化厂动设备台账");
+		equipAttachLocationUrlConfig.put("管道", "九龙山天然气净化厂管道台账");
+		equipAttachLocationUrlConfig.put("安全阀", "九龙山天然气净化厂安全阀台账");
+		equipAttachLocationUrlConfig.put("锅炉", "九龙山天然气净化厂锅炉台账");
+		equipAttachLocationUrlConfig.put("厂内车辆", "九龙山天然气净化厂厂内车辆台账");
+		equipAttachLocationUrlConfig.put("气体报警仪表", "九龙山天然气净化厂气体报警仪表台账");
+		equipAttachLocationUrlConfig.put("标准孔板", "九龙山天然气净化厂标准孔板台账");
+		equipAttachLocationUrlConfig.put("计量标准器具", "九龙山天然气净化厂计量标准器具台账");
+		equipAttachLocationUrlConfig.put("流量计量器具", "九龙山天然气净化厂流量计量器具台账");
+		equipAttachLocationUrlConfig.put("生产过程监控计量器具", "九龙山天然气净化厂生产过程监控计量器具台账");
 
-		
-		//Excel表头配置信息
-		Map<String,Map<String,String>> excelHeadConfig = 
-				new HashMap<String,Map<String,String>>();
-		//压力表具体表头配置
-		Map<String,String> excelHeadDetailConfig = new LinkedHashMap<String,String>();
-		excelHeadDetailConfig.put( "order", "序号" );
-		excelHeadDetailConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadDetailConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadDetailConfig.put( "EQU_POSITION_NUM", "设备位号" );
-		excelHeadDetailConfig.put( "EQU_MEMO_ONE", "设备类别" );		
-		excelHeadDetailConfig.put( "EQU_NAME", "设备名称" );
-		excelHeadDetailConfig.put( "MANAGE_TYPE", "器具类别" );
-		excelHeadDetailConfig.put( "EQU_MODEL", "规格型号" );
-		excelHeadDetailConfig.put( "MEARING_RANGE", "测量范围" );
-		excelHeadDetailConfig.put( "MEASURE_ACC", "准确等级" );
-		excelHeadDetailConfig.put( "EQU_INSTALL_POSITION", "安装地点" );
-		excelHeadDetailConfig.put( "EQU_MANUFACTURER", "生产厂家" );
-		excelHeadDetailConfig.put( "SERIAL_NUM", "出厂编号" );
-		excelHeadDetailConfig.put( "CHECK_CYCLE", "检定周期" );
-		excelHeadDetailConfig.put( "CHECK_TIME", "检定日期" );
-		excelHeadDetailConfig.put( "NEXT_CHECK_TIME", "下次检定" );
-		excelHeadDetailConfig.put( "REMARK1", "备注信息" );	
-		
-		//压力差压变送器具体表头配置
-		Map<String,String> excelHeadYCBConfig = new LinkedHashMap<String,String>();
-		excelHeadYCBConfig.put( "order", "序号") ;
-		excelHeadYCBConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadYCBConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadYCBConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadYCBConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadYCBConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadYCBConfig.put( "MANAGE_TYPE", "器具类别") ;
-		excelHeadYCBConfig.put( "EQU_MODEL", "规格型号") ;
-		excelHeadYCBConfig.put( "MEARING_RANGE", "测量范围") ;
-		excelHeadYCBConfig.put( "MEASURE_ACC", "精 度") ;
-		excelHeadYCBConfig.put( "EQU_INSTALL_POSITION", "安装地点") ;
-		excelHeadYCBConfig.put( "EQU_MANUFACTURER", "生产厂家") ;
-		excelHeadYCBConfig.put( "SERIAL_NUM", "出厂编号" );
-		excelHeadYCBConfig.put( "CHECK_CYCLE", "检定周期" );
-		excelHeadYCBConfig.put( "CHECK_TIME", "检定日期" );
-		excelHeadYCBConfig.put( "NEXT_CHECK_TIME", "有效期" );
-		excelHeadYCBConfig.put( "REMARK1", "备注信息" );	
-		
-		//温度计具体表头配置
-		Map<String,String> excelHeadWDJConfig = new LinkedHashMap<String,String>();
-		excelHeadWDJConfig.put( "order", "序号") ;
-		excelHeadWDJConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadWDJConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadWDJConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadWDJConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadWDJConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadWDJConfig.put( "EQU_MODEL" ,"规格型号" );
-		excelHeadWDJConfig.put( "EQU_INSTALL_POSITION", "安装地点" );
-		excelHeadWDJConfig.put( "DEEP_LENGTH", "插深" );
-		excelHeadWDJConfig.put( "INTER_SIZE", "接口尺寸");
-		excelHeadWDJConfig.put( "MEDUIM_TYPE", "测量介质");
-		excelHeadWDJConfig.put( "MEARING_RANGE", "测量范围");
-		excelHeadWDJConfig.put( "MEASURE_ACC", "精度");				
-		excelHeadWDJConfig.put( "EQU_MANUFACTURER", "生产厂家");
-		excelHeadWDJConfig.put( "SERIAL_NUM", "出厂编号");
-		excelHeadWDJConfig.put( "CHECK_CYCLE", "检定周期");
-		excelHeadWDJConfig.put( "CHECK_TIME", "检定日期");
-		excelHeadWDJConfig.put( "NEXT_CHECK_TIME", "有效期");
-		excelHeadWDJConfig.put( "REMARK1", "备注信息");	
-		
-		//温度变送器具体表头配置
-		Map<String,String> excelHeadWBConfig = new LinkedHashMap<String,String>();
-		excelHeadWBConfig.put( "order", "序号") ;
-		excelHeadWBConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadWBConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadWBConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadWBConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadWBConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadWBConfig.put( "ORDER_NUM", "分度号") ;
-		excelHeadWBConfig.put( "EQU_MODEL", "规格型号") ;
-		excelHeadWBConfig.put( "EQU_INSTALL_POSITION", "安装地点") ;
-		excelHeadWBConfig.put( "DEEP_LENGTH", "插深") ;
-		excelHeadWBConfig.put( "INTER_SIZE", "接口尺寸") ;
-		excelHeadWBConfig.put( "MEDUIM_TYPE", "测量介质") ;
-		excelHeadWBConfig.put( "MEARING_RANGE", "测量范围") ;
-		excelHeadWBConfig.put( "MEASURE_ACC", "精度") ;
-		excelHeadWBConfig.put( "EQU_MANUFACTURER", "生产厂家") ;
-		excelHeadWBConfig.put( "SERIAL_NUM", "出厂编号") ;
-		excelHeadWBConfig.put( "CHECK_TIME", "测试日期") ;
-		excelHeadWBConfig.put( "CHECK_CYCLE", "周期") ;
-		excelHeadWBConfig.put( "REMARK1", "备注信息") ;
+		// Excel标题配置信息//
+		Map<String, String> excelTitleConfig = new HashMap<String, String>();
+		excelTitleConfig.put("控制系统", "九龙山天然气净化厂控制系统台账");
+		excelTitleConfig.put("DCS系统", "九龙山天然气净化厂DCS系统台账");
+		excelTitleConfig.put("SIS/FGS系统", "九龙山天然气净化厂SIS/FGS系统台账");
+		excelTitleConfig.put("导热油控制系统", "九龙山天然气净化厂导热油控制系统台账");
+		excelTitleConfig.put("除盐水控制系统", "九龙山天然气净化厂除盐水控制系统台账");
+		excelTitleConfig.put("硫磺过滤机控制系统", "九龙山天然气净化厂硫磺过滤机控制系统台账");
+		excelTitleConfig.put("火炬控制系统", "九龙山天然气净化厂火炬控制系统台账");
+		excelTitleConfig.put("变频供水控制系统", "九龙山天然气净化厂变频供水控制系统台账");
+		excelTitleConfig.put("检测回路", "九龙山天然气净化厂检测回路台账");
+		excelTitleConfig.put("控制回路", "九龙山天然气净化厂控制回路台账");
+		excelTitleConfig.put("控制系统安全联锁回路", "九龙山天然气净化厂控制系统安全联锁回路台账");
+		excelTitleConfig.put("气动（电动）切断阀", "九龙山天然气净化厂气动（电动）切断阀台账");
+		excelTitleConfig.put("气动（电动）调节阀", "九龙山天然气净化厂气动（电动）调节阀台账");
+		excelTitleConfig.put("电工器具", "九龙山天然气净化厂电工器具台账");
+		excelTitleConfig.put("静设备", "九龙山天然气净化厂静设备台账");
+		excelTitleConfig.put("动设备", "九龙山天然气净化厂动设备台账");
+		excelTitleConfig.put("管道", "九龙山天然气净化厂管道台账");
+		excelTitleConfig.put("安全阀", "九龙山天然气净化厂安全阀台账");
+		excelTitleConfig.put("锅炉", "九龙山天然气净化厂锅炉台账");
+		excelTitleConfig.put("厂内车辆", "九龙山天然气净化厂厂内车辆台账");
+		excelTitleConfig.put("气体报警仪表", "九龙山天然气净化厂气体报警仪表台账");
+		excelTitleConfig.put("标准孔板", "九龙山天然气净化厂标准孔板台账");
+		excelTitleConfig.put("计量标准器具", "九龙山天然气净化厂计量标准器具台账");
+		excelTitleConfig.put("流量计量器具", "九龙山天然气净化厂流量计量器具台账");
+		excelTitleConfig.put("生产过程监控计量器具", "九龙山天然气净化厂生产过程监控计量器具台账");
+
+		// Excel表头配置信息
+		Map<String, Map<String, String>> excelHeadConfig = new HashMap<String, Map<String, String>>();
+		//控制系统
+		Map<String, String> excelHeadDetailConfig1 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig1.put("EQU_NAME","名称");
+		excelHeadDetailConfig1.put("ELEC","功能描述");
+		excelHeadDetailConfig1.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig1.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig1.put("FLUX","单位");
+		excelHeadDetailConfig1.put("EQU_MANUFACTURER","制造厂");
+		excelHeadDetailConfig1.put("EQU_COMMISSION_DATE","投用时间");
+		excelHeadDetailConfig1.put("CAPCITY","备注");
+		//DCS系统
+		Map<String, String> excelHeadDetailConfig2 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig2.put("EQU_WORK_TEMP","系统序号");
+		excelHeadDetailConfig2.put("EQU_NAME","名称");
+		excelHeadDetailConfig2.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig2.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig2.put("FLUX","单位");
+		excelHeadDetailConfig2.put("PROCE_LINK_TYPE","输入点类型");
+		excelHeadDetailConfig2.put("FLA_SIZE","输入点数量");
+		excelHeadDetailConfig2.put("CAPCITY","备注");
+		//SIS/FGS系统
+		Map<String, String> excelHeadDetailConfig3 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig3.put("EQU_WORK_TEMP","系统序号");
+		excelHeadDetailConfig3.put("EQU_NAME","名称");
+		excelHeadDetailConfig3.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig3.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig3.put("FLUX","单位");
+		excelHeadDetailConfig3.put("PROCE_LINK_TYPE","输入点类型");
+		excelHeadDetailConfig3.put("FLA_SIZE","输入点数量");
+		excelHeadDetailConfig3.put("CAPCITY","备注");
+		//导热油控制系统
+		Map<String, String> excelHeadDetailConfig4 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig4.put("EQU_WORK_TEMP","系统序号");
+		excelHeadDetailConfig4.put("EQU_NAME","名称");
+		excelHeadDetailConfig4.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig4.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig4.put("FLUX","单位");
+		excelHeadDetailConfig4.put("PROCE_LINK_TYPE","输入点类型");
+		excelHeadDetailConfig4.put("FLA_SIZE","输入点数量");
+		excelHeadDetailConfig4.put("CAPCITY","备注");
+		//除盐水控制系统
+		Map<String, String> excelHeadDetailConfig5 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig5.put("EQU_WORK_TEMP","系统序号");
+		excelHeadDetailConfig5.put("EQU_NAME","名称");
+		excelHeadDetailConfig5.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig5.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig5.put("FLUX","单位");
+		excelHeadDetailConfig5.put("PROCE_LINK_TYPE","输入点类型");
+		excelHeadDetailConfig5.put("FLA_SIZE","输入点数量");
+		excelHeadDetailConfig5.put("CAPCITY","备注");
+		//硫磺过滤机控制系统
+		Map<String, String> excelHeadDetailConfig6 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig6.put("EQU_WORK_TEMP","系统序号");
+		excelHeadDetailConfig6.put("EQU_NAME","名称");
+		excelHeadDetailConfig6.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig6.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig6.put("FLUX","单位");
+		excelHeadDetailConfig6.put("PROCE_LINK_TYPE","输入点类型");
+		excelHeadDetailConfig6.put("FLA_SIZE","输入点数量");
+		excelHeadDetailConfig6.put("CAPCITY","备注");
+		//火炬控制系统
+		Map<String, String> excelHeadDetailConfig7 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig7.put("EQU_WORK_TEMP","系统序号");
+		excelHeadDetailConfig7.put("EQU_NAME","名称");
+		excelHeadDetailConfig7.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig7.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig7.put("FLUX","单位");
+		excelHeadDetailConfig7.put("PROCE_LINK_TYPE","输入点类型");
+		excelHeadDetailConfig7.put("FLA_SIZE","输入点数量");
+		excelHeadDetailConfig7.put("CAPCITY","备注");
+		//变频供水控制系统
+		Map<String, String> excelHeadDetailConfig8 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig8.put("EQU_WORK_TEMP","系统序号");
+		excelHeadDetailConfig8.put("EQU_NAME","名称");
+		excelHeadDetailConfig8.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig8.put("MEASURE_PRIN","数量");
+		excelHeadDetailConfig8.put("FLUX","单位");
+		excelHeadDetailConfig8.put("PROCE_LINK_TYPE","输入点类型");
+		excelHeadDetailConfig8.put("FLA_SIZE","输入点数量");
+		excelHeadDetailConfig8.put("CAPCITY","备注");
+		//检测回路
+		Map<String, String> excelHeadDetailConfig9 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig9.put("EQU_POSITION_NUM","位号");
+		excelHeadDetailConfig9.put("ELEC","功能描述");
+		excelHeadDetailConfig9.put("MEDUIM_TYPE","仪表类型");
+		excelHeadDetailConfig9.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig9.put("VAVLE_TYPE","测量范围");
+		excelHeadDetailConfig9.put("FLUX","单位");
+		excelHeadDetailConfig9.put("EQU_MANUFACTURER","厂家");
+		excelHeadDetailConfig9.put("CAPCITY","备注");
+		//控制回路
+		Map<String, String> excelHeadDetailConfig10 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig10.put("ACTUAL_MODEL","控制功能描述");
+		excelHeadDetailConfig10.put("EQU_POSITION_NUM","控制变量-位号");
+		excelHeadDetailConfig10.put("ACTUAL","控制变量-测量范围");
+		excelHeadDetailConfig10.put("ELEC_MODEL","控制变量-控制范围");
+		excelHeadDetailConfig10.put("ELEC","控制变量-单位");
+		excelHeadDetailConfig10.put("MEASURE_PRIN","执行设备-位号");
+		excelHeadDetailConfig10.put("PIPE_OUTER","执行设备-功能描述");
+		excelHeadDetailConfig10.put("FLUX","执行设备-控制规律");
+		excelHeadDetailConfig10.put("CAPCITY","备注");
+		//控制系统安全联锁回路
+		Map<String, String> excelHeadDetailConfig11 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig11.put("DEEP_LENGTH","联锁条件-位号");
+		excelHeadDetailConfig11.put("VAVLE_TYPE","联锁条件-联锁条件描述");
+		excelHeadDetailConfig11.put("ACTUAL","联锁条件-测量范围");
+		excelHeadDetailConfig11.put("ACTUAL_MODEL","联锁条件-联锁范围");
+		excelHeadDetailConfig11.put("ELEC_MODEL","联锁条件-单位");
+		excelHeadDetailConfig11.put("PIPE_OUTER","联锁执行设备-位号");
+		excelHeadDetailConfig11.put("POSITIONER","联锁执行设备-功能描述");
+		excelHeadDetailConfig11.put("PROCE_LINK_TYPE","联锁执行设备-联锁动作");
+		excelHeadDetailConfig11.put("CAPCITY","备注");
+		//气动（电动）切断阀
+		Map<String, String> excelHeadDetailConfig12 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig12.put("EQU_POSITION_NUM","位号");
+		excelHeadDetailConfig12.put("MEDUIM_TYPE","功能描述");
+		excelHeadDetailConfig12.put("DEEP_LENGTH","阀体-规格型号");
+		excelHeadDetailConfig12.put("VAVLE_TYPE","阀体-工程直径");
+		excelHeadDetailConfig12.put("MEASURE_PRIN","阀体-材质");
+		excelHeadDetailConfig12.put("PIPE_OUTER","执行器-型号");
+		excelHeadDetailConfig12.put("POSITIONER","执行器-电气接口尺寸");
+		excelHeadDetailConfig12.put("PROCE_LINK_TYPE","执行器-气源接口尺寸");
+		excelHeadDetailConfig12.put("ELECTRIC_PRES","执行器-供气（供电）电源");
+		excelHeadDetailConfig12.put("EQU_MANUFACTURER","执行器-厂家");
+		excelHeadDetailConfig12.put("EQU_COMMISSION_DATE","投用时间");
+		excelHeadDetailConfig12.put("CAPCITY","备注");
+		//气动（电动）调节阀
+		Map<String, String> excelHeadDetailConfig13 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig13.put("EQU_POSITION_NUM","位号");
+		excelHeadDetailConfig13.put("WEL_NAME","所在装置");
+		excelHeadDetailConfig13.put("ACTUAL","功能描述");
+		excelHeadDetailConfig13.put("DEEP_LENGTH","阀体-规格型号");
+		excelHeadDetailConfig13.put("VAVLE_TYPE","阀体-工程直径");
+		excelHeadDetailConfig13.put("MEASURE_PRIN","阀体-材质");
+		excelHeadDetailConfig13.put("PIPE_OUTER","执行器-型号");
+		excelHeadDetailConfig13.put("POSITIONER","执行器-电气接口尺寸");
+		excelHeadDetailConfig13.put("PROCE_LINK_TYPE","执行器-气源接口尺寸");
+		excelHeadDetailConfig13.put("ELECTRIC_PRES","执行器-供气（供电）电源");
+		excelHeadDetailConfig13.put("ELEC","执行器-流量特性");
+		excelHeadDetailConfig13.put("CV","执行器-额定CV");
+		excelHeadDetailConfig13.put("EQU_MANUFACTURER","执行器-厂家");
+		excelHeadDetailConfig13.put("EQU_COMMISSION_DATE","投用时间");
+		excelHeadDetailConfig13.put("CAPCITY","备注");
+		//电工器具
+		Map<String, String> excelHeadDetailConfig14 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig14.put("WEL_NAME","单位");
+		excelHeadDetailConfig14.put("EQU_NAME","名称");
+		excelHeadDetailConfig14.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig14.put("EQU_WORK_TEMP","出厂/自编号");
+		excelHeadDetailConfig14.put("EQU_MANUFACTURER","生产厂家");
+		excelHeadDetailConfig14.put("DEEP_LENGTH","放置地点");
+		excelHeadDetailConfig14.put("PROCE_LINK_TYPE","使用状态");
+		excelHeadDetailConfig14.put("ACTUAL","检定周期");
+		excelHeadDetailConfig14.put("EQU_COMMISSION_DATE","上次检定日期");
+		excelHeadDetailConfig14.put("FREQUENCY","1次计划检定日期");
+		excelHeadDetailConfig14.put("BRAND","2次计划检定日期");
+		excelHeadDetailConfig14.put("FLUX","检测单位");
+		excelHeadDetailConfig14.put("GAS_SOURCE","检定结果");
+		excelHeadDetailConfig14.put("ELECTRIC_PRES","保管人");
+		excelHeadDetailConfig14.put("CAPCITY","备注");
+		//静设备
+		Map<String, String> excelHeadDetailConfig15 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig15.put("EQU_NAME","设备名称");
+		excelHeadDetailConfig15.put("EQU_POSITION_NUM","设备位号");
+		excelHeadDetailConfig15.put("WEL_NAME","生产装置");
+		excelHeadDetailConfig15.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig15.put("SPINDLE_SPEED","设备类型");
+		excelHeadDetailConfig15.put("MEDUIM_TYPE","资产原值");
+		excelHeadDetailConfig15.put("EQU_MANUFACTURER","生产厂家");
+		excelHeadDetailConfig15.put("EQU_PRODUC_DATE","出厂日期");
+		excelHeadDetailConfig15.put("EQU_WORK_TEMP","出厂编号");
+		excelHeadDetailConfig15.put("EQU_COMMISSION_DATE","投用日期");
+		excelHeadDetailConfig15.put("DEEP_LENGTH","主体材质");
+		excelHeadDetailConfig15.put("VAVLE_TYPE","重量Kg");
+		excelHeadDetailConfig15.put("ACTUAL_MODEL","壳程-介质");
+		excelHeadDetailConfig15.put("ACTUAL","壳程-设计压力MPa");
+		excelHeadDetailConfig15.put("ELEC_MODEL","壳程-设计温度℃");
+		excelHeadDetailConfig15.put("ELEC","管程-介质");
+		excelHeadDetailConfig15.put("MEASURE_PRIN","管程-设计压力MPa");
+		excelHeadDetailConfig15.put("PIPE_OUTER","管程-设计温度℃");
+		excelHeadDetailConfig15.put("FLUX","换热面积m2");
+		excelHeadDetailConfig15.put("PIPE_THICK","安全阀-数量");
+		excelHeadDetailConfig15.put("CV","安全阀-规格型号");
+		excelHeadDetailConfig15.put("POSITIONER","腐蚀余量");
+		excelHeadDetailConfig15.put("GAS_SOURCE","过滤精度");
+		excelHeadDetailConfig15.put("FLA_SIZE","容器类别");
+		excelHeadDetailConfig15.put("PROCE_LINK_TYPE","注册编号");
+		excelHeadDetailConfig15.put("POWER_RATE","使用证编号");
+		excelHeadDetailConfig15.put("ELECTRIC_PRES","检验报告编号");
+		excelHeadDetailConfig15.put("ELECTRIC_TENSION","安全状况等级");
+		excelHeadDetailConfig15.put("FREQUENCY","检验情况-上次检验日期");
+		excelHeadDetailConfig15.put("BRAND","检验情况-下次检验日期");
+		excelHeadDetailConfig15.put("CAPCITY","备注");
+		//动设备
+		Map<String, String> excelHeadDetailConfig16 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig16.put("EQU_NAME","设备名称");
+		excelHeadDetailConfig16.put("EQU_POSITION_NUM","设备位号");
+		excelHeadDetailConfig16.put("WEL_NAME","生产装置");
+		excelHeadDetailConfig16.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig16.put("SPINDLE_SPEED","设备类型");
+		excelHeadDetailConfig16.put("MEDUIM_TYPE","资产原值");
+		excelHeadDetailConfig16.put("EQU_MANUFACTURER","生产厂家");
+		excelHeadDetailConfig16.put("EQU_PRODUC_DATE","出厂日期");
+		excelHeadDetailConfig16.put("EQU_WORK_TEMP","出厂编号");
+		excelHeadDetailConfig16.put("DEEP_LENGTH","主体材质");
+		excelHeadDetailConfig16.put("VAVLE_TYPE","重量KG");
+		excelHeadDetailConfig16.put("ACTUAL_MODEL","介质");
+		excelHeadDetailConfig16.put("AFTER_BEARING1","流量（m3/h）");
+		excelHeadDetailConfig16.put("GREASE_INTERV","扬程（m）");
+		excelHeadDetailConfig16.put("GREASE_QUAN","效率（%）");
+		excelHeadDetailConfig16.put("INSULATION_RATE","进/出口 压力（MPa）");
+		excelHeadDetailConfig16.put("PROTECTION_RATE","密封方式");
+		excelHeadDetailConfig16.put("PHASE_NUMBER","冷却方式");
+		excelHeadDetailConfig16.put("CONNECTION_GROUP","联轴器结构形式");
+		excelHeadDetailConfig16.put("HEIGHT_ELECTRIC_PRES	","电机功率（kw）");
+		excelHeadDetailConfig16.put("WEIGHT","轴转速（rpm）");
+		excelHeadDetailConfig16.put("SNATCH_ELECTRIC_PRES","备注");
+		//管道
+		Map<String, String> excelHeadDetailConfig17 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig17.put("WEL_NAME","所在装置名称");
+		excelHeadDetailConfig17.put("EQU_NAME","管道名称");
+		excelHeadDetailConfig17.put("EQU_WORK_TEMP","管道编号");
+		excelHeadDetailConfig17.put("EQU_MANUFACTURER","设计单位");
+		excelHeadDetailConfig17.put("PEAK_TENSION","安装单位");
+		excelHeadDetailConfig17.put("EQU_DESIGN_TEMP","安装年月");
+		excelHeadDetailConfig17.put("CORROSION_FATIGUE","投用年月");
+		excelHeadDetailConfig17.put("DESIGN_TUBE_TEMP","规格-公称直径mm");
+		excelHeadDetailConfig17.put("DESIGN_TUBE_PRES","规格-公称壁厚mm");
+		excelHeadDetailConfig17.put("OPTION_SHELL_PRESS","规格-管道长度mm");
+		excelHeadDetailConfig17.put("OPTION_SHELL_IN_TEMP","设计/操作条件-压力Mpa");
+		excelHeadDetailConfig17.put("OPTION_SHELL_OUT_TEMP","设计/操作条件-温度℃");
+		excelHeadDetailConfig17.put("OPTION_SHELL_MEDUIM","设计/操作条件-介质");
+		excelHeadDetailConfig17.put("OPTION_TUBE_IN_TEMP","防护保温涂层方式");
+		excelHeadDetailConfig17.put("OPTION_TUBE_OUT_TEMP","管道材质");
+		excelHeadDetailConfig17.put("OPTION_TUBE_MEDUIM","焊口数量");
+		excelHeadDetailConfig17.put("SHELL_MATERIAL","管道级别");
+		excelHeadDetailConfig17.put("TUBE_MATERIAL","安全状况等级");
+		excelHeadDetailConfig17.put("EQU_LASTPERIODIC_DATE","检验情况-上次检验日期");
+		excelHeadDetailConfig17.put("DISPLACEMENT","检验情况-计划检验日期");
+		excelHeadDetailConfig17.put("SPINDLE_MEDUIM","报告编号");
+		excelHeadDetailConfig17.put("PUMP_MEDUIM","备注");
+		//安全阀
+		Map<String, String> excelHeadDetailConfig18 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig18.put("EQU_MANUFACTURER","单位");
+		excelHeadDetailConfig18.put("EQU_INSTALL_POSITION","安装地点");
+		excelHeadDetailConfig18.put("EQU_MODEL","安全阀型号、规格");
+		excelHeadDetailConfig18.put("WIND_PRESSURE","整定压力（MPa）");
+		excelHeadDetailConfig18.put("WEL_NAME","实际工作压力（MPa）");
+		excelHeadDetailConfig18.put("ENGINE_NUMBER","制造单位");
+		excelHeadDetailConfig18.put("LICENSE_NUMBER","压力级别范围（Mpa）");
+		excelHeadDetailConfig18.put("EQU_WORK_TEMP","产品编号");
+		excelHeadDetailConfig18.put("EQU_PRODUC_DATE","出厂日期");
+		excelHeadDetailConfig18.put("EQU_COMMISSION_DATE","启用日期");
+		excelHeadDetailConfig18.put("EQU_LASTPERIODIC_DATE","上次校验日期");
+		excelHeadDetailConfig18.put("DISPLACEMENT","计划校验日期");
+		excelHeadDetailConfig18.put("ENERGY_CONSUMPTION_CAT","工作介质");
+		excelHeadDetailConfig18.put("SERIAL_NUM","工作温度（℃）");
+		excelHeadDetailConfig18.put("CHECK_CYCLE","安装高度（米）");
+		excelHeadDetailConfig18.put("MEASURE_ACC","备注");
+		//锅炉
+		Map<String, String> excelHeadDetailConfig19 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig19.put("EQU_POSITION_NUM","位号");
+		excelHeadDetailConfig19.put("EQU_NAME","名称");
+		excelHeadDetailConfig19.put("EQU_WORK_TEMP","出厂编号");
+		excelHeadDetailConfig19.put("EQU_MODEL","技术规格");
+		excelHeadDetailConfig19.put("EQU_MANUFACTURER","制造单位");
+		excelHeadDetailConfig19.put("DEEP_LENGTH","登记编号");
+		excelHeadDetailConfig19.put("ORDER_NUM","注册代码");
+		excelHeadDetailConfig19.put("VAVLE_TYPE","投用年月");
+		excelHeadDetailConfig19.put("ACTION_MODLE","额定出力");
+		excelHeadDetailConfig19.put("HAVE_NOT","技术特性-设计压力壳/管(Mpa)");
+		excelHeadDetailConfig19.put("ACTUAL_MODEL","技术特性-设计温度壳/管(℃)");
+		excelHeadDetailConfig19.put("ACTUAL","技术特性-操作压力壳/管(Mpa)");
+		excelHeadDetailConfig19.put("ELEC_MODEL","技术特性-操作温度壳/管(℃)");
+		excelHeadDetailConfig19.put("ELEC","技术特性-物料名称");
+		excelHeadDetailConfig19.put("MEASURE_PRIN","检验报告编号");
+		excelHeadDetailConfig19.put("EQU_LASTPERIODIC_DATE","检验情况-上次检验日期");
+		excelHeadDetailConfig19.put("DISPLACEMENT","检验情况-计划检验日期");
+		excelHeadDetailConfig19.put("PIPE_OUTER","资产价值");
+		excelHeadDetailConfig19.put("FLUX","备注");
+		//厂内车辆
+		Map<String, String> excelHeadDetailConfig20 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig20.put("EQU_NAME","名称");
+		excelHeadDetailConfig20.put("EQU_WORK_TEMP","出厂编号");
+		excelHeadDetailConfig20.put("EQU_MODEL","技术规格");
+		excelHeadDetailConfig20.put("DEEP_LENGTH","厂内编号");
+		excelHeadDetailConfig20.put("POWER_RATE","厂内牌照编号");
+		excelHeadDetailConfig20.put("ELECTRIC_PRES","空车  重量（kg）");
+		excelHeadDetailConfig20.put("ELECTRIC_TENSION","载重量（kg）");
+		excelHeadDetailConfig20.put("FREQUENCY","最高时速（km/h）");
+		excelHeadDetailConfig20.put("BRAND","燃料种类");
+		excelHeadDetailConfig20.put("CAPCITY","设备注册代码");
+		excelHeadDetailConfig20.put("EQU_MANUFACTURER","制造单位");
+		excelHeadDetailConfig20.put("SPEED_RAT","投用年月");
+		excelHeadDetailConfig20.put("EQU_LASTPERIODIC_DATE","上次检验日期");
+		excelHeadDetailConfig20.put("DISPLACEMENT","计划检验日期	");
+		excelHeadDetailConfig20.put("GREASE_QUAN","定检报告");
+		excelHeadDetailConfig20.put("EQU_INSTALL_POSITION","安装位置");
+		excelHeadDetailConfig20.put("PIPE_OUTER","资产价值");
+		excelHeadDetailConfig20.put("PROTECTION_RATE","备注");
+		//气体报警仪表
+		Map<String, String> excelHeadDetailConfig21 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig21.put("HAVE_NOT","站点名称");
+		excelHeadDetailConfig21.put("ACTUAL_MODEL","类别");
+		excelHeadDetailConfig21.put("EQU_PRODUC_DATE","投运日期");
+		excelHeadDetailConfig21.put("EQU_NAME","气体报警器-名称");
+		excelHeadDetailConfig21.put("EQU_MODEL","气体报警器-型号规格");
+		excelHeadDetailConfig21.put("EQU_WORK_TEMP","气体报警器-器具编号");
+		excelHeadDetailConfig21.put("FREQUENCY","气体报警器-准确度等级");
+		excelHeadDetailConfig21.put("BRAND","气体报警器-测量范围");
+		excelHeadDetailConfig21.put("EQU_INSTALL_POSITION","气体报警器-安装位置");
+		excelHeadDetailConfig21.put("EQU_MANUFACTURER","气体报警器-生产厂家");
+		excelHeadDetailConfig21.put("DEEP_LENGTH","固定式报警仪信号-使用状态");
+		excelHeadDetailConfig21.put("ORDER_NUM","固定式报警仪信号-系统型号规格");
+		excelHeadDetailConfig21.put("VAVLE_TYPE","固定式报警仪信号-生产厂家");
+		excelHeadDetailConfig21.put("OPTION_TUBE_IN_TEMP","固定式报警仪信号-报警、连锁功能是否正常");
+		excelHeadDetailConfig21.put("CHECK_CYCLE","检定周期");
+		excelHeadDetailConfig21.put("EQU_LASTPERIODIC_DATE","上次检定日期");
+		excelHeadDetailConfig21.put("OPTION_TUBE_OUT_TEMP","计划检定日期1");
+		excelHeadDetailConfig21.put("OPTION_TUBE_MEDUIM","计划检定日期2");
+		excelHeadDetailConfig21.put("GREASE_QUAN","检定方式");
+		//标准孔板
+		Map<String, String> excelHeadDetailConfig22 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig22.put("GREASE_INTERV","外径");
+		excelHeadDetailConfig22.put("GREASE_QUAN","内径-出厂值");
+		excelHeadDetailConfig22.put("INSULATION_RATE","内径-实测值");
+		excelHeadDetailConfig22.put("PROTECTION_RATE","厚度(mm)");
+		excelHeadDetailConfig22.put("EXPLOSION_RATE","材质");
+		excelHeadDetailConfig22.put("EQU_MANUFACTURER","制造厂家");
+		excelHeadDetailConfig22.put("FREQUENCY","检定单位");
+		excelHeadDetailConfig22.put("BRAND","检定日期");
+		excelHeadDetailConfig22.put("EQU_COMMISSION_DATE","投运日期");
+		excelHeadDetailConfig22.put("CONNECTION_GROUP","场站");
+		excelHeadDetailConfig22.put("SNATCH_ELECTRIC_PRES","井号或用户");
+		excelHeadDetailConfig22.put("SNATCH_ELECTRIC_TENSION","状态");
+		excelHeadDetailConfig22.put("MATERIAL","存放地点");
+		excelHeadDetailConfig22.put("EQU_DESIGN_TEMP","新/报废");
+		excelHeadDetailConfig22.put("EQU_PRODUC_DATE","入库日期/停用日期");
+		excelHeadDetailConfig22.put("CAPCITY","备注");
+		//计量标准器具
+		Map<String, String> excelHeadDetailConfig23 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig23.put("WEL_NAME","单位");
+		excelHeadDetailConfig23.put("EQU_NAME","名称");
+		excelHeadDetailConfig23.put("EQU_MODEL","规格型号");
+		excelHeadDetailConfig23.put("DEEP_LENGTH","准确度等级");
+		excelHeadDetailConfig23.put("EQU_WORK_TEMP","出厂编号");
+		excelHeadDetailConfig23.put("EQU_PRODUC_DATE","出厂日期");
+		excelHeadDetailConfig23.put("EQU_MANUFACTURER","生产厂家");
+		excelHeadDetailConfig23.put("EQU_COMMISSION_DATE","投用日期");
+		excelHeadDetailConfig23.put("POSITIONER","放置地点");
+		excelHeadDetailConfig23.put("GAS_SOURCE","使用状态");
+		excelHeadDetailConfig23.put("FLA_SIZE","检定周期");
+		excelHeadDetailConfig23.put("FREQUENCY","上次检定日期");
+		excelHeadDetailConfig23.put("BRAND","计划检定日期");
+		excelHeadDetailConfig23.put("MEASURE_PRIN","检定单位");
+		excelHeadDetailConfig23.put("PIPE_THICK","检定结果");
+		excelHeadDetailConfig23.put("SHELL_MATERIAL","保管人");
+		excelHeadDetailConfig23.put("CAPCITY","备注");
+		//流量计量器具
+		Map<String, String> excelHeadDetailConfig24 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig24.put("CATEGORY","站名");
+		excelHeadDetailConfig24.put("EXPLOSION_RATE","地理位置");
+		excelHeadDetailConfig24.put("DEVICE_TYPE","计量对象");
+		excelHeadDetailConfig24.put("HEIGHT_ELECTRIC_TENSION","计量性质");
+		excelHeadDetailConfig24.put("PHASE_NUMBER","资产归属");
+		excelHeadDetailConfig24.put("CONNECTION_GROUP","投运日期");
+		excelHeadDetailConfig24.put("WEL_NAME","流量计量-装置名称");
+		excelHeadDetailConfig24.put("WEIGHT","流量计量-型号规格");
+		excelHeadDetailConfig24.put("MATERIAL","流量计量-编号");
+		excelHeadDetailConfig24.put("CORROSION_FATIGUE","流量计量-准确度等级");
+		excelHeadDetailConfig24.put("EQU_DESIGN_TEMP","流量计量-PN");
+		excelHeadDetailConfig24.put("DESIGN_PRESSURE_RANGE","流量计量-DN");
+		excelHeadDetailConfig24.put("SURFACE_HEAT_TRANSFER","流量计量-D20");
+		excelHeadDetailConfig24.put("EQU_MANUFACTURER","流量计量-生产厂家");
+		excelHeadDetailConfig24.put("DESIGN_SHELL_PRES","流量计量-使用状态");
+		excelHeadDetailConfig24.put("DESIGN_SHELL_TEMP","计量系统-名称");
+		excelHeadDetailConfig24.put("DESIGN_TUBE_TEMP","计量系统-型号");
+		excelHeadDetailConfig24.put("ENERGY_CONSUMPTION_CAT","计量系统-生产厂家");
+		excelHeadDetailConfig24.put("OPTION_SHELL_PRESS","检定周期");
+		excelHeadDetailConfig24.put("FREQUENCY","上次检定日期");
+		excelHeadDetailConfig24.put("BRAND","计划检定日期");
+		excelHeadDetailConfig24.put("OPTION_SHELL_IN_TEMP","检定方式");
+		excelHeadDetailConfig24.put("OPTION_SHELL_OUT_TEMP","检定单位");
+		excelHeadDetailConfig24.put("OPTION_SHELL_MEDUIM","检定结果");
+		excelHeadDetailConfig24.put("CAPCITY","备注");
+		//生产过程监控计量器具
+		Map<String, String> excelHeadDetailConfig25 = new LinkedHashMap<String, String>();
+		excelHeadDetailConfig25.put("WEL_NAME","站点名称");
+		excelHeadDetailConfig25.put("DEVICE_TYPE","类别");
+		excelHeadDetailConfig25.put("EQU_COMMISSION_DATE","投运日期");
+		excelHeadDetailConfig25.put("EQU_NAME","名称");
+		excelHeadDetailConfig25.put("EQU_MODEL","型号规格");
+		excelHeadDetailConfig25.put("EQU_WORK_TEMP","器具编号");
+		excelHeadDetailConfig25.put("LICENSE_NUMBER","准确度等级");
+		excelHeadDetailConfig25.put("WIND_PRESSURE","测量范围");
+		excelHeadDetailConfig25.put("TUBE_MATERIAL","安装位置");
+		excelHeadDetailConfig25.put("OPTION_TUBE_OUT_TEMP","生产厂家");
+		excelHeadDetailConfig25.put("OPTION_TUBE_IN_TEMP","使用状态");
+		excelHeadDetailConfig25.put("OPTION_SHELL_MEDUIM","检定周期");
+		excelHeadDetailConfig25.put("FREQUENCY","上次检定日期");
+		excelHeadDetailConfig25.put("BRAND","计划检定日期");
+		excelHeadDetailConfig25.put("PHASE_NUMBER","检定方式");
+		excelHeadDetailConfig25.put("HEIGHT_ELECTRIC_TENSION","检定单位");
+		excelHeadDetailConfig25.put("COUNT","检定结果");
+		excelHeadDetailConfig25.put("CAPCITY","备注");
 
 
-		
-		//气动切断阀具体表头配置
-		Map<String,String> excelHeadQDFConfig = new LinkedHashMap<String,String>();
-		excelHeadQDFConfig.put( "order", "序号") ;
-		excelHeadQDFConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadQDFConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadQDFConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadQDFConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadQDFConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadQDFConfig.put( "EQU_MODEL", "规格型号") ;
-		excelHeadQDFConfig.put( "EQU_INSTALL_POSITION", "安装地点") ;
-		excelHeadQDFConfig.put( "MEDUIM_TYPE", "介质" ) ; 
-		excelHeadQDFConfig.put( "FLA_SIZE", "法兰规格" ) ; 
-		excelHeadQDFConfig.put( "ACTION_MODLE", "作用方式" ) ; 
-		excelHeadQDFConfig.put( "HAVE_NOT", "有无手轮" ) ; 
-		excelHeadQDFConfig.put( "ACTUAL_MODEL", "执行机构型号" ) ; 
-		excelHeadQDFConfig.put( "VAVLE_TYPE", "电磁阀型号" ) ; 
-		excelHeadQDFConfig.put( "EQU_MANUFACTURER", "生产厂家" ) ; 
-		excelHeadQDFConfig.put( "SERIAL_NUM", "出厂编号" ) ; 
-		excelHeadQDFConfig.put( "REMARK1", "备注信息" ) ; 	
-		
-		//气动调节阀具体表头配置
-		Map<String,String> excelHeadTJFConfig = new LinkedHashMap<String,String>();
-		excelHeadTJFConfig.put( "order", "序号") ;
-		excelHeadTJFConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadTJFConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadTJFConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadTJFConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadTJFConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadTJFConfig.put( "EQU_MODEL", "规格型号") ;
-		excelHeadTJFConfig.put( "EQU_INSTALL_POSITION", "安装地点") ;
-		excelHeadTJFConfig.put( "MEDUIM_TYPE", "介质") ;
-		excelHeadTJFConfig.put( "MEARING_RANGE", "行程") ;
-		excelHeadTJFConfig.put( "CV", "CV值") ;
-		excelHeadTJFConfig.put( "FLA_SIZE", "法兰规格") ;
-		excelHeadTJFConfig.put( "ACTION_MODLE", "作用方式") ;
-		excelHeadTJFConfig.put( "HAVE_NOT", "有无手轮") ;
-		excelHeadTJFConfig.put( "ACTUAL_MODEL", "执行机构型号") ;
-		excelHeadTJFConfig.put( "GAS_SOURCE", "气源Mpa") ;
-		excelHeadTJFConfig.put( "POSITIONER", "定位器") ;
-		excelHeadTJFConfig.put( "VAVLE_TYPE", "电磁阀") ;
-		excelHeadTJFConfig.put( "EQU_MANUFACTURER", "生产厂家") ;
-		excelHeadTJFConfig.put( "SERIAL_NUM", "出厂编号") ;
-		excelHeadTJFConfig.put( "REMARK1",	"备注") ;
-
-		
-		//液位计(含远程)具体表头配置
-		Map<String,String> excelHeadYWJConfig = new LinkedHashMap<String,String>();
-		excelHeadYWJConfig.put( "order", "序号") ;
-		excelHeadYWJConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadYWJConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadYWJConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadYWJConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadYWJConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadYWJConfig.put( "EQU_MODEL", "规格型号") ;
-		excelHeadYWJConfig.put( "DEEP_LENGTH", "中心距离") ;
-		excelHeadYWJConfig.put( "EQU_INSTALL_POSITION", "安装地点") ;
-		excelHeadYWJConfig.put( "MEDUIM_TYPE", "测量介质") ;
-		excelHeadYWJConfig.put( "PROCE_LINK_TYPE", "过程连接尺寸") ;
-		excelHeadYWJConfig.put( "EQU_MANUFACTURER", "生产厂家") ;
-		excelHeadYWJConfig.put( "SERIAL_NUM", "出厂编号") ;
-		excelHeadYWJConfig.put( "REMARK1", "备注") ;
-
-			
-		
-		//流量计具体表头配置
-		Map<String,String> excelHeadLLJConfig = new LinkedHashMap<String,String>();
-		excelHeadLLJConfig.put( "order", "序号") ;
-		excelHeadLLJConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadLLJConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadLLJConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadLLJConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadLLJConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadLLJConfig.put( "EQU_MODEL", "规格型号" );				
-		excelHeadLLJConfig.put( "EQU_INSTALL_POSITION", "安装地点" );
-		excelHeadLLJConfig.put( "MEDUIM_TYPE", "介质" );
-		excelHeadLLJConfig.put( "ACTUAL", "流量(max)" );
-		excelHeadLLJConfig.put( "FLUX", "流量(正常)" );
-		excelHeadLLJConfig.put( "MEASURE_ACC", "精 度" );
-		excelHeadLLJConfig.put( "MEARING_RANGE", "测量范围" );			
-		excelHeadLLJConfig.put( "PROCE_LINK_TYPE", "过程安装方式" );				
-		excelHeadLLJConfig.put( "SERIAL_NUM", "编号" );
-		excelHeadLLJConfig.put( "EQU_MANUFACTURER", "生产厂家" );
-		excelHeadLLJConfig.put( "EQU_PRODUC_DATE", "生产日期" );
-		excelHeadLLJConfig.put( "REMARK1", "备注" );	
-		
-		
-		//节流装置具体表头配置
-		Map<String,String> excelHeadJLConfig = new LinkedHashMap<String,String>();
-		excelHeadJLConfig.put( "order", "序号") ;
-		excelHeadJLConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadJLConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadJLConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadJLConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadJLConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadJLConfig.put( "EQU_MODEL", "规格型号") ; 
-		excelHeadJLConfig.put( "EQU_INSTALL_POSITION", "安装地点") ; 
-		excelHeadJLConfig.put( "MEDUIM_TYPE", "测量介质") ; 
-		excelHeadJLConfig.put( "MEARING_RANGE", "量程") ; 
-		excelHeadJLConfig.put( "PRESSURE_RANGE", "压力MPa") ; 
-		excelHeadJLConfig.put( "EQU_WORK_TEMP", "温度") ; 
-		excelHeadJLConfig.put( "FLA_SIZE", "法兰规格") ; 
-		excelHeadJLConfig.put( "EQU_MANUFACTURER", "生产厂家") ; 
-		excelHeadJLConfig.put( "REMARK1", "备注") ; 
-		
-		//在线分析仪具体表头配置
-		Map<String,String> excelHeadFXYConfig = new LinkedHashMap<String,String>();
-		excelHeadFXYConfig.put( "order", "序号") ;
-		excelHeadFXYConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadFXYConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadFXYConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadFXYConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadFXYConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadFXYConfig.put( "EQU_MODEL", "规格型号" );
-		excelHeadFXYConfig.put( "EQU_INSTALL_POSITION", "安装地点" );
-		excelHeadFXYConfig.put( "MEDUIM_TYPE", "测量介质" );
-		excelHeadFXYConfig.put( "MEARING_RANGE", "量程" );
-		excelHeadFXYConfig.put( "MEASURE_ACC", "精 度" );
-		excelHeadFXYConfig.put( "MEASURE_PRIN", "测量原理" );
-		excelHeadFXYConfig.put( "EQU_MANUFACTURER", "生产厂家" );
-		excelHeadFXYConfig.put( "SERIAL_NUM", "出厂编号" );
-		excelHeadFXYConfig.put( "REMARK1", "备注" );
-		
-		
-		//振动温度探头具体表头配置
-		Map<String,String> excelHeadZDTTConfig = new LinkedHashMap<String,String>();
-		excelHeadZDTTConfig.put( "order", "序号") ;
-		excelHeadZDTTConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadZDTTConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadZDTTConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadZDTTConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadZDTTConfig.put( "EQU_NAME", "设备名称") ;
-		
-		//DCS/SIS系统具体表头配置
-		Map<String,String> excelHeadDSConfig = new LinkedHashMap<String,String>();
-		excelHeadDSConfig.put( "order", "序号") ;
-		excelHeadDSConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadDSConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadDSConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadDSConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadDSConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadDSConfig.put( "ELEC_MODEL", "控制器电源") ;
-		excelHeadDSConfig.put( "EQU_COMMISSION_DATE", "控制器MD") ; 
-		excelHeadDSConfig.put( "MEDUIM_TYPE", "控制器MQ") ; 
-		excelHeadDSConfig.put( "EQU_WORK_TEMP", "AI16") ; 
-		excelHeadDSConfig.put( "EQU_LASTPERIODIC_DATE", "AI18-R") ; 
-		excelHeadDSConfig.put( "EQU_PERIODIC_CYCLE", "AI08-R") ; 
-		excelHeadDSConfig.put( "EQU_PERIODIC_WARNDAYS", "DI32") ; 
-		excelHeadDSConfig.put( "MEARING_RANGE", "DO32") ; 
-		excelHeadDSConfig.put( "PRESSURE_RANGE", "串口卡(个)") ; 
-		excelHeadDSConfig.put( "MANAGE_TYPE", "串口卡(对)") ; 
-		excelHeadDSConfig.put( "SERIAL_NUM", "SIS卡(对)") ; 
-		excelHeadDSConfig.put( "CHECK_CYCLE", "24VDC/20A(对)") ; 
-		excelHeadDSConfig.put( "CHECK_TIME", "24VDC/40A(对)") ; 
-		excelHeadDSConfig.put( "NEXT_CHECK_TIME", "12VDC/15A(对)") ; 
-		excelHeadDSConfig.put( "EXPERY_TIME", "中继器") ; 
-		excelHeadDSConfig.put( "INTER_SIZE", "AI8") ; 
-		excelHeadDSConfig.put( "MEASURE_ACC", "AI浪涌") ; 
-		excelHeadDSConfig.put( "DEEP_LENGTH", "DI浪涌") ; 
-		excelHeadDSConfig.put( "ORDER_NUM", "继电器") ; 
-		excelHeadDSConfig.put( "REMARK1", "备注") ; 
-		
-		//FGS系统具体表头配置
-		Map<String,String> excelHeadFGSConfig = new LinkedHashMap<String,String>();
-		excelHeadFGSConfig.put( "order", "序号") ;
-		excelHeadFGSConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadFGSConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadFGSConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadFGSConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadFGSConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadFGSConfig.put( "MEDUIM_TYPE", "控制器8851") ; 
-		excelHeadFGSConfig.put( "EQU_WORK_TEMP", "模拟量卡件8810") ; 
-		excelHeadFGSConfig.put( "EQU_LASTPERIODIC_DATE", "数字量卡件8811") ; 
-		excelHeadFGSConfig.put( "EQU_PERIODIC_CYCLE", "电源881312VDC/5A") ; 
-		excelHeadFGSConfig.put( "EQU_PERIODIC_WARNDAYS", "电源RM240-24VDC/40A") ; 
-		excelHeadFGSConfig.put( "MEARING_RANGE", "电源RM120-24VDC/20A") ; 
-		excelHeadFGSConfig.put( "REMARK1", "备注") ; 
-		
-		//固定式报警仪具体表头配置
-		Map<String,String> excelHeadBJConfig = new LinkedHashMap<String,String>();
-		excelHeadBJConfig.put( "order", "序号") ;
-		excelHeadBJConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadBJConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadBJConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadBJConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadBJConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadBJConfig.put( "MANAGE_TYPE", "器具类别") ; 
-		excelHeadBJConfig.put( "EQU_MODEL", "规格型号") ; 
-		excelHeadBJConfig.put( "EQU_INSTALL_POSITION", "安装使用地点") ; 
-		excelHeadBJConfig.put( "ACTUAL", "用途") ; 
-		excelHeadBJConfig.put( "ACTION_MODLE", "安装方式") ; 
-		excelHeadBJConfig.put( "MEASURE_ACC", "精 度") ; 
-		excelHeadBJConfig.put( "MEARING_RANGE", "测量范围") ; 
-		excelHeadBJConfig.put( "ELEC", "供电") ; 
-		excelHeadBJConfig.put( "CV", "输出信号(mA)") ; 
-		excelHeadBJConfig.put( "ORDER_NUM", "报警值") ; 
-		excelHeadBJConfig.put( "EQU_MANUFACTURER", "生产厂家") ; 
-		excelHeadBJConfig.put( "SERIAL_NUM", "出厂编号") ; 
-		excelHeadBJConfig.put( "NEXT_CHECK_TIME", "有效期") ; 
-		excelHeadBJConfig.put( "REMARK1", "备注") ; 
-		
-		//其它具体表头配置
-		Map<String,String> excelHeadQTConfig = new LinkedHashMap<String,String>();
-		excelHeadQTConfig.put( "order", "序号") ;
-		excelHeadQTConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadQTConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadQTConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadQTConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadQTConfig.put( "EQU_NAME", "设备名称") ;
-		
-		//P类具体表头配置
-		Map<String,String> excelHeadPConfig = new LinkedHashMap<String,String>();
-		excelHeadPConfig.put( "order", "序号") ;
-		excelHeadPConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadPConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadPConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadPConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadPConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadPConfig.put( "EQU_INSTALL_POSITION", "安装位置" );
-		excelHeadPConfig.put( "MANAGE_TYPE", "类别" );
-		excelHeadPConfig.put( "EQU_MODEL", "规格型号" );
-		excelHeadPConfig.put( "WEIGHT", "重量" );
-		excelHeadPConfig.put( "FLUX", "扬程" );
-		excelHeadPConfig.put( "COUNT", "排量" );
-		excelHeadPConfig.put( "ELECTRIC_PRES", "电压" );
-		excelHeadPConfig.put( "POWER_RATE", "功率" );
-		excelHeadPConfig.put( "SPEED_RAT", "转速" );
-		excelHeadPConfig.put( "MEDUIM_TYPE", "介质" );
-		excelHeadPConfig.put( "CAPCITY", "泵壳" );
-		excelHeadPConfig.put( "BEFORE_BEARING1", "叶轮" );
-		excelHeadPConfig.put( "BEFORE_BEARING2", "主轴" );
-		excelHeadPConfig.put( "EQU_MANUFACTURER", "制造单位" );
-		excelHeadPConfig.put( "SERIAL_NUM", "出厂编号" );
-		excelHeadPConfig.put( "EQU_COMMISSION_DATE", "投用年月" );
-		excelHeadPConfig.put( "REMARK1", "备注" );
-		
-		//K类具体表头配置
-		Map<String,String> excelHeadKConfig = new LinkedHashMap<String,String>();
-		excelHeadKConfig.put( "order", "序号") ;
-		excelHeadKConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadKConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadKConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadKConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadKConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadKConfig.put( "EQU_INSTALL_POSITION", "安装位置" );
-		excelHeadKConfig.put( "MANAGE_TYPE", "类别" );
-		excelHeadKConfig.put( "EQU_MODEL", "规格型号" );
-		excelHeadKConfig.put( "WEIGHT", "重量" );
-		excelHeadKConfig.put( "WIND_PRESSURE", "出口风压" );
-		excelHeadKConfig.put( "COUNT", "排量" );
-		excelHeadKConfig.put( "SPEED_RAT", "性能转速" );
-		excelHeadKConfig.put( "ELECTRIC_PRES", "电压" );
-		excelHeadKConfig.put( "POWER_RATE", "功率" );
-		excelHeadKConfig.put( "SPINDLE_SPEED", "电机转速" );
-		excelHeadKConfig.put( "MEDUIM_TYPE", "介质" );
-		excelHeadKConfig.put( "EQU_MANUFACTURER", "制造单位" );
-		excelHeadKConfig.put( "SERIAL_NUM", "出厂编号" );
-		excelHeadKConfig.put( "EQU_COMMISSION_DATE", "投用年月" );
-		excelHeadKConfig.put( "REMARK1", "备注" );
-
-		//C类具体表头配置
-		Map<String,String> excelHeadCConfig = new LinkedHashMap<String,String>();
-		excelHeadCConfig.put( "order", "序号") ;
-		excelHeadCConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadCConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadCConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadCConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadCConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadCConfig.put( "EQU_MODEL", "规格型号(φ×δ×h)" );	
-		excelHeadCConfig.put( "EQU_COMMISSION_DATE", "投用年月 " );		
-		excelHeadCConfig.put( "EQU_INSTALL_POSITION", "安装位置" );		
-		excelHeadCConfig.put( "EQU_MANUFACTURER", "制造单位" );		
-		excelHeadCConfig.put( "EQU_POSITION_NUM", "设备位号" );		
-		excelHeadCConfig.put( "MEDUIM_TYPE", "介质" );		
-		excelHeadCConfig.put( "MEARING_RANGE", "容积(m3)" );		
-		excelHeadCConfig.put( "MANAGE_TYPE", "类别" );		
-		excelHeadCConfig.put( "SERIAL_NUM", "出厂编号" );		
-		excelHeadCConfig.put( "MEASURE_ACC", "腐蚀裕度(mm)" );		
-		excelHeadCConfig.put( "ACTION_MODLE", "铭牌位号" );		
-		excelHeadCConfig.put( "COUNT", "塔盘层数" );		
-		excelHeadCConfig.put( "WEIGHT", "重量(Kg)" );		
-		excelHeadCConfig.put( "MATERIAL", "主体材质" );		
-		excelHeadCConfig.put( "DESIGN_TUBE_TEMP", "设计条件温度(℃)" );		
-		excelHeadCConfig.put( "DESIGN_TUBE_PRES", "设计条件压力(MPa)" );		
-		excelHeadCConfig.put( "OPTION_SHELL_PRESS", "操作条件压力(MPa)" );		
-		excelHeadCConfig.put( "OPTION_SHELL_IN_TEMP", "操作条件温度(℃)" );		
-		excelHeadCConfig.put( "REMARK1", "备注" );			
-		
-		//D类具体表头配置
-		Map<String,String> excelHeadDConfig = new LinkedHashMap<String,String>();
-		excelHeadDConfig.put( "order", "序号") ;
-		excelHeadDConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadDConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadDConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadDConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadDConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadDConfig.put( "EQU_MODEL", "规格型号(φ×δ×h)" );	
-		excelHeadDConfig.put( "EQU_COMMISSION_DATE", "投用年月 " );	
-		excelHeadDConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadDConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadDConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadDConfig.put( "MEDUIM_TYPE", "介质" );	
-		excelHeadDConfig.put( "MEARING_RANGE", "容积(m3)" );	
-		excelHeadDConfig.put( "MANAGE_TYPE", "类别" );	
-		excelHeadDConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadDConfig.put( "MEASURE_ACC", "腐蚀裕度(mm)" );	
-		excelHeadDConfig.put( "ACTION_MODLE", "铭牌位号" );	
-		excelHeadDConfig.put( "WEIGHT", "重量(Kg)" );	
-		excelHeadDConfig.put( "MATERIAL", "主体材质" );	
-		excelHeadDConfig.put( "DESIGN_TUBE_TEMP", "设计条件温度(℃)" );	
-		excelHeadDConfig.put( "DESIGN_TUBE_PRES", "设计条件压力(MPa)" );	
-		excelHeadDConfig.put( "OPTION_SHELL_PRESS", "操作条件压力(MPa)" );	
-		excelHeadDConfig.put( "OPTION_SHELL_IN_TEMP", "操作条件温度(℃)" );	
-		excelHeadDConfig.put( "REMARK1", "备注" );	
-			
-		//E类具体表头配置
-		Map<String,String> excelHeadEConfig = new LinkedHashMap<String,String>();
-		excelHeadEConfig.put( "order", "序号") ;
-		excelHeadEConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadEConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadEConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadEConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadEConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadEConfig.put( "EQU_MODEL", "型式" );	
-		excelHeadEConfig.put( "EQU_COMMISSION_DATE", "投用年月" );	
-		excelHeadEConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadEConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadEConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadEConfig.put( "MEARING_RANGE", "换热面积(m2)" );	
-		excelHeadEConfig.put( "MANAGE_TYPE", "类别" );	
-		excelHeadEConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadEConfig.put( "WEIGHT", "重量(Kg)" );
-		excelHeadEConfig.put( "DESIGN_SHELL_PRES", "设计条件管程压力(MPa)" );	
-		excelHeadEConfig.put( "DESIGN_SHELL_TEMP", "设计条件管程温度(℃)" );	
-		excelHeadEConfig.put( "DESIGN_TUBE_TEMP", "设计条件壳程温度(℃)" );	
-		excelHeadEConfig.put( "DESIGN_TUBE_PRES", "设计条件壳程压力(MPa)" );	
-		excelHeadEConfig.put( "OPTION_SHELL_PRESS", "操作条件管程压力(MPa)" );	
-		excelHeadEConfig.put( "OPTION_SHELL_IN_TEMP", "操作条件管程进口温度(℃)" );	
-		excelHeadEConfig.put( "OPTION_SHELL_OUT_TEMP", "操作条件管程出口温度(℃)" );	
-		excelHeadEConfig.put( "OPTION_SHELL_MEDUIM", "操作条件管程介质" );	
-		excelHeadEConfig.put( "OPTION_TUBE_IN_TEMP", "操作条件进口温度(℃)" );	
-		excelHeadEConfig.put( "OPTION_TUBE_OUT_TEMP", "操作条件管程出口温度(℃)" );	
-		excelHeadEConfig.put( "OPTION_TUBE_MEDUIM", "操作条件管程介质" );	
-		excelHeadEConfig.put( "SHELL_MATERIAL", "主体材质壳体" );	
-		excelHeadEConfig.put( "TUBE_MATERIAL", "主体材质列管" );	
-		excelHeadEConfig.put( "REMARK1", "备注" );	
-		
-		//F类具体表头配置
-		Map<String,String> excelHeadFConfig = new LinkedHashMap<String,String>();
-		excelHeadFConfig.put( "order", "序号") ;
-		excelHeadFConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadFConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadFConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadFConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadFConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadFConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadFConfig.put( "EQU_COMMISSION_DATE", "投用年月" );	
-		excelHeadFConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadFConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadFConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadFConfig.put( "MEDUIM_TYPE", "介质" );	
-		excelHeadFConfig.put( "MEARING_RANGE", "容积(m3)" );	
-		excelHeadFConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadFConfig.put( "MEASURE_ACC", "腐蚀裕度(mm)" );
-		excelHeadFConfig.put( "ACTION_MODLE", "铭牌位号" );	
-		excelHeadFConfig.put( "WEIGHT", "重量(Kg)" );	
-		excelHeadFConfig.put( "MATERIAL", "主体材质" );	
-		excelHeadFConfig.put( "DESIGN_TUBE_TEMP", "设计条件温度(℃)" );	
-		excelHeadFConfig.put( "DESIGN_TUBE_PRES", "设计条件压力(MPa)" );	
-		excelHeadFConfig.put( "OPTION_SHELL_PRESS", "操作条件压力(MPa)" );	
-		excelHeadFConfig.put( "OPTION_SHELL_IN_TEMP", "操作条件温度(℃)" );	
-		excelHeadFConfig.put( "REMARK1", "备注" );	
-		
-		//H类具体表头配置
-		Map<String,String> excelHeadHConfig = new LinkedHashMap<String,String>();
-		excelHeadHConfig.put( "order", "序号") ;
-		excelHeadHConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadHConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadHConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadHConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadHConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadHConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadHConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadHConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadHConfig.put( "MEDUIM_TYPE", "介质" );	
-		excelHeadHConfig.put( "MEARING_RANGE", "容积(m3)" );	
-		excelHeadHConfig.put( "MANAGE_TYPE", "类别" );	
-		excelHeadHConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadHConfig.put( "MEASURE_ACC", "腐蚀裕度(mm)" );	
-		excelHeadHConfig.put( "ACTION_MODLE", "铭牌位号" );	
-		excelHeadHConfig.put( "WEIGHT", "重量(Kg)" );	
-		excelHeadHConfig.put( "MATERIAL", "主体材质" );	
-		excelHeadHConfig.put( "DESIGN_TUBE_TEMP", "设计条件温度(℃)" );	
-		excelHeadHConfig.put( "DESIGN_TUBE_PRES", "设计条件压力(MPa)" );	
-		excelHeadHConfig.put( "OPTION_SHELL_PRESS", "操作条件压力(MPa)" );	
-		excelHeadHConfig.put( "OPTION_SHELL_IN_TEMP", "操作条件温度(℃)" );	
-		excelHeadHConfig.put( "REMARK1", "备注" );	
-		
-		//R类具体表头配置
-		Map<String,String> excelHeadRConfig = new LinkedHashMap<String,String>();
-		excelHeadRConfig.put( "order", "序号") ;
-		excelHeadRConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadRConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadRConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadRConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadRConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadRConfig.put( "EQU_MODEL", "规格型号(φ×δ×h)" );	
-		excelHeadRConfig.put( "EQU_COMMISSION_DATE", "投用年月 " );	
-		excelHeadRConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadRConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadRConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadRConfig.put( "MEARING_RANGE", "容积(m3)" );	
-		excelHeadRConfig.put( "MANAGE_TYPE", "类别" );	
-		excelHeadRConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadRConfig.put( "MEASURE_ACC", "腐蚀裕度(mm)" );	
-		excelHeadRConfig.put( "WEIGHT", "重量(Kg)" );	
-		excelHeadRConfig.put( "MATERIAL", "主体材质" );	
-		excelHeadRConfig.put( "DESIGN_TUBE_TEMP", "设计条件温度(℃)" );	
-		excelHeadRConfig.put( "DESIGN_TUBE_PRES", "设计条件压力(MPa)" );	
-		excelHeadRConfig.put( "OPTION_SHELL_PRESS", "操作条件压力(MPa)" );	
-		excelHeadRConfig.put( "OPTION_SHELL_IN_TEMP", "操作条件温度(℃)" );	
-		excelHeadRConfig.put( "REMARK1", "备注" );	
-		
-		//机修类具体表头配置
-		Map<String,String> excelHeadJXConfig = new LinkedHashMap<String,String>();
-		excelHeadJXConfig.put( "order", "序号") ;
-		excelHeadJXConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadJXConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadJXConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadJXConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadJXConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadJXConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadJXConfig.put( "EQU_COMMISSION_DATE", "投用年月" );	
-		excelHeadJXConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadJXConfig.put( "MANAGE_TYPE", "类别" );	
-		excelHeadJXConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadJXConfig.put( "COUNT", "数量" );	
-		excelHeadJXConfig.put( "REMARK1", "备注" );	
-		
-		//车辆类具体表头配置
-		Map<String,String> excelHeadCLConfig = new LinkedHashMap<String,String>();
-		excelHeadCLConfig.put( "order", "序号") ;
-		excelHeadCLConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadCLConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadCLConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadCLConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadCLConfig.put( "EQU_NAME", "车辆名称") ;
-		excelHeadCLConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadCLConfig.put( "EQU_COMMISSION_DATE", "投用年月" );	
-		excelHeadCLConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadCLConfig.put( "MANAGE_TYPE", "类别" );	
-		excelHeadCLConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadCLConfig.put( "CAPCITY", "能力" );	
-		excelHeadCLConfig.put( "ENGINE_NUMBER", "发动机号" );	
-		excelHeadCLConfig.put( "LICENSE_NUMBER", "车牌号" );	
-		excelHeadCLConfig.put( "CHASSIS_NUMBER", "底盘号" );	
-		excelHeadCLConfig.put( "ENERGY_CONSUMPTION", "能耗(L)" );	
-		excelHeadCLConfig.put( "ENERGY_CONSUMPTION_CAT", "耗能种类" );	
-		excelHeadCLConfig.put( "REMARK1", "备注" );	
-		
-		//其他类具体表头配置
-		Map<String,String> excelHeadQConfig = new LinkedHashMap<String,String>();
-		excelHeadQConfig.put( "order", "序号") ;
-		excelHeadQConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadQConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadQConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadQConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadQConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadQConfig.put( "EQU_COMMISSION_DATE", "投用年月" );	
-		excelHeadQConfig.put( "EQU_MANUFACTURER", "制造单位" );	
-		excelHeadQConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadQConfig.put( "MANAGE_TYPE", "类别" );	
-		excelHeadQConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadQConfig.put( "COUNT", "数量" );	
-		excelHeadQConfig.put( "HEIGHT_ELECTRIC_TENSION", "主要技术参数" );	
-		excelHeadQConfig.put( "REMARK1", "备注" );	
-		
-		//A类分析仪器
-		Map<String,String> excelHeadAConfig = new LinkedHashMap<String,String>();
-		excelHeadAConfig.put( "order", "序号") ;
-		excelHeadAConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadAConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadAConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadAConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadAConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadAConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadAConfig.put( "EQU_INSTALL_POSITION", "安装地点" );	
-		excelHeadAConfig.put( "EQU_MANUFACTURER", "生产厂家" );	
-		excelHeadAConfig.put( "EQU_POSITION_NUM", "位号" );	
-		excelHeadAConfig.put( "MEDUIM_TYPE", "介质" );	
-		excelHeadAConfig.put( "MEARING_RANGE", "测量范围" );	
-		excelHeadAConfig.put( "MANAGE_TYPE", "计量器具管理类别" );	
-		excelHeadAConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadAConfig.put( "CHECK_CYCLE", "检定周期(月)" );	
-		excelHeadAConfig.put( "CHECK_TIME", "检定日期" );	
-		excelHeadAConfig.put( "NEXT_CHECK_TIME", "下次检定日期" );	
-		excelHeadAConfig.put( "MEASURE_ACC", "准确度等级" );	
-		excelHeadAConfig.put( "ACTION_MODLE", "检定单位" );	
-		excelHeadAConfig.put( "REMARK1", "备注" );	
-			
-		//EPS电源系统
-		Map<String,String> excelHeadEPSConfig = new LinkedHashMap<String,String>();
-		excelHeadEPSConfig.put( "order", "序号") ;
-		excelHeadEPSConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadEPSConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadEPSConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadEPSConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadEPSConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadEPSConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadEPSConfig.put( "EQU_PRODUC_DATE", "生产日期" );	
-		excelHeadEPSConfig.put( "EQU_COMMISSION_DATE", "投运日期" );	
-		excelHeadEPSConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadEPSConfig.put( "EQU_MANUFACTURER", "生产厂家" );	
-		excelHeadEPSConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadEPSConfig.put( "MEDUIM_TYPE", "工作性质" );	
-		excelHeadEPSConfig.put( "EQU_WORK_TEMP", "蓄电池型号" );	
-		excelHeadEPSConfig.put( "EQU_LASTPERIODIC_DATE", "蓄电池品牌" );	
-		excelHeadEPSConfig.put( "EQU_PERIODIC_CYCLE", "蓄电池容量" );	
-		excelHeadEPSConfig.put( "MEARING_RANGE", "防护等级" );	
-		excelHeadEPSConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadEPSConfig.put( "COUNT", "蓄电池数量" );	
-		excelHeadEPSConfig.put( "POWER_RATE", "功率" );	
-		excelHeadEPSConfig.put( "ELECTRIC_PRES", "输入电压" );	
-		excelHeadEPSConfig.put( "ELECTRIC_TENSION", "输出电压" );	
-		excelHeadEPSConfig.put( "FREQUENCY", "频率" );	
-		excelHeadEPSConfig.put( "REMARK1", "备注" );	
-		
-		//UPS电源系统具体表头配置
-		Map<String,String> excelHeadUPSConfig = new LinkedHashMap<String,String>();
-		excelHeadUPSConfig.put( "order", "序号") ;
-		excelHeadUPSConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadUPSConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadUPSConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadUPSConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadUPSConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadUPSConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadUPSConfig.put( "EQU_PRODUC_DATE", "生产日期" );	
-		excelHeadUPSConfig.put( "EQU_COMMISSION_DATE", "投运日期" );	
-		excelHeadUPSConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadUPSConfig.put( "EQU_MANUFACTURER", "生产厂家" );	
-		excelHeadUPSConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadUPSConfig.put( "MEDUIM_TYPE", "工作性质" );	
-		excelHeadUPSConfig.put( "EQU_WORK_TEMP", "蓄电池型号" );	
-		excelHeadUPSConfig.put( "EQU_LASTPERIODIC_DATE", "蓄电池品牌" );	
-		excelHeadUPSConfig.put( "EQU_PERIODIC_CYCLE", "蓄电池容量" );	
-		excelHeadUPSConfig.put( "MEARING_RANGE", "防护等级" );	
-		excelHeadUPSConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadUPSConfig.put( "COUNT", "蓄电池数量" );	
-		excelHeadUPSConfig.put( "ELECTRIC_PRES", "输入电压" );	
-		excelHeadUPSConfig.put( "ELECTRIC_TENSION", "输出电压" );	
-		excelHeadUPSConfig.put( "FREQUENCY", "频率" );	
-		excelHeadUPSConfig.put( "REMARK1", "备注" );	
-		
-		//低压配电柜具体表头配置
-		Map<String,String> excelHeadDPDConfig = new LinkedHashMap<String,String>();
-		excelHeadDPDConfig.put( "order", "序号") ;
-		excelHeadDPDConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadDPDConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadDPDConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadDPDConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadDPDConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadDPDConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadDPDConfig.put( "EQU_PRODUC_DATE", "生产日期" );	
-		excelHeadDPDConfig.put( "EQU_COMMISSION_DATE", "投运日期" );	
-		excelHeadDPDConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadDPDConfig.put( "EQU_MANUFACTURER", "生产厂家" );	
-		excelHeadDPDConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadDPDConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadDPDConfig.put( "ELECTRIC_PRES", "额定电压" );	
-		excelHeadDPDConfig.put( "ELECTRIC_TENSION", "额定电流" );	
-		excelHeadDPDConfig.put( "REMARK1", "备注" );	
-			
-		//电动机具体表头配置  电动机
-		Map<String,String> excelHeadDDJConfig = new LinkedHashMap<String,String>();
-		excelHeadDDJConfig.put( "order", "序号") ;
-		excelHeadDDJConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadDDJConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadDDJConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadDDJConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadDDJConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadDDJConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadDDJConfig.put( "EQU_PRODUC_DATE", "生产日期" );	
-		excelHeadDDJConfig.put( "EQU_COMMISSION_DATE", "投运日期" );	
-		excelHeadDDJConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadDDJConfig.put( "EQU_MANUFACTURER", "生产厂家" );	
-		excelHeadDDJConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadDDJConfig.put( "MEDUIM_TYPE", "工作性质" );	
-		excelHeadDDJConfig.put( "EQU_WORK_TEMP", "蓄电池型号" );	
-		excelHeadDDJConfig.put( "EQU_LASTPERIODIC_DATE", "蓄电池品牌" );	
-		excelHeadDDJConfig.put( "EQU_PERIODIC_CYCLE", "蓄电池容量" );	
-		excelHeadDDJConfig.put( "MEARING_RANGE", "防护等级" );	
-		excelHeadDDJConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadDDJConfig.put( "COUNT", "蓄电池数量" );	
-		excelHeadDDJConfig.put( "ELECTRIC_PRES", "输入电压" );	
-		excelHeadDDJConfig.put( "ELECTRIC_TENSION", "输出电压" );	
-		excelHeadDDJConfig.put( "FREQUENCY", "频率" );	
-		excelHeadDDJConfig.put( "REMARK1", "备注" );	
-			
-		//干式变压器具体表头配置
-		Map<String,String> excelHeadGBYQConfig = new LinkedHashMap<String,String>();
-		excelHeadGBYQConfig.put( "order", "序号") ;
-		excelHeadGBYQConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadGBYQConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadGBYQConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadGBYQConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadGBYQConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadGBYQConfig.put( "EQU_MODEL","规格型号" );	
-		excelHeadGBYQConfig.put( "EQU_PRODUC_DATE","出厂时间" );	
-		excelHeadGBYQConfig.put( "EQU_COMMISSION_DATE","投运日期" );	
-		excelHeadGBYQConfig.put( "EQU_INSTALL_POSITION","安装位置" );	
-		excelHeadGBYQConfig.put( "EQU_MANUFACTURER","生产厂家" );	
-		excelHeadGBYQConfig.put( "EQU_POSITION_NUM","设备位号" );	
-		excelHeadGBYQConfig.put( "EQU_PERIODIC_CYCLE","容量" );	
-		excelHeadGBYQConfig.put( "MEARING_RANGE","绝缘等级" );	
-		excelHeadGBYQConfig.put( "MANAGE_TYPE","接线组别" );	
-		excelHeadGBYQConfig.put( "SERIAL_NUM","出厂编号" );	
-		excelHeadGBYQConfig.put( "COUNT","相数" );	
-		excelHeadGBYQConfig.put( "ELECTRIC_PRES","高压侧电压" );	
-		excelHeadGBYQConfig.put( "ELECTRIC_TENSION","高压侧电流" );	
-		excelHeadGBYQConfig.put( "FREQUENCY","低压侧电压" );	
-		excelHeadGBYQConfig.put( "BRAND","低压侧电流" );	
-		excelHeadGBYQConfig.put( "WEIGHT","重量" );	
-		excelHeadGBYQConfig.put( "REMARK1","备注" );	
-		
-		//高压配电柜具体表头配置
-		Map<String,String> excelHeadGPDGConfig = new LinkedHashMap<String,String>();
-		excelHeadGPDGConfig.put( "order", "序号") ;
-		excelHeadGPDGConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadGPDGConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadGPDGConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadGPDGConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadGPDGConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadGPDGConfig.put( "EQU_MODEL","规格型号" );	
-		excelHeadGPDGConfig.put( "EQU_PRODUC_DATE","生产日期" );	
-		excelHeadGPDGConfig.put( "EQU_COMMISSION_DATE","投运日期" );	
-		excelHeadGPDGConfig.put( "EQU_INSTALL_POSITION","安装位置" );	
-		excelHeadGPDGConfig.put( "EQU_MANUFACTURER","生产厂家" );	
-		excelHeadGPDGConfig.put( "EQU_POSITION_NUM","设备位号" );	
-		excelHeadGPDGConfig.put( "MEARING_RANGE","防护等级" );	
-		excelHeadGPDGConfig.put( "SERIAL_NUM","出厂编号" );	
-		excelHeadGPDGConfig.put( "ACTION_MODLE","对应设备" );	
-		excelHeadGPDGConfig.put( "ELECTRIC_PRES","额定短时工频耐受电压" );	
-		excelHeadGPDGConfig.put( "ELECTRIC_TENSION","额定雷电冲击耐受电压" );	
-		excelHeadGPDGConfig.put( "FREQUENCY","额定短时耐受电流" );	
-		excelHeadGPDGConfig.put( "BRAND","额定峰值耐受电流" );	
-		excelHeadGPDGConfig.put( "WEIGHT","相数" );	
-		excelHeadGPDGConfig.put( "REMARK1","备注" );	
-		
-		//现场配电箱具体表头配置
-		Map<String,String> excelHeadXPDXConfig = new LinkedHashMap<String,String>();
-		
-		excelHeadXPDXConfig.put( "order", "序号") ;
-		excelHeadXPDXConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadXPDXConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadXPDXConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadXPDXConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadXPDXConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadXPDXConfig.put( "EQU_MODEL","规格型号" );	
-		excelHeadXPDXConfig.put( "EQU_PRODUC_DATE","生产日期" );	
-		excelHeadXPDXConfig.put( "EQU_COMMISSION_DATE","投运日期" );	
-		excelHeadXPDXConfig.put( "EQU_INSTALL_POSITION","安装位置" );	
-		excelHeadXPDXConfig.put( "EQU_MANUFACTURER","生产厂家" );	
-		excelHeadXPDXConfig.put( "EQU_POSITION_NUM","设备位号" );	
-		excelHeadXPDXConfig.put( "MEDUIM_TYPE","设备用途" );	
-		excelHeadXPDXConfig.put( "MEARING_RANGE","防爆区域等级" );	
-		excelHeadXPDXConfig.put( "SERIAL_NUM","出厂编号" );	
-		excelHeadXPDXConfig.put( "HEIGHT_ELECTRIC_TENSION","主要运行参数" );	
-		excelHeadXPDXConfig.put( "WEIGHT","防爆合格证号" );	
-		excelHeadXPDXConfig.put( "MATERIAL","防爆标志" );	
-		excelHeadXPDXConfig.put( "REMARK1","备注" );	
-		
-		//直流电源系统具体表头配置
-		Map<String,String> excelHeadZLDYConfig = new LinkedHashMap<String,String>();
-		excelHeadZLDYConfig.put( "order", "序号") ;
-		excelHeadZLDYConfig.put( "WEL_NAME", "装置列名" );
-		excelHeadZLDYConfig.put( "WEL_UNIT", "装置单元" );		
-		excelHeadZLDYConfig.put( "EQU_POSITION_NUM", "设备位号") ;
-		excelHeadZLDYConfig.put( "EQU_MEMO_ONE", "设备类别") ;
-		excelHeadZLDYConfig.put( "EQU_NAME", "设备名称") ;
-		excelHeadZLDYConfig.put( "EQU_MODEL", "规格型号" );	
-		excelHeadZLDYConfig.put( "EQU_PRODUC_DATE", "生产日期" );	
-		excelHeadZLDYConfig.put( "EQU_COMMISSION_DATE", "投运日期" );	
-		excelHeadZLDYConfig.put( "EQU_INSTALL_POSITION", "安装位置" );	
-		excelHeadZLDYConfig.put( "EQU_MANUFACTURER", "生产厂家" );	
-		excelHeadZLDYConfig.put( "EQU_POSITION_NUM", "设备位号" );	
-		excelHeadZLDYConfig.put( "EQU_WORK_TEMP", "蓄电池型号" );	
-		excelHeadZLDYConfig.put( "EQU_LASTPERIODIC_DATE", "品牌" );	
-		excelHeadZLDYConfig.put( "EQU_PERIODIC_CYCLE", "蓄电池容量" );	
-		excelHeadZLDYConfig.put( "MEARING_RANGE", "防护等级" );	
-		excelHeadZLDYConfig.put( "SERIAL_NUM", "出厂编号" );	
-		excelHeadZLDYConfig.put( "COUNT", "蓄电池数量" );	
-		excelHeadZLDYConfig.put( "ELECTRIC_PRES", "额定交流电压" );	
-		excelHeadZLDYConfig.put( "ELECTRIC_TENSION", "额定电流" );	
-		excelHeadZLDYConfig.put( "FREQUENCY", "频率" );	
-		excelHeadZLDYConfig.put( "BRAND", "额定直流电压" );	
-		excelHeadZLDYConfig.put( "REMARK1", "备注" );	
-		
 		/*
 		 * 接受请求参数
 		 */
-		String moduleType = req.getParameter( "moduleType" );
-		String EQU_MEMO_ONE = req.getParameter( "EQU_MEMO_ONE" );
-		
-		//判断		
-		if( EQU_MEMO_ONE == null ) {
-			res.getWriter().write( "请求失败,设备类型为空" );
-		}
-		if( moduleType == null ) {
-			res.getWriter().write( "请求失败,请求类型为空" );
-		}		
-		//具体表头配置增加……
-		//通用具体表头配置
-		if( "2".equals( moduleType.trim() ) ) {	
-			excelHeadDetailConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadYCBConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadWDJConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadWBConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadQDFConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadTJFConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadYWJConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadLLJConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadJLConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadFXYConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadZDTTConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadDSConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadFGSConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadBJConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadQTConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadCConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadDConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadEConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadFConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadHConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadRConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadKConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadPConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadJXConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadCLConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadQTConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadAConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadEPSConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadUPSConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadDPDConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadDDJConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadGBYQConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadGPDGConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadXPDXConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
-			excelHeadZLDYConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );			
-		}
-		
-		excelHeadConfig.put( "压力表", excelHeadDetailConfig );	
-		excelHeadConfig.put( "压力差压变送器", excelHeadYCBConfig );	
-		excelHeadConfig.put( "温度计", excelHeadWDJConfig );	
-		excelHeadConfig.put( "温度变送器", excelHeadWBConfig );			
-		excelHeadConfig.put( "气动切断阀",  excelHeadQDFConfig );
-		excelHeadConfig.put( "气动调节阀", excelHeadTJFConfig );
-		excelHeadConfig.put( "液位计(含远程)", excelHeadYWJConfig );
-		excelHeadConfig.put( "流量", excelHeadLLJConfig );
-		excelHeadConfig.put( "节流装置", excelHeadJLConfig );
-		excelHeadConfig.put( "在线分析仪", excelHeadFXYConfig );
-		excelHeadConfig.put( "振动温度探头", excelHeadZDTTConfig );
-		excelHeadConfig.put( "DCS SIS系统", excelHeadDSConfig );
-		excelHeadConfig.put( "FGS系统",  excelHeadFGSConfig );
-		excelHeadConfig.put( "固定式报警仪",  excelHeadBJConfig );
-		excelHeadConfig.put( "其他",  excelHeadQTConfig );
-		excelHeadConfig.put( "C类设备",  excelHeadCConfig );
-		excelHeadConfig.put( "D类设备",  excelHeadDConfig );
-		excelHeadConfig.put( "E类设备",  excelHeadEConfig );
-		excelHeadConfig.put( "F类设备",  excelHeadFConfig );
-		excelHeadConfig.put( "H类设备",  excelHeadHConfig );
-		excelHeadConfig.put( "R类设备",  excelHeadRConfig );
-		excelHeadConfig.put( "K类设备",  excelHeadKConfig );
-		excelHeadConfig.put( "P类设备",  excelHeadPConfig );
-		excelHeadConfig.put( "机修类",  excelHeadJXConfig );
-		excelHeadConfig.put( "车辆类",  excelHeadCLConfig );
-		excelHeadConfig.put( "其他",  excelHeadQTConfig );
-		excelHeadConfig.put( "A类分析仪器",  excelHeadAConfig );
-		excelHeadConfig.put( "EPS电源系统",  excelHeadEPSConfig );
-		excelHeadConfig.put( "UPS电源系统",  excelHeadUPSConfig );
-		excelHeadConfig.put( "低压配电柜",  excelHeadDPDConfig );
-		excelHeadConfig.put( "电动机",  excelHeadDDJConfig );
-		excelHeadConfig.put( "干式变压器",  excelHeadGBYQConfig );
-		excelHeadConfig.put( "高压配电柜",  excelHeadGPDGConfig );
-		excelHeadConfig.put( "现场配电箱",  excelHeadXPDXConfig );
-		excelHeadConfig.put( "直流电源系统",  excelHeadZLDYConfig );
+		String moduleType = req.getParameter("moduleType");
+		String EQU_MEMO_ONE = req.getParameter("EQU_MEMO_ONE");
 
-										
-		//动态生成表格标题
-		String currentExcelTitle = excelTitleConfig.get( EQU_MEMO_ONE.trim() );
-		System.out.println("--------Excel表格标题--------" + currentExcelTitle );
-		
-		//动态生成表格表头
-		Map<String,String> currentEquipmentMap = excelHeadConfig.get( EQU_MEMO_ONE.trim() );
+		// 判断
+		if (EQU_MEMO_ONE == null) {
+			res.getWriter().write("请求失败,设备类型为空");
+		}
+		if (moduleType == null) {
+			res.getWriter().write("请求失败,请求类型为空");
+		}
+		// 具体表头配置增加……
+		// 通用具体表头配置
+		if ("2".equals(moduleType.trim())) {
+			// excelHeadDetailConfig.put( "EQUIPMENT_ATTACH_URL", "附件位置" );
+
+		}
+
+		//控制系统
+		excelHeadConfig.put("控制系统", excelHeadDetailConfig1);
+		//DCS系统
+		excelHeadConfig.put("DCS系统", excelHeadDetailConfig2);
+		//SIS/FGS系统
+		excelHeadConfig.put("SIS/FGS系统", excelHeadDetailConfig3);
+		//导热油控制系统
+		excelHeadConfig.put("导热油控制系统", excelHeadDetailConfig4);
+		//除盐水控制系统
+		excelHeadConfig.put("除盐水控制系统", excelHeadDetailConfig5);
+		//硫磺过滤机控制系统
+		excelHeadConfig.put("硫磺过滤机控制系统", excelHeadDetailConfig6);
+		//火炬控制系统
+		excelHeadConfig.put("火炬控制系统", excelHeadDetailConfig7);
+		//变频供水控制系统
+		excelHeadConfig.put("变频供水控制系统", excelHeadDetailConfig8);
+		//检测回路
+		excelHeadConfig.put("检测回路", excelHeadDetailConfig9);
+		//控制回路
+		excelHeadConfig.put("控制回路", excelHeadDetailConfig10);
+		//控制系统安全联锁回路
+		excelHeadConfig.put("控制系统安全联锁回路", excelHeadDetailConfig11);
+		//气动（电动）切断阀
+		excelHeadConfig.put("气动（电动）切断阀", excelHeadDetailConfig12);
+		//气动（电动）调节阀
+		excelHeadConfig.put("气动（电动）调节阀", excelHeadDetailConfig13);
+		//电工器具
+		excelHeadConfig.put("电工器具", excelHeadDetailConfig14);
+		//静设备
+		excelHeadConfig.put("静设备", excelHeadDetailConfig15);
+		//动设备
+		excelHeadConfig.put("动设备", excelHeadDetailConfig16);
+		//管道
+		excelHeadConfig.put("管道", excelHeadDetailConfig17);
+		//安全阀
+		excelHeadConfig.put("安全阀", excelHeadDetailConfig18);
+		//锅炉
+		excelHeadConfig.put("锅炉", excelHeadDetailConfig19);
+		//厂内车辆
+		excelHeadConfig.put("厂内车辆", excelHeadDetailConfig20);
+		//气体报警仪表
+		excelHeadConfig.put("气体报警仪表", excelHeadDetailConfig21);
+		//标准孔板
+		excelHeadConfig.put("标准孔板", excelHeadDetailConfig22);
+		//计量标准器具
+		excelHeadConfig.put("计量标准器具", excelHeadDetailConfig23);
+		//流量计量器具
+		excelHeadConfig.put("流量计量器具", excelHeadDetailConfig24);
+		//生产过程监控计量器具
+		excelHeadConfig.put("生产过程监控计量器具", excelHeadDetailConfig25);
+
+		// 动态生成表格标题
+		String currentExcelTitle = excelTitleConfig.get(EQU_MEMO_ONE.trim());
+		System.out.println("--------Excel表格标题--------" + currentExcelTitle);
+
+		// 动态生成表格表头
+		Map<String, String> currentEquipmentMap = excelHeadConfig.get(EQU_MEMO_ONE.trim());
 		String[] excelHeader = new String[currentEquipmentMap.size()];
 		int aFor = 0;
-		for ( Map.Entry<String,String> entry : currentEquipmentMap.entrySet()) {			
+		for (Map.Entry<String, String> entry : currentEquipmentMap.entrySet()) {
 			excelHeader[aFor] = entry.getValue();
-			aFor ++;
+			aFor++;
 		}
-		System.out.println("--------Excel表格表头--------" + excelHeader.toString() );
-		
-		//动态生成数据Excel内容
-		JSONArray excelJsonArr = new JSONArray();		
-		
-		if( !"2".equals( moduleType.trim() ) ) {
-			System.out.println( "--------导出Excel数据--------" );
-			//通用
+		System.out.println("--------Excel表格表头--------" + excelHeader.toString());
+
+		// 动态生成数据Excel内容
+		JSONArray excelJsonArr = new JSONArray();
+
+		if (!"2".equals(moduleType.trim())) {
+			System.out.println("--------导出Excel数据--------");
+			// 通用
 			String WEL_NAME = req.getParameter("WEL_NAME");
 			String WEL_UNIT = req.getParameter("WEL_UNIT");
 			String EQU_POSITION_NUM = req.getParameter("EQU_POSITION_NUM");
 			String EQU_NAME = req.getParameter("EQU_NAME");
-			
-			//设备大类
+
+			// 设备大类
 			String SECONDCLASS_EQUIPMENT = req.getParameter("SECONDCLASS_EQUIPMENT");
-	
-		
+
 			String MANAGE_TYPE = req.getParameter("MANAGE_TYPE");
 			String EQU_MODEL = req.getParameter("EQU_MODEL");
 			String MEARING_RANGE = req.getParameter("MEARING_RANGE");
@@ -1041,292 +621,244 @@ public class ExportExcelOfEquServlet extends HttpServlet{
 			String CHECK_TIME = req.getParameter("CHECK_TIME");
 			String NEXT_CHECK_TIME = req.getParameter("NEXT_CHECK_TIME");
 			String REMARK1 = req.getParameter("REMARK1");
-			
 
-			String MEDUIM_TYPE = req.getParameter( "MEDUIM_TYPE" );
-		
-			//判断查询方式
+			String MEDUIM_TYPE = req.getParameter("MEDUIM_TYPE");
+
+			// 判断查询方式
 			String condition = "";
-			if( SECONDCLASS_EQUIPMENT != null && !"".equals( SECONDCLASS_EQUIPMENT.trim() )) {
-				if( "全部设备".equals( SECONDCLASS_EQUIPMENT.trim() )) {
-					condition = createTotalCondition(  EQU_MEMO_ONE, 
-							EQU_POSITION_NUM, EQU_NAME );
-				}else {
-					condition = createSecondEquipmentCondition( SECONDCLASS_EQUIPMENT,
-							WEL_NAME,WEL_UNIT,EQU_MEMO_ONE, EQU_POSITION_NUM,
-							EQU_NAME );
-				}				
-			}else{
-				condition = createThirdCondition( WEL_NAME,WEL_UNIT,EQU_MEMO_ONE, 
-						EQU_POSITION_NUM, EQU_NAME,//通用
-						MANAGE_TYPE, EQU_MODEL, MEARING_RANGE, MEASURE_ACC,
-						EQU_INSTALL_POSITION, EQU_MANUFACTURER, SERIAL_NUM,
-						CHECK_CYCLE, CHECK_TIME, NEXT_CHECK_TIME, REMARK1,//压力表
-						MEDUIM_TYPE//压力差压变送器
+			if (SECONDCLASS_EQUIPMENT != null && !"".equals(SECONDCLASS_EQUIPMENT.trim())) {
+				if ("全部设备".equals(SECONDCLASS_EQUIPMENT.trim())) {
+					condition = createTotalCondition(EQU_MEMO_ONE, EQU_POSITION_NUM, EQU_NAME);
+				} else {
+					condition = createSecondEquipmentCondition(SECONDCLASS_EQUIPMENT, WEL_NAME, WEL_UNIT, EQU_MEMO_ONE,
+							EQU_POSITION_NUM, EQU_NAME);
+				}
+			} else {
+				condition = createThirdCondition(WEL_NAME, WEL_UNIT, EQU_MEMO_ONE, EQU_POSITION_NUM, EQU_NAME, // 通用
+						MANAGE_TYPE, EQU_MODEL, MEARING_RANGE, MEASURE_ACC, EQU_INSTALL_POSITION, EQU_MANUFACTURER,
+						SERIAL_NUM, CHECK_CYCLE, CHECK_TIME, NEXT_CHECK_TIME, REMARK1, // 压力表
+						MEDUIM_TYPE// 压力差压变送器
 				);
 			}
 			System.out.println("导出excel----------------condition:" + condition);
-			excelJsonArr = getEquList( condition );
-		
+			excelJsonArr = getEquList(condition);
+
 			excelContents = new String[excelJsonArr.length()][currentEquipmentMap.size()];
-			try{
+			System.out.println("excelJsonArr.length()>>>>>>>>>>>" + excelJsonArr.length());
+			System.out.println("currentEquipmentMap.size()>>>>>>>>>" + currentEquipmentMap.size());
+			System.out.println("excelJsonArr.length()>>>>>>>>>" + excelJsonArr.length());
+
+			try {
 				int bFor = 0;
 				for (int i = 0; i < excelJsonArr.length(); i++) {
-					bFor = 1;
+					bFor = 0;
 					JSONObject json = excelJsonArr.getJSONObject(i);
-					excelContents[i][0] = ( i + 1 ) + "" ;
-					for ( Map.Entry<String,String> entry : currentEquipmentMap.entrySet()) {
-						if( "order".equals( entry.getKey().trim() )) {
+					excelContents[i][0] = (i + 1) + "";
+					for (Map.Entry<String, String> entry : currentEquipmentMap.entrySet()) {
+						if ("order".equals(entry.getKey().trim())) {
 							continue;
 						}
-						
-						excelContents[i][bFor] = json.getString( entry.getKey().trim() );
-						bFor ++;
+
+						excelContents[i][bFor] = json.getString(entry.getKey().trim());
+						bFor++;
 					}
 				}
-			}catch (JSONException e){
+			} catch (JSONException e) {
 				e.printStackTrace();
 				excelContents = null;
 			}
-			System.out.println("--------Excel表格数据内容--------" + excelContents.toString() );
-			
+			System.out.println("--------Excel表格数据内容--------" + excelContents.toString());
+
 			/*
 			 * 生成excel
 			 */
-			exportExcelPath( excelHeader, excelContents, currentExcelTitle, out );
-		}else {
-			System.out.println( "--------导出空白模板--------" );
+			exportExcelPath(excelHeader, excelContents, currentExcelTitle, out);
+		} else {
+			System.out.println("--------导出空白模板--------");
 			excelContents = new String[1][currentEquipmentMap.size()];
 			int bFor = 1;
 			excelContents[0][0] = "1";
-			for ( Map.Entry<String,String> entry : currentEquipmentMap.entrySet()) {
-				if( "EQUIPMENT_ATTACH_URL".equals( entry.getKey().trim() )) {
-					excelContents[0][bFor] = 
-							equipAttachLocationUrlConfig.get( EQU_MEMO_ONE.trim() );
+			for (Map.Entry<String, String> entry : currentEquipmentMap.entrySet()) {
+				if ("EQUIPMENT_ATTACH_URL".equals(entry.getKey().trim())) {
+					excelContents[0][bFor] = equipAttachLocationUrlConfig.get(EQU_MEMO_ONE.trim());
 					continue;
 				}
-				if( "order".equals( entry.getKey().trim() )) {
+				if ("order".equals(entry.getKey().trim())) {
 					continue;
 				}
 				excelContents[0][bFor] = " ";
-				bFor ++;
-			}			
+				bFor++;
+			}
 			/*
 			 * 生成excel
 			 */
-			exportExcelPath( excelHeader, excelContents, currentExcelTitle, out );
+			exportExcelPath(excelHeader, excelContents, currentExcelTitle, out);
 		}
 	}
 
-	
-	    /**
-	    * @Title: exportExcelPath
-	    * @Description: 生成excel
-	    * @param @param excelHeader
-	    * @param @param excelContent
-	    * @param @param currentExcelTitle
-	    * @param @param out    参数
-	    * @return void    返回类型
-	    * @throws
-	    */	    
-	public static void exportExcelPath(String excelHeader[], String excelContent[][], 
-			String currentExcelTitle, OutputStream out) {
-		try{
-			HSSFWorkbook excel = Im_ExportExcel.exportExcel(
-					excelHeader, excelContent, currentExcelTitle);
-			excel.write( out );
-		}catch (IOException e){
+	/**
+	 * @Title: exportExcelPath @Description: 生成excel @param @param
+	 *         excelHeader @param @param excelContent @param @param
+	 *         currentExcelTitle @param @param out 参数 @return void 返回类型 @throws
+	 */
+	public static void exportExcelPath(String excelHeader[], String excelContent[][], String currentExcelTitle,
+			OutputStream out) {
+		try {
+			HSSFWorkbook excel = Im_ExportExcel.exportExcel(excelHeader, excelContent, currentExcelTitle);
+			excel.write(out);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-    /**
-	    * @Title: createTotalCondition
-	    * @Description: 查询所有设备
-	    * @param @return    参数
-	    * @return String    返回类型
-	    * @throws
-	    */	    
-	private String createTotalCondition( 
-			String EQU_MEMO_ONE, String EQU_POSITION_NUM, String EQU_NAME ) {	
+
+	/**
+	 * @Title: createTotalCondition @Description: 查询所有设备 @param @return 参数 @return
+	 *         String 返回类型 @throws
+	 */
+	private String createTotalCondition(String EQU_MEMO_ONE, String EQU_POSITION_NUM, String EQU_NAME) {
 		String condition = "";
-//		if( isEmpty( WEL_NAME ) ) {
-//			condition = condition + "and EQU_NAME like '%" + EQU_NAME + "%'";
-//		}
-//		if( isEmpty( WEL_UNIT ) ) {
-//			condition = condition + "and WEL_UNIT like '%" + WEL_UNIT + "%'";
-//		}
-		if( isEmpty( EQU_MEMO_ONE ) ) {
+		// if( isEmpty( WEL_NAME ) ) {
+		// condition = condition + "and EQU_NAME like '%" + EQU_NAME + "%'";
+		// }
+		// if( isEmpty( WEL_UNIT ) ) {
+		// condition = condition + "and WEL_UNIT like '%" + WEL_UNIT + "%'";
+		// }
+		if (isEmpty(EQU_MEMO_ONE)) {
 			condition = condition + "and EQU_MEMO_ONE like '%" + EQU_MEMO_ONE + "%'";
 		}
-		if( isEmpty( EQU_POSITION_NUM ) ) {
-			condition = 
-					condition + "and EQU_POSITION_NUM like '%" + EQU_POSITION_NUM + "%'";
+		if (isEmpty(EQU_POSITION_NUM)) {
+			condition = condition + "and EQU_POSITION_NUM like '%" + EQU_POSITION_NUM + "%'";
 		}
-		if( isEmpty( EQU_NAME ) ) {
+		if (isEmpty(EQU_NAME)) {
 			condition = condition + "and EQU_NAME like '%" + EQU_NAME + "%'";
 		}
 		return condition;
 	}
-	
-	
-	    /**
-	    * @Title: createSecondEquipmentCondition
-	    * @Description: 按照二级分类查询
-	    * @param @return    参数
-	    * @return String    返回类型
-	    * @throws
-	    */
-	    
-	private String createSecondEquipmentCondition(  String SECONDCLASS_EQUIPMENT,
-			String WEL_NAME,String WEL_UNIT,String EQU_MEMO_ONE, 
-			String EQU_POSITION_NUM, String EQU_NAME ) {
+
+	/**
+	 * @Title: createSecondEquipmentCondition @Description: 按照二级分类查询 @param @return
+	 *         参数 @return String 返回类型 @throws
+	 */
+
+	private String createSecondEquipmentCondition(String SECONDCLASS_EQUIPMENT, String WEL_NAME, String WEL_UNIT,
+			String EQU_MEMO_ONE, String EQU_POSITION_NUM, String EQU_NAME) {
 		String condition = "";
-		if( isEmpty( WEL_NAME ) ) {
+		if (isEmpty(WEL_NAME)) {
 			condition = condition + "and WEL_NAME like '%" + WEL_NAME + "%'";
 		}
-		if( isEmpty( WEL_UNIT ) ) {
+		if (isEmpty(WEL_UNIT)) {
 			condition = condition + "and WEL_UNIT like '%" + WEL_UNIT + "%'";
 		}
-		if( isEmpty( EQU_MEMO_ONE ) ) {
+		if (isEmpty(EQU_MEMO_ONE)) {
 			condition = condition + "and EQU_MEMO_ONE like '%" + EQU_MEMO_ONE + "%'";
 		}
-		if( isEmpty( EQU_POSITION_NUM ) ) {
-			condition = 
-					condition + "and EQU_POSITION_NUM like '%" + EQU_POSITION_NUM + "%'";
+		if (isEmpty(EQU_POSITION_NUM)) {
+			condition = condition + "and EQU_POSITION_NUM like '%" + EQU_POSITION_NUM + "%'";
 		}
-		if( isEmpty( EQU_NAME ) ) {
+		if (isEmpty(EQU_NAME)) {
 			condition = condition + "and EQU_NAME like '%" + EQU_NAME + "%'";
 		}
-		if( isEmpty( SECONDCLASS_EQUIPMENT ) ) {
-			condition = condition + 
-					"and SECONDCLASS_EQUIPMENT like '%" + SECONDCLASS_EQUIPMENT + "%'";
+		if (isEmpty(SECONDCLASS_EQUIPMENT)) {
+			condition = condition + "and SECONDCLASS_EQUIPMENT like '%" + SECONDCLASS_EQUIPMENT + "%'";
 		}
 		return condition;
 	}
-	
-	
-	    /**
-	    * @Title: createThirdCondition
-	    * @Description: 按照三级分类查询
-	    * @param @param WEL_NAME
-	    * @param @param WEL_UNIT
-	    * @param @param EQU_MEMO_ONE
-	    * @param @param EQU_POSITION_NUM
-	    * @param @param EQU_NAME
-	    * @param @param MANAGE_TYPE
-	    * @param @param EQU_MODEL
-	    * @param @param MEARING_RANGE
-	    * @param @param MEASURE_ACC
-	    * @param @param EQU_INSTALL_POSITION
-	    * @param @param EQU_MANUFACTURER
-	    * @param @param SERIAL_NUM
-	    * @param @param CHECK_CYCLE
-	    * @param @param CHECK_TIME
-	    * @param @param NEXT_CHECK_TIME
-	    * @param @param REMARK1
-	    * @param @return    参数
-	    * @return String    返回类型
-	    * @throws
-	    */
-	    
-	private String createThirdCondition( 
-			String WEL_NAME, String WEL_UNIT,String EQU_MEMO_ONE, String EQU_POSITION_NUM, String EQU_NAME,//通用
-			String MANAGE_TYPE, String EQU_MODEL, String MEARING_RANGE, 
-			String MEASURE_ACC,String EQU_INSTALL_POSITION, String EQU_MANUFACTURER, 
-			String SERIAL_NUM,String CHECK_CYCLE, String CHECK_TIME, 
-			String NEXT_CHECK_TIME, String REMARK1,
-			String MEDUIM_TYPE){
+
+	/**
+	 * @Title: createThirdCondition @Description: 按照三级分类查询 @param @param
+	 *         WEL_NAME @param @param WEL_UNIT @param @param
+	 *         EQU_MEMO_ONE @param @param EQU_POSITION_NUM @param @param
+	 *         EQU_NAME @param @param MANAGE_TYPE @param @param
+	 *         EQU_MODEL @param @param MEARING_RANGE @param @param
+	 *         MEASURE_ACC @param @param EQU_INSTALL_POSITION @param @param
+	 *         EQU_MANUFACTURER @param @param SERIAL_NUM @param @param
+	 *         CHECK_CYCLE @param @param CHECK_TIME @param @param
+	 *         NEXT_CHECK_TIME @param @param REMARK1 @param @return 参数 @return
+	 *         String 返回类型 @throws
+	 */
+
+	private String createThirdCondition(String WEL_NAME, String WEL_UNIT, String EQU_MEMO_ONE, String EQU_POSITION_NUM,
+			String EQU_NAME, // 通用
+			String MANAGE_TYPE, String EQU_MODEL, String MEARING_RANGE, String MEASURE_ACC, String EQU_INSTALL_POSITION,
+			String EQU_MANUFACTURER, String SERIAL_NUM, String CHECK_CYCLE, String CHECK_TIME, String NEXT_CHECK_TIME,
+			String REMARK1, String MEDUIM_TYPE) {
 		String condition = "";
-		if( isEmpty( WEL_NAME ) ) {
+		if (isEmpty(WEL_NAME)) {
 			condition = condition + "and WEL_NAME like '%" + WEL_NAME + "%'";
 		}
-		if( isEmpty( WEL_UNIT ) ) {
+		if (isEmpty(WEL_UNIT)) {
 			condition = condition + "and WEL_UNIT like '%" + WEL_UNIT + "%'";
 		}
-		if( isEmpty( EQU_MEMO_ONE ) ) {
+		if (isEmpty(EQU_MEMO_ONE)) {
 			condition = condition + "and EQU_MEMO_ONE like '%" + EQU_MEMO_ONE + "%'";
 		}
-		if( isEmpty( EQU_POSITION_NUM ) ) {
-			condition = 
-					condition + "and EQU_POSITION_NUM like '%" + EQU_POSITION_NUM + "%'";
+		if (isEmpty(EQU_POSITION_NUM)) {
+			condition = condition + "and EQU_POSITION_NUM like '%" + EQU_POSITION_NUM + "%'";
 		}
-		if( isEmpty( EQU_NAME ) ) {
+		if (isEmpty(EQU_NAME)) {
 			condition = condition + "and EQU_NAME like '%" + EQU_NAME + "%'";
 		}
-		if( isEmpty( MANAGE_TYPE ) ) {
+		if (isEmpty(MANAGE_TYPE)) {
 			condition = condition + "and MANAGE_TYPE like '%" + MANAGE_TYPE + "%'";
 		}
-		if( isEmpty( EQU_MODEL ) ) {
+		if (isEmpty(EQU_MODEL)) {
 			condition = condition + "and EQU_MODEL like '%" + EQU_MODEL + "%'";
 		}
-		if( isEmpty( MEARING_RANGE ) ) {
+		if (isEmpty(MEARING_RANGE)) {
 			condition = condition + "and MEARING_RANGE like '%" + MEARING_RANGE + "%'";
 		}
-		if( isEmpty( MEASURE_ACC ) ) {
+		if (isEmpty(MEASURE_ACC)) {
 			condition = condition + "and MEASURE_ACC like '%" + MEASURE_ACC + "%'";
 		}
-		if( isEmpty( EQU_INSTALL_POSITION ) ) {
-			condition = 
-					condition + "and EQU_INSTALL_POSITION like '%" + 
-					EQU_INSTALL_POSITION + "%'";
+		if (isEmpty(EQU_INSTALL_POSITION)) {
+			condition = condition + "and EQU_INSTALL_POSITION like '%" + EQU_INSTALL_POSITION + "%'";
 		}
-		if( isEmpty( EQU_MANUFACTURER ) ) {
+		if (isEmpty(EQU_MANUFACTURER)) {
 			condition = condition + "and EQU_MANUFACTURER like '%" + EQU_MANUFACTURER + "%'";
 		}
-		if( isEmpty( SERIAL_NUM ) ) {
+		if (isEmpty(SERIAL_NUM)) {
 			condition = condition + "and SERIAL_NUM like '%" + SERIAL_NUM + "%'";
 		}
-		if( isEmpty( CHECK_CYCLE ) ) {
+		if (isEmpty(CHECK_CYCLE)) {
 			condition = condition + "and CHECK_CYCLE like '%" + CHECK_CYCLE + "%'";
 		}
-		if( isEmpty( CHECK_TIME ) ) {
+		if (isEmpty(CHECK_TIME)) {
 			condition = condition + "and CHECK_TIME like '%" + CHECK_TIME + "%'";
 		}
-		if( isEmpty( NEXT_CHECK_TIME ) ) {
+		if (isEmpty(NEXT_CHECK_TIME)) {
 			condition = condition + "and NEXT_CHECK_TIME like '%" + NEXT_CHECK_TIME + "%'";
 		}
-		if( isEmpty( REMARK1 ) ) {
+		if (isEmpty(REMARK1)) {
 			condition = condition + "and REMARK1 like '%" + REMARK1 + "%'";
 		}
-		if( isEmpty( MEDUIM_TYPE ) ) {
+		if (isEmpty(MEDUIM_TYPE)) {
 			condition = condition + "and MEDUIM_TYPE like '%" + MEDUIM_TYPE + "%'";
 		}
 		return condition;
 	}
-	
-	    /**
-	    * @Title: isEmpty
-	    * @Description: 判断字符串是否为空部分加以封装
-	    * @param @param name
-	    * @param @return    参数
-	    * @return Boolean    返回类型
-	    * @throws
-	    */
-	    
-	private  Boolean isEmpty(String  name ) {
-		if(!(name ==null ||"".equals(name))){
+
+	/**
+	 * @Title: isEmpty @Description: 判断字符串是否为空部分加以封装 @param @param
+	 *         name @param @return 参数 @return Boolean 返回类型 @throws
+	 */
+
+	private Boolean isEmpty(String name) {
+		if (!(name == null || "".equals(name))) {
 			return true;
 		}
 		return false;
-		
+
 	};
 
-	  /**
-	    * @Title: getEquList
-	    * @Description: 获取数据
-	    * @param @param pageNumber
-	    * @param @param pageSize
-	    * @param @param condition
-	    * @param @return    参数
-	    * @return JSONObject    返回类型
-	    * @throws
-	    */		    
-	private JSONArray getEquList( String condition ) {
-		String  dataSql= " select  * from  cz_equipment_info "
-				+ "	where 1=1  " + condition;				
+	/**
+	 * @Title: getEquList @Description: 获取数据 @param @param pageNumber @param @param
+	 *         pageSize @param @param condition @param @return 参数 @return JSONObject
+	 *         返回类型 @throws
+	 */
+	private JSONArray getEquList(String condition) {
+		String dataSql = " select  * from  cz_equipment_info " + "	where 1=1  " + condition;
 		System.out.println("导出excel----------------查询：" + dataSql);
-		JSONArray dataArr = DataUtil.getData( dataSql );
+		JSONArray dataArr = DataUtil.getData(dataSql);
 		return dataArr;
 	}
 }

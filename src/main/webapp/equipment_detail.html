@@ -1,104 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Basic Layout - jQuery EasyUI Demo</title>
-	<link rel="stylesheet" type="text/css" href="css/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
-	<link rel="stylesheet" href="css/shutter.css">
+<meta charset="UTF-8">
+<title>Basic Layout - jQuery EasyUI Demo</title>
+<link rel="stylesheet" type="text/css"
+	href="css/easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
+<link rel="stylesheet" href="css/shutter.css">
 
-	<style type="text/css">
-.mask .mask-content{
-	 left: 50%;
-	 background: white;
-	 height: 30px;
-	 text-align: center;
+<style type="text/css">
+.mask .mask-content {
+	left: 50%;
+	background: white;
+	height: 30px;
+	text-align: center;
 }
-.mask .mask-content .del-p{
+
+.mask .mask-content .del-p {
 	color: #555;
 	height: 30px;
 	line-height: 30px;
 	font-size: 18px;
 	border-bottom: 1px solid #D1D1D1;
 }
-.mask-content .check-p{
-	height:30px;
+
+.mask-content .check-p {
+	height: 30px;
 	line-height: 30px;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
 }
-.mask-content .check-p span{
+
+.mask-content .check-p span {
 	width: 49%;
-	display:inline-block;
+	display: inline-block;
 	text-align: center;
-	color:#d4361d ;
+	color: #d4361d;
 	font-size: 18px;
 }
-.check-p .del-com{
+
+.check-p .del-com {
 	border-right: 1px solid #D1D1D1;
 }
-		.form{
-			z-index:9999;
-			display:none;
-			background-color:blue;
-			position:absolute
-		}
-		.head-container{
-			text-align: center; 
-			background: #36ACF4; 
-			height: 45px
-		}
-		.detaiInfo{
-	
-		 width:1200px;
-		 list-style:none
-		}
-		.detaiInfo li{
-		font-family:Arial,Helvetica,sans-serif;
-       font-size:1.3em;
-       vertical-align:middle;
-       font-weight:normal;
-		 float:left;
-		 width:230px;
-		 margin-right:20px;
-		 line-height:2em;
-		}
-		#attchment ul>li{
-		font-size:1.3em;
-		 float:left;
-		 margin-right:20px;
-		 width:600px;
-		}
-		.fitem{
-		width:400px;
-		height:30px;
-		line-height:30px
-		}
-		.fitem>input{
-		margin-right:40px
-		}
-	</style>
+
+.form {
+	z-index: 9999;
+	display: none;
+	background-color: blue;
+	position: absolute
+}
+
+.head-container {
+	text-align: center;
+	background: #36ACF4;
+	height: 45px
+}
+
+.detaiInfo {
+	width: 1200px;
+	list-style: none
+}
+
+.detaiInfo li {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.3em;
+	vertical-align: middle;
+	font-weight: normal;
+	float: left;
+	width: 230px;
+	margin-right: 20px;
+	line-height: 2em;
+}
+
+#attchment ul>li {
+	font-size: 1.3em;
+	float: left;
+	margin-right: 20px;
+	width: 600px;
+}
+
+.fitem {
+	width: 400px;
+	height: 30px;
+	line-height: 30px
+}
+
+.fitem>input {
+	margin-right: 40px
+}
+</style>
 </head>
 <body>
-		<div class="head-container">
-			<h2 id="pageTitle" style="line-height: 45px">设备名称(RFID)</h2>
-		</div>
+	<div class="head-container">
+		<h2 id="pageTitle" style="line-height: 45px">设备名称(RFID)</h2>
+	</div>
 	<div class="easyui-accordion" multiple=true>
 
-		<form enctype="multipart/form-data" method="post" id="form" class="form">
-				<input type="file" name="file">
-			<a " class="easyui-linkbutton">确认上传</a>
+		<form enctype="multipart/form-data" method="post" id="form"
+			class="form">
+			<input type="file" name="file"> <a
+				" class="easyui-linkbutton">确认上传</a>
 		</form>
-		<form enctype="multipart/form-data" method="post" id="form1" class="form">
-				<input type="file" name="file">
-			<a " class="easyui-linkbutton">确认上传</a>
+		<form enctype="multipart/form-data" method="post" id="form1"
+			class="form">
+			<input type="file" name="file"> <a
+				" class="easyui-linkbutton">确认上传</a>
 		</form>
 		<!--设备详情部分-->
 		<div title="设备详情" data-options="iconCls:'icon-tip'"
-			style="padding: 10px;" >
-			<ul  class="detaiInfo">
-	
+			style="padding: 10px;">
+			<ul class="detaiInfo">
+
 			</ul>
 		</div>
 		<!--设备百科-->
@@ -113,9 +126,9 @@
 	-->
 		<!--检维修异常信息-->
 		<div title="检修信息" data-options="iconCls:'icon-large-smartart'"
-			style="padding: 10px;" >
+			style="padding: 10px;">
 			<iframe id="iframe_eq7" frameborder="no" border="0" src=""
-					style="width: 100%; height: 500px;"> </iframe>
+				style="width: 100%; height: 500px;"> </iframe>
 		</div>
 		<!--备品备件部分-->
 		<div title="备品备件" data-options="iconCls:'icon-ok'"
@@ -182,32 +195,39 @@
 		<div title="设备附件" data-options="iconCls:'icon-more'"
 			style="padding: 10px;" id="attchment">
 			<table id="attachment_tb"></table>
-			<div id="mm" >
-				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">上传附件</a>
-				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除附件</a>
-				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">下载附件</a>
+			<div id="mm">
+				<a href="#" class="easyui-linkbutton"
+					data-options="iconCls:'icon-add',plain:true">上传附件</a> <a href="#"
+					class="easyui-linkbutton"
+					data-options="iconCls:'icon-remove',plain:true">删除附件</a> <a
+					href="#" class="easyui-linkbutton"
+					data-options="iconCls:'icon-remove',plain:true">下载附件</a>
 			</div>
 		</div>
 		<!--图片部分-->
 		<div title="设备图片" data-options="iconCls:'icon-search',selected:true"
-			style="" >
-	
-			<div class="shutter" style="margin-top:2px">
+			style="">
+
+			<div class="shutter" style="margin-top: 2px">
 				<div class="shutter-img">
-					<a href="#" data-shutter-title=""><img src="images/shutter_1.jpg" alt="#"></a>
+					<a href="#" data-shutter-title=""><img
+						src="images/shutter_1.jpg" alt="#"></a>
 				</div>
 				<ul class="shutter-btn">
 					<li class="prev"></li>
 					<li class="next"></li>
 
 				</ul>
-				<div class="shutter-desc" style="display:none">
+				<div class="shutter-desc" style="display: none">
 					<p></p>
 				</div>
 			</div>
 			<aside class="mask works-mask">
 				<div class="mask-content">
-					<p class="check-p"><span class="del-com wsdel-ok uploadPic">上传设备图片</span><span class="wsdel-no deletePic">删除当前图片</span></p>
+					<p class="check-p">
+						<span class="del-com wsdel-ok uploadPic">上传设备图片</span><span
+							class="wsdel-no deletePic">删除当前图片</span>
+					</p>
 				</div>
 			</aside>
 		</div>
@@ -218,750 +238,1028 @@
 	<script src="js/shutter.js"></script>
 	<script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript">
-	/*
-		初始化参数，用于展示设备基本信息
-	*/
-			var equipmentStructure = {
-			"全部设备" : { 
-				"WEL_NAME" : "装置列名",
-				"WEL_UNIT" : "装置单元",
-				"EQU_MEMO_ONE" : "设备类别",
-				"EQU_POSITION_NUM" : "设备位号",
-				"EQU_NAME" : "设备名称",
-			},
-			"仪表设备" : {
-				"仪表设备" : "SECONDCLASS_EQUIPMENT"
-			},
-			"机械设备" : {
-				"机械设备" : "SECONDCLASS_EQUIPMENT"
-			},
-			"电气设备" : {
-				"电气设备" : "SECONDCLASS_EQUIPMENT"
-			},
-			"分析化验设备" : {
-				"分析化验设备" : "SECONDCLASS_EQUIPMENT"
-			},
-			"压力表" : {
-					"MANAGE_TYPE":"器具类别",
-					"EQU_MODEL":"规格型号" ,
-					"MEARING_RANGE":"测量范围" ,
-					"MEASURE_ACC":"准确等级" ,
-					"EQU_INSTALL_POSITION":"安装地点" ,
-					"EQU_MANUFACTURER":"生产厂家"  ,
-					"SERIAL_NUM":"出厂编号" ,
-					"CHECK_CYCLE":"检定周期" ,
-					"CHECK_TIME":"检定日期",
-					"NEXT_CHECK_TIME":"下次检定" ,
-					"REMARK1":"备注信息" 
-			},
-			"压力差压变送器" : {
-				'CHECK_CYCLE':"检定周期",
-				'CHECK_TIME':"检定日期",
-				'EQU_INSTALL_POSITION':"安装地点",
-				'EQU_MANUFACTURER':"生产厂家",
-				'EQU_MODEL':"规格型号",
-				'MANAGE_TYPE':"器具类别",
-				'MEARING_RANGE':"测量范围",
-				'MEASURE_ACC':"精度",
-				'MEDUIM_TYPE':"测量介质",
-				'NEXT_CHECK_TIME':"有效期",
-				'REMARK1':"备注信息",
-				'SERIAL_NUM':"出厂编号"
+		/*
+			初始化参数，用于展示设备基本信息
+		 */
+		var equipmentStructure = {
+				"控制系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_NAME": "名称",
+					"ELEC": "功能描述",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"EQU_MANUFACTURER": "制造厂",
+					"EQU_COMMISSION_DATE": "投用时间",
+					"CAPCITY": "备注"
+				},
+				"DCS系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_WORK_TEMP": "系统序号",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"PROCE_LINK_TYPE": "输入点类型",
+					"FLA_SIZE": "输入点数量",
+					"CAPCITY": "备注"
+				},
+				"SIS/FGS系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_WORK_TEMP": "系统序号",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"PROCE_LINK_TYPE": "输入点类型",
+					"FLA_SIZE": "输入点数量",
+					"CAPCITY": "备注"
+				},
+				"导热油控制系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_WORK_TEMP": "系统序号",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"PROCE_LINK_TYPE": "输入点类型",
+					"FLA_SIZE": "输入点数量",
+					"CAPCITY": "备注"
+				},
+				"除盐水控制系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_WORK_TEMP": "系统序号",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"PROCE_LINK_TYPE": "输入点类型",
+					"FLA_SIZE": "输入点数量",
+					"CAPCITY": "备注"
+				},
+				"硫磺过滤机控制系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_WORK_TEMP": "系统序号",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"PROCE_LINK_TYPE": "输入点类型",
+					"FLA_SIZE": "输入点数量",
+					"CAPCITY": "备注"
+				},
+				"火炬控制系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_WORK_TEMP": "系统序号",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"PROCE_LINK_TYPE": "输入点类型",
+					"FLA_SIZE": "输入点数量",
+					"CAPCITY": "备注"
+				},
+				"变频供水控制系统": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_WORK_TEMP": "系统序号",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"MEASURE_PRIN": "数量",
+					"FLUX": "单位",
+					"PROCE_LINK_TYPE": "输入点类型",
+					"FLA_SIZE": "输入点数量",
+					"CAPCITY": "备注"
+				},
+				"检测回路": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_POSITION_NUM": "位号",
+					"ELEC": "功能描述",
+					"MEDUIM_TYPE": "仪表类型",
+					"EQU_MODEL": "规格型号",
+					"VAVLE_TYPE": "测量范围",
+					"FLUX": "单位",
+					"EQU_MANUFACTURER": "厂家",
+					"CAPCITY": "备注"
+				},
+				"控制回路": {
+					"EQU_MEMO_TWO":"设备状态",
+					"ACTUAL_MODEL": "控制功能描述",
+					"EQU_POSITION_NUM": "控制变量-位号",
+					"ACTUAL": "控制变量-测量范围",
+					"ELEC_MODEL": "控制变量-控制范围",
+					"ELEC": "控制变量-单位",
+					"MEASURE_PRIN": "执行设备-位号",
+					"PIPE_OUTER": "执行设备-功能描述",
+					"FLUX": "执行设备-控制规律",
+					"CAPCITY": "备注"
+				},
+				"控制系统安全联锁回路": {
+					"EQU_MEMO_TWO":"设备状态",
+					"DEEP_LENGTH": "联锁条件-位号",
+					"VAVLE_TYPE": "联锁条件-联锁条件描述",
+					"ACTUAL": "联锁条件-测量范围",
+					"ACTUAL_MODEL": "联锁条件-联锁范围",
+					"ELEC_MODEL": "联锁条件-单位",
+					"PIPE_OUTER": "联锁执行设备-位号",
+					"POSITIONER": "联锁执行设备-功能描述",
+					"PROCE_LINK_TYPE": "联锁执行设备-联锁动作",
+					"CAPCITY": "备注"
+				},
+				"气动（电动）切断阀": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_POSITION_NUM": "位号",
+					"MEDUIM_TYPE": "功能描述",
+					"DEEP_LENGTH": "阀体-规格型号",
+					"VAVLE_TYPE": "阀体-工程直径",
+					"MEASURE_PRIN": "阀体-材质",
+					"PIPE_OUTER": "执行器-型号",
+					"POSITIONER": "执行器-电气接口尺寸",
+					"PROCE_LINK_TYPE": "执行器-气源接口尺寸",
+					"ELECTRIC_PRES": "执行器-供气（供电）电源",
+					"EQU_MANUFACTURER": "执行器-厂家",
+					"EQU_COMMISSION_DATE": "投用时间",
+					"CAPCITY": "备注"
+				},
+				"气动（电动）调节阀": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_POSITION_NUM": "位号",
+					"WEL_NAME": "所在装置",
+					"ACTUAL": "功能描述",
+					"DEEP_LENGTH": "阀体-规格型号",
+					"VAVLE_TYPE": "阀体-工程直径",
+					"MEASURE_PRIN": "阀体-材质",
+					"PIPE_OUTER": "执行器-型号",
+					"POSITIONER": "执行器-电气接口尺寸",
+					"PROCE_LINK_TYPE": "执行器-气源接口尺寸",
+					"ELECTRIC_PRES": "执行器-供气（供电）电源",
+					"ELEC": "执行器-流量特性",
+					"CV": "执行器-额定CV",
+					"EQU_MANUFACTURER": "执行器-厂家",
+					"EQU_COMMISSION_DATE": "投用时间",
+					"CAPCITY": "备注"
+				},
+				"电工器具": {
+					"EQU_MEMO_TWO":"设备状态",
+					"WEL_NAME": "单位",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"EQU_WORK_TEMP": "出厂/自编号",
+					"EQU_MANUFACTURER": "生产厂家",
+					"DEEP_LENGTH": "放置地点",
+					"PROCE_LINK_TYPE": "使用状态",
+					"ACTUAL": "检定周期",
+					"EQU_COMMISSION_DATE": "上次检定日期",
+					"FREQUENCY": "1次计划检定日期",
+					"BRAND": "2次计划检定日期",
+					"FLUX": "检测单位",
+					"GAS_SOURCE": "检定结果",
+					"ELECTRIC_PRES": "保管人",
+					"CAPCITY": "备注"
+				},
+				"静设备": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_NAME": "设备名称",
+					"EQU_POSITION_NUM": "设备位号",
+					"WEL_NAME": "生产装置",
+					"EQU_MODEL": "规格型号",
+					"SPINDLE_SPEED": "设备类型",
+					"MEDUIM_TYPE": "资产原值",
+					"EQU_MANUFACTURER": "生产厂家",
+					"EQU_PRODUC_DATE": "出厂日期",
+					"EQU_WORK_TEMP": "出厂编号",
+					"EQU_COMMISSION_DATE": "投用日期",
+					"DEEP_LENGTH": "主体材质",
+					"VAVLE_TYPE": "重量Kg",
+					"ACTUAL_MODEL": "壳程-介质",
+					"ACTUAL": "壳程-设计压力MPa",
+					"ELEC_MODEL": "壳程-设计温度℃",
+					"ELEC": "管程-介质",
+					"MEASURE_PRIN": "管程-设计压力MPa",
+					"PIPE_OUTER": "管程-设计温度℃",
+					"FLUX": "换热面积m2",
+					"PIPE_THICK": "安全阀-数量",
+					"CV": "安全阀-规格型号",
+					"POSITIONER": "腐蚀余量",
+					"GAS_SOURCE": "过滤精度",
+					"FLA_SIZE": "容器类别",
+					"PROCE_LINK_TYPE": "注册编号",
+					"POWER_RATE": "使用证编号",
+					"ELECTRIC_PRES": "检验报告编号",
+					"ELECTRIC_TENSION": "安全状况等级",
+					"FREQUENCY": "检验情况-上次检验日期",
+					"BRAND": "检验情况-下次检验日期",
+					"CAPCITY": "备注"
+				},
+				"动设备": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_NAME": "设备名称",
+					"EQU_POSITION_NUM": "设备位号",
+					"WEL_NAME": "生产装置",
+					"EQU_MODEL": "规格型号",
+					"SPINDLE_SPEED": "设备类型",
+					"MEDUIM_TYPE": "资产原值",
+					"EQU_MANUFACTURER": "生产厂家",
+					"EQU_PRODUC_DATE": "出厂日期",
+					"EQU_WORK_TEMP": "出厂编号",
+					"DEEP_LENGTH": "主体材质",
+					"VAVLE_TYPE": "重量KG",
+					"ACTUAL_MODEL": "介质",
+					"AFTER_BEARING1": "流量（m3/h）",
+					"GREASE_INTERV": "扬程（m）",
+					"GREASE_QUAN": "效率（%）",
+					"INSULATION_RATE": "进/出口 压力（MPa）",
+					"PROTECTION_RATE": "密封方式",
+					"PHASE_NUMBER": "冷却方式",
+					"CONNECTION_GROUP": "联轴器结构形式",
+					"HEIGHT_ELECTRIC_PRES\t": "电机功率（kw）",
+					"WEIGHT": "轴转速（rpm）",
+					"SNATCH_ELECTRIC_PRES": "备注"
+				},
+				"管道": {
+					"EQU_MEMO_TWO":"设备状态",
+					"WEL_NAME": "所在装置名称",
+					"EQU_NAME": "管道名称",
+					"EQU_WORK_TEMP": "管道编号",
+					"EQU_MANUFACTURER": "设计单位",
+					"PEAK_TENSION": "安装单位",
+					"EQU_DESIGN_TEMP": "安装年月",
+					"CORROSION_FATIGUE": "投用年月",
+					"DESIGN_TUBE_TEMP": "规格-公称直径mm",
+					"DESIGN_TUBE_PRES": "规格-公称壁厚mm",
+					"OPTION_SHELL_PRESS": "规格-管道长度mm",
+					"OPTION_SHELL_IN_TEMP": "设计/操作条件-压力Mpa",
+					"OPTION_SHELL_OUT_TEMP": "设计/操作条件-温度℃",
+					"OPTION_SHELL_MEDUIM": "设计/操作条件-介质",
+					"OPTION_TUBE_IN_TEMP": "防护保温涂层方式",
+					"OPTION_TUBE_OUT_TEMP": "管道材质",
+					"OPTION_TUBE_MEDUIM": "焊口数量",
+					"SHELL_MATERIAL": "管道级别",
+					"TUBE_MATERIAL": "安全状况等级",
+					"EQU_LASTPERIODIC_DATE": "检验情况-上次检验日期",
+					"DISPLACEMENT": "检验情况-计划检验日期",
+					"SPINDLE_MEDUIM": "报告编号",
+					"PUMP_MEDUIM": "备注"
+				},
+				"安全阀": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_MANUFACTURER": "单位",
+					"EQU_INSTALL_POSITION": "安装地点",
+					"EQU_MODEL": "安全阀型号、规格",
+					"WIND_PRESSURE": "整定压力（MPa）",
+					"WEL_NAME": "实际工作压力（MPa）",
+					"ENGINE_NUMBER": "制造单位",
+					"LICENSE_NUMBER": "压力级别范围（Mpa）",
+					"EQU_WORK_TEMP": "产品编号",
+					"EQU_PRODUC_DATE": "出厂日期",
+					"EQU_COMMISSION_DATE": "启用日期",
+					"EQU_LASTPERIODIC_DATE": "上次校验日期",
+					"DISPLACEMENT": "计划校验日期",
+					"ENERGY_CONSUMPTION_CAT": "工作介质",
+					"SERIAL_NUM": "工作温度（℃）",
+					"CHECK_CYCLE": "安装高度（米）",
+					"MEASURE_ACC": "备注"
+				},
+				"锅炉": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_POSITION_NUM": "位号",
+					"EQU_NAME": "名称",
+					"EQU_WORK_TEMP": "出厂编号",
+					"EQU_MODEL": "技术规格",
+					"EQU_MANUFACTURER": "制造单位",
+					"DEEP_LENGTH": "登记编号",
+					"ORDER_NUM": "注册代码",
+					"VAVLE_TYPE": "投用年月",
+					"ACTION_MODLE": "额定出力",
+					"HAVE_NOT": "技术特性-设计压力壳/管(Mpa)",
+					"ACTUAL_MODEL": "技术特性-设计温度壳/管(℃)",
+					"ACTUAL": "技术特性-操作压力壳/管(Mpa)",
+					"ELEC_MODEL": "技术特性-操作温度壳/管(℃)",
+					"ELEC": "技术特性-物料名称",
+					"MEASURE_PRIN": "检验报告编号",
+					"EQU_LASTPERIODIC_DATE": "检验情况-上次检验日期",
+					"DISPLACEMENT": "检验情况-计划检验日期",
+					"PIPE_OUTER": "资产价值",
+					"FLUX": "备注"
+				},
+				"厂内车辆": {
+					"EQU_MEMO_TWO":"设备状态",
+					"EQU_NAME": "名称",
+					"EQU_WORK_TEMP": "出厂编号",
+					"EQU_MODEL": "技术规格",
+					"DEEP_LENGTH": "厂内编号",
+					"POWER_RATE": "厂内牌照编号",
+					"ELECTRIC_PRES": "空车  重量（kg）",
+					"ELECTRIC_TENSION": "载重量（kg）",
+					"FREQUENCY": "最高时速（km/h）",
+					"BRAND": "燃料种类",
+					"CAPCITY": "设备注册代码",
+					"EQU_MANUFACTURER": "制造单位",
+					"SPEED_RAT": "投用年月",
+					"EQU_LASTPERIODIC_DATE": "上次检验日期",
+					"DISPLACEMENT": "计划检验日期\t",
+					"GREASE_QUAN": "定检报告",
+					"EQU_INSTALL_POSITION": "安装位置",
+					"PIPE_OUTER": "资产价值",
+					"PROTECTION_RATE": "备注"
+				},
+				"气体报警仪表": {
+					"EQU_MEMO_TWO":"设备状态",
+					"HAVE_NOT": "站点名称",
+					"ACTUAL_MODEL": "类别",
+					"EQU_PRODUC_DATE": "投运日期",
+					"EQU_NAME": "气体报警器-名称",
+					"EQU_MODEL": "气体报警器-型号规格",
+					"EQU_WORK_TEMP": "气体报警器-器具编号",
+					"FREQUENCY": "气体报警器-准确度等级",
+					"BRAND": "气体报警器-测量范围",
+					"EQU_INSTALL_POSITION": "气体报警器-安装位置",
+					"EQU_MANUFACTURER": "气体报警器-生产厂家",
+					"DEEP_LENGTH": "固定式报警仪信号-使用状态",
+					"ORDER_NUM": "固定式报警仪信号-系统型号规格",
+					"VAVLE_TYPE": "固定式报警仪信号-生产厂家",
+					"OPTION_TUBE_IN_TEMP": "固定式报警仪信号-报警、连锁功能是否正常",
+					"CHECK_CYCLE": "检定周期",
+					"EQU_LASTPERIODIC_DATE": "上次检定日期",
+					"OPTION_TUBE_OUT_TEMP": "计划检定日期1",
+					"OPTION_TUBE_MEDUIM": "计划检定日期2",
+					"GREASE_QUAN": "检定方式"
+				},
+				"标准孔板": {
+					"EQU_MEMO_TWO":"设备状态",
+					"GREASE_INTERV": "外径",
+					"GREASE_QUAN": "内径-出厂值",
+					"INSULATION_RATE": "内径-实测值",
+					"PROTECTION_RATE": "厚度(mm)",
+					"EXPLOSION_RATE": "材质",
+					"EQU_MANUFACTURER": "制造厂家",
+					"FREQUENCY": "检定单位",
+					"BRAND": "检定日期",
+					"EQU_COMMISSION_DATE": "投运日期",
+					"CONNECTION_GROUP": "场站",
+					"SNATCH_ELECTRIC_PRES": "井号或用户",
+					"SNATCH_ELECTRIC_TENSION": "状态",
+					"MATERIAL": "存放地点",
+					"EQU_DESIGN_TEMP": "新/报废",
+					"EQU_PRODUC_DATE": "入库日期/停用日期",
+					"CAPCITY": "备注"
+				},
+				"计量标准器具": {
+					"EQU_MEMO_TWO":"设备状态",
+					"WEL_NAME": "单位",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "规格型号",
+					"DEEP_LENGTH": "准确度等级",
+					"EQU_WORK_TEMP": "出厂编号",
+					"EQU_PRODUC_DATE": "出厂日期",
+					"EQU_MANUFACTURER": "生产厂家",
+					"EQU_COMMISSION_DATE": "投用日期",
+					"POSITIONER": "放置地点",
+					"GAS_SOURCE": "使用状态",
+					"FLA_SIZE": "检定周期",
+					"FREQUENCY": "上次检定日期",
+					"BRAND": "计划检定日期",
+					"MEASURE_PRIN": "检定单位",
+					"PIPE_THICK": "检定结果",
+					"SHELL_MATERIAL": "保管人",
+					"CAPCITY": "备注"
+				},
+				"流量计量器具": {
+					"EQU_MEMO_TWO":"设备状态",
+					"CATEGORY": "站名",
+					"EXPLOSION_RATE": "地理位置",
+					"DEVICE_TYPE": "计量对象",
+					"HEIGHT_ELECTRIC_TENSION": "计量性质",
+					"PHASE_NUMBER": "资产归属",
+					"CONNECTION_GROUP": "投运日期",
+					"WEL_NAME": "流量计量-装置名称",
+					"WEIGHT": "流量计量-型号规格",
+					"MATERIAL": "流量计量-编号",
+					"CORROSION_FATIGUE": "流量计量-准确度等级",
+					"EQU_DESIGN_TEMP": "流量计量-PN",
+					"DESIGN_PRESSURE_RANGE": "流量计量-DN",
+					"SURFACE_HEAT_TRANSFER": "流量计量-D20",
+					"EQU_MANUFACTURER": "流量计量-生产厂家",
+					"DESIGN_SHELL_PRES": "流量计量-使用状态",
+					"DESIGN_SHELL_TEMP": "计量系统-名称",
+					"DESIGN_TUBE_TEMP": "计量系统-型号",
+					"ENERGY_CONSUMPTION_CAT": "计量系统-生产厂家",
+					"OPTION_SHELL_PRESS": "检定周期",
+					"FREQUENCY": "上次检定日期",
+					"BRAND": "计划检定日期",
+					"OPTION_SHELL_IN_TEMP": "检定方式",
+					"OPTION_SHELL_OUT_TEMP": "检定单位",
+					"OPTION_SHELL_MEDUIM": "检定结果",
+					"CAPCITY": "备注"
+				},
+				"生产过程监控计量器具": {
+					"EQU_MEMO_TWO":"设备状态",
+					"WEL_NAME": "站点名称",
+					"DEVICE_TYPE": "类别",
+					"EQU_COMMISSION_DATE": "投运日期",
+					"EQU_NAME": "名称",
+					"EQU_MODEL": "型号规格",
+					"EQU_WORK_TEMP": "器具编号",
+					"LICENSE_NUMBER": "准确度等级",
+					"WIND_PRESSURE": "测量范围",
+					"TUBE_MATERIAL": "安装位置",
+					"OPTION_TUBE_OUT_TEMP": "生产厂家",
+					"OPTION_TUBE_IN_TEMP": "使用状态",
+					"OPTION_SHELL_MEDUIM": "检定周期",
+					"FREQUENCY": "上次检定日期",
+					"BRAND": "计划检定日期",
+					"PHASE_NUMBER": "检定方式",
+					"HEIGHT_ELECTRIC_TENSION": "检定单位",
+					"COUNT": "检定结果",
+					"CAPCITY": "备注"
+				}
+			};
+		/*初始化函数*/
+		var EQU_MEMO_ONE = getQueryString("EQU_MEMO_ONE");
 
-			},
-			"温度计" : {
-			'CHECK_CYCLE':"检定周期",
-			'CHECK_TIME':"检定日期",
-			'DEEP_LENGTH':"插深",
-			'EQU_INSTALL_POSITION':"安装地点",
-			'EQU_MANUFACTURER':"生产厂家",
-			'EQU_MODEL':"规格型号",
-			'INTER_SIZE':"接口尺寸",
-			'MEARING_RANGE':"测量范围",
-			'MEASURE_ACC':"精度",
-			'MEDUIM_TYPE':"测量介质",
-			'NEXT_CHECK_TIME':"有效期",
-			'REMARK1':"备注信息",
-			'SERIAL_NUM':"出厂编号"
-			},
-			"温度变送器" : {
-			'CHECK_CYCLE':"检定周期",
-			'CHECK_TIME':"检定日期",
-			'DEEP_LENGTH':"插深",
-			'EQU_INSTALL_POSITION':"安装地点",
-			'EQU_MANUFACTURER':"生产厂家",
-			'EQU_MODEL':"规格型号",
-			'INTER_SIZE':"接口尺寸",
-			'MEARING_RANGE':"测量范围",
-			'MEASURE_ACC':"精度",
-			'MEDUIM_TYPE':"测量介质",
-			'NEXT_CHECK_TIME':"有效期",
-			'REMARK1':"备注信息",
-			'SERIAL_NUM':"出厂编号"
-			},
-			"气动切断阀" : {
-				'ACTION_MODLE':"作用方式",
-				'ACTUAL_MODEL':"执行机构型号",
-				'EQU_INSTALL_POSITION':"安装地点",
-				'EQU_MANUFACTURER':"生产厂家",
-				'EQU_MODEL':"规格型号",
-				'FLA_SIZE':"法兰规格",
-				'HAVE_NOT':"有无手轮",
-				'MEDUIM_TYPE':"介质",
-				'REMARK1':"备注信息",
-				'SERIAL_NUM':"出厂编号",
-				'VAVLE_TYPE':"电磁阀型号",
-	
-			},
-			"气动调节阀" : {
-						'MEARING_RANGE':"行程",
-						'ACTION_MODLE':"作用方式",
-						'ACTUAL_MODEL':"执行机构型号",
-						'CV':"CV值",
-						'EQU_INSTALL_POSITION':"安装地点",
-						'EQU_MANUFACTURER':"生产厂家",
-						'EQU_MODEL':"规格型号",
-						'FLA_SIZE':"法兰规格",
-						'GAS_SOURCE':"气源Mpa",
-						'HAVE_NOT':"有无手轮",
-						'MEDUIM_TYPE':"介质",
-						'POSITIONER':"定位器",
-						'REMARK1':"备注",
-						'SERIAL_NUM':"出厂编号",
-						'VAVLE_TYPE':"电磁阀",
-
-			},
-			"液位计(含远程)" : {
-					'DEEP_LENGTH':"中心距离",
-					'EQU_INSTALL_POSITION':"安装地点",
-					'EQU_MANUFACTURER':"生产厂家",
-					'EQU_MODEL':"规格型号",
-					'MEDUIM_TYPE':"测量介质",
-					'PROCE_LINK_TYPE':"过程连接尺寸",
-					'REMARK1':"备注",
-					'SERIAL_NUM':"出厂编号"
-			},
-			"流量计" : {
-					'ACTUAL':"流量(max)",
-					'EQU_INSTALL_POSITION':"安装地点",
-					'EQU_MANUFACTURER':"生产厂家",
-					'EQU_MODEL':"规格型号",
-					'EQU_PRODUC_DATE':"生产日期",
-					'FLUX':"流量(正常)",
-					'MEARING_RANGE':"测量范围",
-					'MEASURE_ACC':"精 度",
-					'MEDUIM_TYPE':"介质",
-					'PROCE_LINK_TYPE':"过程安装方式",
-					'REMARK1':"备注",
-					'SERIAL_NUM':"编号"
-
-			},		
-
-			"节流装置" : {
-                    'EQU_INSTALL_POSITION':"安装地点",
-					'EQU_MANUFACTURER':"生产厂家",
-					'EQU_MODEL':"规格型号",
-					'EQU_WORK_TEMP':"温度",
-					'FLA_SIZE':"法兰规格",
-					'MEARING_RANGE':"量程",
-					'MEDUIM_TYPE':"测量介质",
-					'PRESSURE_RANGE':"压力MPa",
-					'REMARK1':"备注"
-
-			},
-			"在线分析仪" : {			
-					'EQU_INSTALL_POSITION':"安装地点",
-					'EQU_MANUFACTURER':"生产厂家",
-					'EQU_MODEL':"规格型号",
-					'MEARING_RANGE':"量程",
-					'MEASURE_ACC':"精 度",
-					'MEASURE_PRIN':"测量原理",
-					'MEDUIM_TYPE':"测量介质",
-					'REMARK1':"备注",
-					'SERIAL_NUM':"出厂编号"
-
-			},
-
-//			"震动温度探头" : {
-//				"" : "",
-//			},
-			"DCS/SIS系统" : {
-					    'CHECK_CYCLE':"24VDC/20A(对)",
-						'CHECK_TIME':"24VDC/40A(对)",
-						'DEEP_LENGTH':"DI浪涌",
-						'EQU_COMMISSION_DATE':"控制器MD",
-						'EQU_LASTPERIODIC_DATE':"AI18-R",
-						'EQU_MODEL':"规格型号",
-						'EQU_PERIODIC_CYCLE':"AI08-R",
-						'EQU_PERIODIC_WARNDAYS':"DI32",
-						'EQU_WORK_TEMP':"AI16",
-						'EXPERY_TIME':"中继器",
-						'INTER_SIZE':"AI8",
-						'MANAGE_TYPE':"串口卡(对)",
-						'MEARING_RANGE':"DO32",
-						'MEASURE_ACC':"AI浪涌",
-						'MEDUIM_TYPE':"控制器MQ",
-						'NEXT_CHECK_TIME':"12VDC/15A(对)",
-						'ORDER_NUM':"继电器",
-						'PRESSURE_RANGE':"串口卡(个)",
-						'REMARK1':"备注",
-						'SERIAL_NUM':"SIS卡(对)"
-
-			},
-			"FGS系统" : {
-					'EQU_LASTPERIODIC_DATE':"数字量卡件8811",
-					'EQU_PERIODIC_CYCLE':"电源881312VDC/5A",
-					'EQU_PERIODIC_WARNDAYS':"电源RM240-24VDC/40A",
-					'EQU_WORK_TEMP':"模拟量卡件8810",
-					'MEARING_RANGE':"电源RM120-24VDC/20A",
-					'MEDUIM_TYPE':"控制器8851",
-					'REMARK1':"备注"
-
-			},
-			"固定式报警仪" : {
-				'ACTION_MODLE':"安装方式",
-				'ACTUAL':"用途",
-				'CV':"输出信号(mA)",
-				'ELEC':"供电",
-				'EQU_INSTALL_POSITION':"安装使用地点",
-				'EQU_MANUFACTURER':"生产厂家",
-				'EQU_MODEL':"规格型号",
-				'MANAGE_TYPE':"器具类别",
-				'MEARING_RANGE':"测量范围",
-				'MEASURE_ACC':"精 度",
-				'NEXT_CHECK_TIME':"有效期",
-				'ORDER_NUM':"报警值",
-				'REMARK1':"备注",
-				'SERIAL_NUM':"出厂编号"
-
-			},
-//			"其它" : {
-//				"" : "",
-//			}
-			
-			
-		//机械大类
-			"P类设备" : {
-				'BEFORE_BEARING1':"叶轮",
-				'BEFORE_BEARING2':"主轴",
-				'CAPCITY':"泵壳",
-				'COUNT':"排量",
-				'ELECTRIC_PRES':"电压",
-				'EQU_COMMISSION_DATE':"投用年月",
-				'EQU_INSTALL_POSITION':"安装位置",
-				'EQU_MANUFACTURER':"制造单位",
-				'EQU_MODEL':"规格型号",
-				'FLUX':"扬程",
-				'MANAGE_TYPE':"类别",
-				'MEDUIM_TYPE':"介质",
-				'POWER_RATE':"功率",
-				'REMARK1':"备注",
-				'SERIAL_NUM':"出厂编号",
-				'SPEED_RAT':"转速",
-				'WEIGHT':"重量"
-
-			},			
-				
-			"K类设备" : {
-				'COUNT':"排量",
-				'ELECTRIC_PRES':"电压",
-				'EQU_COMMISSION_DATE':"投用年月",
-				'EQU_INSTALL_POSITION':"安装位置",
-				'EQU_MANUFACTURER':"制造单位",
-				'EQU_MODEL':"规格型号",
-				'MANAGE_TYPE':"类别",
-				'MEDUIM_TYPE':"介质",
-				'POWER_RATE':"功率",
-				'REMARK1':"备注",
-				'SERIAL_NUM':"出厂编号",
-				'SPEED_RAT':"性能转速",
-				'SPINDLE_SPEED':"电机转速",
-				'WEIGHT':"重量",
-				'WIND_PRESSURE':"出口风压"
-			}
-
-	};
-	/*初始化函数*/
-		var EQU_MEMO_ONE=getQueryString("EQU_MEMO_ONE");
-		
-		var EQU_POSITION_NUM=getQueryString("EQU_POSITION_NUM");
+		var EQU_POSITION_NUM = getQueryString("EQU_POSITION_NUM");
 		var equID = getQueryString("EQU_ID");
-		var href=window.location.href ;
+		var href = window.location.href;
 		function getQueryString(name) {
-		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-		var r = window.location.search.substr(1).match(reg);
-		if (r != null)
-			return unescape(r[2]);
-		return null;
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null)
+				return unescape(r[2]);
+			return null;
 		};
 		function initUrl() {
-		var baike='http://10.89.90.118/index.html?EQU_ID=';
-		var partsUrl = "http://192.168.18.22:10039/dynamicui/?UIID=9958879164ED4A729E7CEE6FAB46FD23&EQU_ID="
-		partsUrl = partsUrl + equID+"&EQU_POSITION_NUM="+EQU_POSITION_NUM+"&EQU_MEMO_ONE="+EQU_MEMO_ONE;
-		baike+=equID+"&EQU_POSITION_NUM="+EQU_POSITION_NUM+"&EQU_MEMO_ONE="+EQU_MEMO_ONE;
-		$('#iframe_eq7').attr('src',partsUrl);
-		$('#iframe_eq6').attr('src',baike);
+			var baike = 'http://10.89.90.118/index.html?EQU_ID=';
+			var partsUrl = "http://192.168.18.22:10039/dynamicui/?UIID=9958879164ED4A729E7CEE6FAB46FD23&EQU_ID="
+			partsUrl = partsUrl + equID + "&EQU_POSITION_NUM="
+					+ EQU_POSITION_NUM + "&EQU_MEMO_ONE=" + EQU_MEMO_ONE;
+			baike += equID + "&EQU_POSITION_NUM=" + EQU_POSITION_NUM
+					+ "&EQU_MEMO_ONE=" + EQU_MEMO_ONE;
+			$('#iframe_eq7').attr('src', partsUrl);
+			$('#iframe_eq6').attr('src', baike);
 		}
-	
-	/*初始化图片*/ 
+
+		/*初始化图片*/
 		function loadImg() {
-		$.ajax({   async:false,
-					type : 'post',
-					url : './EquipmentImageServlet.action?EQU_POSITION_NUM=' + EQU_POSITION_NUM,
-					cache : false,
-					dataType : 'json',
-					success : function(data) {
-						var html = "";
-						if(!data.length){
-						 html = '<div style="color:red;font-size:30px;text-align: center;">该设备暂时未录入图片</div>';
-						 $(".shutter").html(html);
-						}
-						for (var i = 0; i < data.length; i++) {
-							html += "<a   data-shutter-title='"+data[i].EQU_FIL_ID+"'  ><img alt='"+data[i].FIL_STORE_NAME+"' src='./czqk/"+data[i].FIL_STORE_NAME+"'/></a>";
-							      
-						}
-						$(".shutter-img").html(html);
-				
-					
-					},
-					error : function() {
-					}
-				});
-	};
-	/*加载页面头部,同时加载设备详情信息*/
-		function loadName() {
-		$.ajax({
-					type : 'post',
-					url : './GetEquipmentInfoByKey?EQU_ID=' + equID,
-					cache : false,
-					dataType : 'json',
-					success : function(data) {
-						$('#pageTitle').html(
-								data.EQU_NAME + "(" + data.EQU_POSITION_NUM + ")");
-								
-						$(".detaiInfo").html("");
-						var html="<li>装置列名:"+data.WEL_UNIT+"</li><li>装置单元:"+data.WEL_UNIT+"</li><li>设备类别:"+data.EQU_MEMO_ONE+"</li><li>设备位号:"+data.EQU_POSITION_NUM+"</li><li>设备名称:"+data.EQU_NAME+"</li>";
-						//获取设备类型以及参数
-						var EQU_MEMO_ONE=decodeURI(getQueryString("EQU_MEMO_ONE"))
-						var dataJson=equipmentStructure[EQU_MEMO_ONE];
-				
-						//var dataJson=equipmentStructure["压力表"];
-						/*不成功
-						
-						$.each(dataJson,function(i,val){
-									html+="<li>"+dataJson.i+":"+data[i]+"</li>";
-							});
-						*/
-						
-						for(var key in dataJson){
-									html+="<li>"+dataJson[key]+":"+data[key]+"</li>";
-						}
-						
-						$('.detaiInfo').append(html);
-					},
-
-					error : function() {
-					}
-				});
-	}
-	/*初始化附件*/
-	function pagerFilter(data) {  
-        if (typeof data.length == 'number' && typeof data.splice == 'function') {   // is array  
-            data = {  
-                total: data.length,  
-                rows: data  
-            }  
-        }  
-        var dg = $(this);  
-		
-        var opts = dg.datagrid('options');  
-		
-        var pager = dg.datagrid('getPager'); 
-		
-		console.log(pager);		
-        pager.pagination({  
-            onSelectPage: function (pageNum, pageSize) {  
-			
-                opts.pageNumber = pageNum;  
-                opts.pageSize = pageSize;  
-                pager.pagination('refresh', {  
-                    pageNumber: pageNum,  
-                    pageSize: pageSize  
-                });  
-                dg.datagrid('loadData', data);  
-            }  
-        });  
-	
-		
-        if (!data.originalRows) { 
-	
-            data.originalRows = (data.rows);  
-        }  
-        var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);  
-        var end = start + parseInt(opts.pageSize);  
-        data.rows = (data.originalRows.slice(start, end));  
-        return data;  
-    }  
-	function loadAttachment(){
-		//附件部分整改
-		$('#attachment_tb').datagrid({
-			 url: "getEquipmentAttachmentInfo.do?EQU_POSITION_NUM="+getQueryString("EQU_POSITION_NUM")+"&EQU_MEMO_ONE="+getQueryString("EQU_MEMO_ONE"),
-			pagination:true,
-			toolbar:'#mm',
-			rownumbers:true,
-			singleSelect:true,
-			showHeader:false,
-			columns:[[
-				{field:'file',width:1300}
-			]]
-		
-		}).datagrid({ loadFilter: pagerFilter });
-	}
-
-	/*初始化页面*/
-		function init() {
-		loadImg();
-		loadName();
-		initUrl();
-		loadAttachment();
-	}
-	
-	/*加载后数据*/
-	$(function () {
-		/*页面首次加载*/
-			init();
-			
-		/*
-			以下代码为基础信息相关操作
-		*/
-		
-		
-		/*
-			以下代码为备品备件相关操作
-		*/
-	
-			$("#dlg-buttons a:eq(0)").click(function(){
-				$('#fm').form('submit',{
-				url: "changeEquipmentSpare.do",
-				onSubmit: function(){
-					return $(this).form('validate');
-				},
-				success: function(result){
-				var json=$.parseJSON(result);
-					if (json.msg=='0'){
-						$('#dlg').dialog('close');		// close the dialog
-						$('#spare_table').datagrid('reload');	// reload the user data
-		
-					} else {
-						$.messager.show({
-							title: 'Error',
-							msg: "修改失败"
-						});
-					}
-				}
-			});
-	});
-	
-     $('#spare_table').datagrid({
-    	   toolbar:'#spare_tb',
-		   rownumbers:true,
-            url: "getEquipmentSpareInfo.do?EQU_POSITION_NUM="+EQU_POSITION_NUM+"&EQU_MEMO_ONE="+EQU_MEMO_ONE+"&EQU_ID="+equID,
-            method: 'get',
-            singleSelect:true,
-            pageSize:10,
-            pagination:true,
-            loadMsg:'加载中...',
-            fitColumns:true,
-            columns: [[
-				{ field: 'SPARE_ID', title: '备件主键', width: 200,hidden:true },
-                { field: 'MATERIAL_NAME', title: '备件名称', width: 200 },
-				{ field: 'MATERIAL_SPECIFICATIONS', title: '备件型号', width: 200 },
-				{ field: 'UNIT', title: '单位', width: 200 },
-				{ field: 'REASONABLE_INVENTORY', title: '理想库存', width: 200 },
-				{ field: 'ACTUAL_INVENTORY', title: '实际库存', width: 200 },
-				{ field: 'REMARKONE', title: '备注', width: 200 },
-				{ field: 'SPARE_PARTS_TYPE', title: '设备类别', width: 200,hidden:true },
-				{ field: 'REMARKTWO', title: '设备位号', width: 200,hidden:true }
-            ]]
-        });
-     
-	//增加库存
-	function addEquipmentSpare(){
-		$('#dlg').dialog('open').dialog('setTitle','新增库存');
-		$('#fm').form('submit',{
-			url: "AddEquipmentSpare.do",
-			onSubmit: function(){
-				return $(this).form('validate');
-			},
-			success: function(result){
-			
-				if (result.msg=='0'){
-					$('#dlg').dialog('close');	
-										// close the dialog
-					$('#spare_table').datagrid('reload');	// reload the user data
-	
-				} else {
-					$.messager.show({
-						title: 'Error',
-						msg: '新增库存失败 '
-					});
-				}
-			}
-		});
-	}
-	//修改库存
-	function editEquipmentSpare(){
-		 $('#dlg').dialog('close');
-		var row = $('#spare_table').datagrid('getSelected');
-		if (row){
-			$('#dlg').dialog('open').dialog('setTitle','修改库存');
-			 
-			$('#fm').form('load',row);
-	
-		}else{
-			$.messager.alert('提示','请选择要修改的库存信息');
-		}
-	}
-     //删除库存
-     function deleteAttachment(){
-    	 $('#dlg').dialog('close');
-    	 $row=$("#spare_table").datagrid('getSelected');
-		
-    	 if($row){
-		  $.messager.confirm('提示框','是否确认删除？',function(r){
-							if(r){
-    	 var MATERIAL_ID=$row.SPARE_ID;
-		
-    	 	$.ajax({
-    	 		url:'equipmentSpareDelete.do',
-    	 		data:{"MATERIAL_ID":MATERIAL_ID},
-    	 		type:'get',
-    	 		dataType:'json',
-    	 		success:function(data){
-    	 			if(data.msg=='0'){
-    	 			 var index=$("#spare_table").datagrid('getRowIndex',$row);
-    	 				$("#spare_table").datagrid( 'deleteRow', index );
-    	 			}
-    	 		}
-    	 	})}})
-    	 }else{
-    	 	$.messager.alert('提示','请选择要删除的附件','info');
-    	 }
-    	 }
-    	 //tianji
-    
-    	 $('#spare_tb a:eq(0)').on('click',editEquipmentSpare)
-    	  $('.remove').on('click',deleteAttachment)
-	
-	
-	
-		/*
-			以下代码为图片相关操作
-		*/
-			//图片动态设置
-		  $('.shutter').shutter({
-			shutterW: 1000, // 容器宽度
-			shutterH: 358, // 容器高度
-			isAutoPlay: true, // 是否自动播放
-			playInterval: 2000, // 自动播放时间
-			curDisplay: 3, // 当前显示页
-			fullPage: false // 是否全屏展示
-		  });
-		  $('#form2 a').click(function(){
-						$.ajax({
-					url:'',
-					dataType:'json',
-					data:{},
-					success:function(data){
-					var json =$.parseJSON(data);
-					if(json.msg=='0'){
-					$.messager.show({
-					title:'提示',
-					msg:'新增附件成功',
-					timeout:3000,
-					howType:'slide'
-						});
-					};
-					//局部刷新图片页面暂时没找到好的方法就没刷新了，这里要考虑每次刷新图片的时候，图片原属会不会一直增加
-						loadImg() ;
-					//页面影藏
-					$('#form2').hide();
-					}
-				});
-		  
-		  });
-		  $('.shutter-btn .add').on('click',function(e){
-				$('#form2').css({'top':e.pageY,'left':e.pageX}).show()
-		  })
-		  $('.shutter-btn .remove').on('click',function(){
-					var picName=$('.shutter-desc >p').text();
-					$.messager.confirm('提示框','是否确认删除？',function(r){
-							if(r){
-								$.ajax({
-									url:'deletePic.do',
-									dataType:'json',
-									data:{equ_fil_id:picName},
-									success:function(data){
-										var json=$.parseJSON(data);
-										if(json.msg=='0'){
-											$.messager.show({
-													title:'提示',
-													msg:'删除图片成功',
-													timeout:3000,
-													showType:'slide'
-											});
-										};
-										
-										//再删除成功后在tupian 删除元素
-										$('#picName').remove();
-									}
-								});
+			$
+					.ajax({
+						async : false,
+						type : 'post',
+						url : './EquipmentImageServlet.action?EQU_POSITION_NUM='
+								+ EQU_POSITION_NUM,
+						cache : false,
+						dataType : 'json',
+						success : function(data) {
+							var html = "";
+							if (!data.length) {
+								html = '<div style="color:red;font-size:30px;text-align: center;">该设备暂时未录入图片</div>';
+								$(".shutter").html(html);
 							}
-						});
-		  })
-		  /*
-			以下代码为附件相关操作	  
-		  */
-	
-     //删除fujian
-     function deleteAttachment(){
-    	 $('#dlg').dialog('close');
-    	 $row=$("#attachment_tb").datagrid('getSelected');
-			
-    	 if($row){
-				$.messager.confirm('提示框','是否确认删除附件？',function(r){
-				var name= $row.file;
-				EQU_MEMO_ONE=decodeURI(decodeURI(getQueryString("EQU_MEMO_ONE")));
-				if(r){
-				$.ajax({
-				url:'equipmentAttachmentDelete.do',
-				dataType:'json',
-				data:{FileName:name,EQU_MEMO_ONE:EQU_MEMO_ONE},
-    	 		success:function(data){
-    	 			if(data.msg=='0'){
-    	 			 var index=$("#attachment_tb").datagrid('getRowIndex',$row);
-    	 				$("#attachment_tb").datagrid('deleteRow',index);
-    	 			}
-    	 		}
-    	 	})}})
-    	 }else{
-    	 	$.messager.alert('提示','请选择要删除的附件','info');
-    	 }
-    	 }
-		  
+							for (var i = 0; i < data.length; i++) {
+								html += "<a   data-shutter-title='"+data[i].EQU_FIL_ID+"'  ><img alt='"+data[i].FIL_STORE_NAME+"' src='./czqk/"+data[i].FIL_STORE_NAME+"'/></a>";
 
-		  //附件提交按钮事件
-		  $('#form a').on('click',function(){
-		  var index=$('#form input[name="file"]').val().lastIndexOf('\\');
-		  if(!$('#form input[name="file"]').val()){	
-		   $.messager.alert('提示','请选择附件 ');
-		   $('#form').hide();
-		      return  false;
-		  }
-		  if(!index){
-		   $.messager.alert('提示','请选择附件 ');
-		
-		  }
-		  var file=$('#form input[name="file"]').val();
-		  var fileName=$('#form input[name="file"]').val().substring(index+1);
-		  var type=fileName.substring(fileName.lastIndexOf('.')+1);
-		  if(type.toLowerCase()=="png"||type.toLowerCase()=="jpg"){
-		   $.messager.alert('提示','附件不能为图片');
-		  return false;
-		  }
-			$("#form").form('submit',{
-					url:'addPicture.do?EQU_MEMO_ONE='+EQU_MEMO_ONE+'&EQU_POSITION_NUM='+EQU_POSITION_NUM,
-					dataType:'json',
-					success:function(data){
-				
-					$.messager.show({
-					title:'提示',
-					msg:'新增附件成功',
-					timeout:3000,
-					howType:'slide'
-						});
-				
-					//局部刷新頁面
-					$('#attachment_tb').datagrid('reload');
-					//页面影藏
-					$('#form').hide();
+							}
+							$(".shutter-img").html(html);
+
+						},
+						error : function() {
+						}
+					});
+		};
+		/*加载页面头部,同时加载设备详情信息*/
+		function loadName() {
+			$
+					.ajax({
+						type : 'post',
+						url : './GetEquipmentInfoByKey?EQU_ID=' + equID,
+						cache : false,
+						dataType : 'json',
+						success : function(data) {
+							$('#pageTitle').html(
+									data.EQU_NAME + "(" + data.EQU_POSITION_NUM
+											+ ")");
+
+							$(".detaiInfo").html("");
+							/* var html = "<li>装置列名:" + data.WEL_UNIT
+									+ "</li><li>装置单元:" + data.WEL_UNIT
+									+ "</li><li>设备类别:" + data.EQU_MEMO_ONE
+									+ "</li><li>设备位号:" + data.EQU_POSITION_NUM
+									+ "</li><li>设备名称:" + data.EQU_NAME
+									+ "</li>"; */
+							var html = "";
+							//获取设备类型以及参数
+							var EQU_MEMO_ONE = decodeURI(getQueryString("EQU_MEMO_ONE"))
+							var dataJson = equipmentStructure[EQU_MEMO_ONE];
+
+							//var dataJson=equipmentStructure["压力表"];
+							/*不成功
+							
+							$.each(dataJson,function(i,val){
+										html+="<li>"+dataJson.i+":"+data[i]+"</li>";
+								});
+							 */
+
+							for ( var key in dataJson) {
+								html += "<li>" + dataJson[key] + ":"
+										+ data[key] + "</li>";
+							}
+
+							$('.detaiInfo').append(html);
+						},
+
+						error : function() {
+						}
+					});
+		}
+		/*初始化附件*/
+		function pagerFilter(data) {
+			if (typeof data.length == 'number'
+					&& typeof data.splice == 'function') { // is array  
+				data = {
+					total : data.length,
+					rows : data
+				}
+			}
+			var dg = $(this);
+
+			var opts = dg.datagrid('options');
+
+			var pager = dg.datagrid('getPager');
+
+			console.log(pager);
+			pager.pagination({
+				onSelectPage : function(pageNum, pageSize) {
+
+					opts.pageNumber = pageNum;
+					opts.pageSize = pageSize;
+					pager.pagination('refresh', {
+						pageNumber : pageNum,
+						pageSize : pageSize
+					});
+					dg.datagrid('loadData', data);
+				}
+			});
+
+			if (!data.originalRows) {
+
+				data.originalRows = (data.rows);
+			}
+			var start = (opts.pageNumber - 1) * parseInt(opts.pageSize);
+			var end = start + parseInt(opts.pageSize);
+			data.rows = (data.originalRows.slice(start, end));
+			return data;
+		}
+		function loadAttachment() {
+			//附件部分整改
+			$('#attachment_tb').datagrid(
+					{
+						url : "getEquipmentAttachmentInfo.do?EQU_POSITION_NUM="
+								+ getQueryString("EQU_POSITION_NUM")
+								+ "&EQU_MEMO_ONE="
+								+ getQueryString("EQU_MEMO_ONE"),
+						pagination : true,
+						toolbar : '#mm',
+						rownumbers : true,
+						singleSelect : true,
+						showHeader : false,
+						columns : [ [ {
+							field : 'file',
+							width : 1300
+						} ] ]
+
+					}).datagrid({
+				loadFilter : pagerFilter
+			});
+		}
+
+		/*初始化页面*/
+		function init() {
+			loadImg();
+			loadName();
+			initUrl();
+			loadAttachment();
+		}
+
+		/*加载后数据*/
+		$(function() {
+			/*页面首次加载*/
+			init();
+
+			/*
+				以下代码为基础信息相关操作
+			 */
+
+			/*
+				以下代码为备品备件相关操作
+			 */
+
+			$("#dlg-buttons a:eq(0)").click(function() {
+				$('#fm').form('submit', {
+					url : "changeEquipmentSpare.do",
+					onSubmit : function() {
+						return $(this).form('validate');
+					},
+					success : function(result) {
+						var json = $.parseJSON(result);
+						if (json.msg == '0') {
+							$('#dlg').dialog('close'); // close the dialog
+							$('#spare_table').datagrid('reload'); // reload the user data
+
+						} else {
+							$.messager.show({
+								title : 'Error',
+								msg : "修改失败"
+							});
+						}
 					}
 				});
-		
-			
-		  }); 
-		
-		$("#mm a:eq(0)").on('click',function(e){
-		console.log(e.pageY);
-			$('#form').css({'top':e.pageY,'left':e.pageX}).show()
-		});
-			$("#mm a:eq(1)").on('click',deleteAttachment);
-			$("#mm a:eq(2)").on('click',function(){
-			 $row=$("#attachment_tb").datagrid('getSelected');
-			
-			if($row){
-			var name=$row.file;
-			var  path="http://192.168.18.22:10039/dynamicui/httpfiledownload.action?FileDir=f:/ftp/czqk2/"+getQueryString("EQU_MEMO_ONE")+"&filePath="+name;
-					location.href=path;
-			}else{
-				$.messager.alert('提示','请选择附件');
-			}
-		});
-			$(".uploadPic").on('click',function(e){
-				$('#form1').css({'top':e.pageY,'left':e.pageX}).show()
 			});
-			  //附件提交按钮事件
-			  $('#form1 a').on('click',function(){
-			  var index=$('#form1 input[name="file"]').val().lastIndexOf('\\');
-			  if(!$('#form1 input[name="file"]').val()){	
-			   $.messager.alert('提示','请选择附件 ');
-			   $('#form1').hide();
-			      return  false;
-			  }
 
-			  var file=$('#form input[name="file"]').val();
-			
-					$("#form1").form('submit',{
-						url:'addPicture.do?EQU_MEMO_ONE='+EQU_MEMO_ONE+'&EQU_POSITION_NUM='+EQU_POSITION_NUM,
-						dataType:'json',
-						success:function(data){
-					
-						$.messager.show({
-						title:'提示',
-						msg:'新增附件成功',
-						timeout:3000,
-						howType:'slide'
+			$('#spare_table').datagrid(
+					{
+						toolbar : '#spare_tb',
+						rownumbers : true,
+						url : "getEquipmentSpareInfo.do?EQU_POSITION_NUM="
+								+ EQU_POSITION_NUM + "&EQU_MEMO_ONE="
+								+ EQU_MEMO_ONE + "&EQU_ID=" + equID,
+						method : 'get',
+						singleSelect : true,
+						pageSize : 10,
+						pagination : true,
+						loadMsg : '加载中...',
+						fitColumns : true,
+						columns : [ [ {
+							field : 'SPARE_ID',
+							title : '备件主键',
+							width : 200,
+							hidden : true
+						}, {
+							field : 'MATERIAL_NAME',
+							title : '备件名称',
+							width : 200
+						}, {
+							field : 'MATERIAL_SPECIFICATIONS',
+							title : '备件型号',
+							width : 200
+						}, {
+							field : 'UNIT',
+							title : '单位',
+							width : 200
+						}, {
+							field : 'REASONABLE_INVENTORY',
+							title : '理想库存',
+							width : 200
+						}, {
+							field : 'ACTUAL_INVENTORY',
+							title : '实际库存',
+							width : 200
+						}, {
+							field : 'REMARKONE',
+							title : '备注',
+							width : 200
+						}, {
+							field : 'SPARE_PARTS_TYPE',
+							title : '设备类别',
+							width : 200,
+							hidden : true
+						}, {
+							field : 'REMARKTWO',
+							title : '设备位号',
+							width : 200,
+							hidden : true
+						} ] ]
+					});
+
+			//增加库存
+			function addEquipmentSpare() {
+				$('#dlg').dialog('open').dialog('setTitle', '新增库存');
+				$('#fm').form('submit', {
+					url : "AddEquipmentSpare.do",
+					onSubmit : function() {
+						return $(this).form('validate');
+					},
+					success : function(result) {
+
+						if (result.msg == '0') {
+							$('#dlg').dialog('close');
+							// close the dialog
+							$('#spare_table').datagrid('reload'); // reload the user data
+
+						} else {
+							$.messager.show({
+								title : 'Error',
+								msg : '新增库存失败 '
 							});
-					
-						//局部刷新頁面
+						}
+					}
+				});
+			}
+			//修改库存
+			function editEquipmentSpare() {
+				$('#dlg').dialog('close');
+				var row = $('#spare_table').datagrid('getSelected');
+				if (row) {
+					$('#dlg').dialog('open').dialog('setTitle', '修改库存');
+
+					$('#fm').form('load', row);
+
+				} else {
+					$.messager.alert('提示', '请选择要修改的库存信息');
+				}
+			}
+			//删除库存
+			function deleteAttachment() {
+				$('#dlg').dialog('close');
+				$row = $("#spare_table").datagrid('getSelected');
+
+				if ($row) {
+					$.messager.confirm('提示框', '是否确认删除？', function(r) {
+						if (r) {
+							var MATERIAL_ID = $row.SPARE_ID;
+
+							$.ajax({
+								url : 'equipmentSpareDelete.do',
+								data : {
+									"MATERIAL_ID" : MATERIAL_ID
+								},
+								type : 'get',
+								dataType : 'json',
+								success : function(data) {
+									if (data.msg == '0') {
+										var index = $("#spare_table").datagrid(
+												'getRowIndex', $row);
+										$("#spare_table").datagrid('deleteRow',
+												index);
+									}
+								}
+							})
+						}
+					})
+				} else {
+					$.messager.alert('提示', '请选择要删除的附件', 'info');
+				}
+			}
+			//tianji
+
+			$('#spare_tb a:eq(0)').on('click', editEquipmentSpare)
+			$('.remove').on('click', deleteAttachment)
+
+			/*
+				以下代码为图片相关操作
+			 */
+			//图片动态设置
+			$('.shutter').shutter({
+				shutterW : 1000, // 容器宽度
+				shutterH : 358, // 容器高度
+				isAutoPlay : true, // 是否自动播放
+				playInterval : 2000, // 自动播放时间
+				curDisplay : 3, // 当前显示页
+				fullPage : false
+			// 是否全屏展示
+			});
+			$('#form2 a').click(function() {
+				$.ajax({
+					url : '',
+					dataType : 'json',
+					data : {},
+					success : function(data) {
+						var json = $.parseJSON(data);
+						if (json.msg == '0') {
+							$.messager.show({
+								title : '提示',
+								msg : '新增附件成功',
+								timeout : 3000,
+								howType : 'slide'
+							});
+						}
+						;
+						//局部刷新图片页面暂时没找到好的方法就没刷新了，这里要考虑每次刷新图片的时候，图片原属会不会一直增加
 						loadImg();
 						//页面影藏
-						$('#form1').hide();
-						}
-					});
-			
+						$('#form2').hide();
+					}
+				});
 
-			
-				
-			  }); 
-			$('.deletePic').on('click',function(){
-			console.log('执行删除 ');
-				var equ_fil_id=$('.shutter-desc').text();
+			});
+			$('.shutter-btn .add').on('click', function(e) {
+				$('#form2').css({
+					'top' : e.pageY,
+					'left' : e.pageX
+				}).show()
+			})
+			$('.shutter-btn .remove').on('click', function() {
+				var picName = $('.shutter-desc >p').text();
+				$.messager.confirm('提示框', '是否确认删除？', function(r) {
+					if (r) {
+						$.ajax({
+							url : 'deletePic.do',
+							dataType : 'json',
+							data : {
+								equ_fil_id : picName
+							},
+							success : function(data) {
+								var json = $.parseJSON(data);
+								if (json.msg == '0') {
+									$.messager.show({
+										title : '提示',
+										msg : '删除图片成功',
+										timeout : 3000,
+										showType : 'slide'
+									});
+								}
+								;
+
+								//再删除成功后在tupian 删除元素
+								$('#picName').remove();
+							}
+						});
+					}
+				});
+			})
+			/*
+			以下代码为附件相关操作	  
+			 */
+
+			//删除fujian
+			function deleteAttachment() {
+				$('#dlg').dialog('close');
+				$row = $("#attachment_tb").datagrid('getSelected');
+
+				if ($row) {
+					$.messager
+							.confirm(
+									'提示框',
+									'是否确认删除附件？',
+									function(r) {
+										var name = $row.file;
+										EQU_MEMO_ONE = decodeURI(decodeURI(getQueryString("EQU_MEMO_ONE")));
+										if (r) {
+											$
+													.ajax({
+														url : 'equipmentAttachmentDelete.do',
+														dataType : 'json',
+														data : {
+															FileName : name,
+															EQU_MEMO_ONE : EQU_MEMO_ONE
+														},
+														success : function(data) {
+															if (data.msg == '0') {
+																var index = $(
+																		"#attachment_tb")
+																		.datagrid(
+																				'getRowIndex',
+																				$row);
+																$(
+																		"#attachment_tb")
+																		.datagrid(
+																				'deleteRow',
+																				index);
+															}
+														}
+													})
+										}
+									})
+				} else {
+					$.messager.alert('提示', '请选择要删除的附件', 'info');
+				}
+			}
+
+			//附件提交按钮事件
+			$('#form a').on(
+					'click',
+					function() {
+						var index = $('#form input[name="file"]').val()
+								.lastIndexOf('\\');
+						if (!$('#form input[name="file"]').val()) {
+							$.messager.alert('提示', '请选择附件 ');
+							$('#form').hide();
+							return false;
+						}
+						if (!index) {
+							$.messager.alert('提示', '请选择附件 ');
+
+						}
+						var file = $('#form input[name="file"]').val();
+						var fileName = $('#form input[name="file"]').val()
+								.substring(index + 1);
+						var type = fileName
+								.substring(fileName.lastIndexOf('.') + 1);
+						if (type.toLowerCase() == "png"
+								|| type.toLowerCase() == "jpg") {
+							$.messager.alert('提示', '附件不能为图片');
+							return false;
+						}
+						$("#form").form(
+								'submit',
+								{
+									url : 'addPicture.do?EQU_MEMO_ONE='
+											+ EQU_MEMO_ONE
+											+ '&EQU_POSITION_NUM='
+											+ EQU_POSITION_NUM,
+									dataType : 'json',
+									success : function(data) {
+
+										$.messager.show({
+											title : '提示',
+											msg : '新增附件成功',
+											timeout : 3000,
+											howType : 'slide'
+										});
+
+										//局部刷新頁面
+										$('#attachment_tb').datagrid('reload');
+										//页面影藏
+										$('#form').hide();
+									}
+								});
+
+					});
+
+			$("#mm a:eq(0)").on('click', function(e) {
+				console.log(e.pageY);
+				$('#form').css({
+					'top' : e.pageY,
+					'left' : e.pageX
+				}).show()
+			});
+			$("#mm a:eq(1)").on('click', deleteAttachment);
+			$("#mm a:eq(2)")
+					.on(
+							'click',
+							function() {
+								$row = $("#attachment_tb").datagrid(
+										'getSelected');
+
+								if ($row) {
+									var name = $row.file;
+									var path = "http://192.168.18.22:10039/dynamicui/httpfiledownload.action?FileDir=f:/ftp/czqk2/"
+											+ getQueryString("EQU_MEMO_ONE")
+											+ "&filePath=" + name;
+									location.href = path;
+								} else {
+									$.messager.alert('提示', '请选择附件');
+								}
+							});
+			$(".uploadPic").on('click', function(e) {
+				$('#form1').css({
+					'top' : e.pageY,
+					'left' : e.pageX
+				}).show()
+			});
+			//附件提交按钮事件
+			$('#form1 a').on(
+					'click',
+					function() {
+						var index = $('#form1 input[name="file"]').val()
+								.lastIndexOf('\\');
+						if (!$('#form1 input[name="file"]').val()) {
+							$.messager.alert('提示', '请选择附件 ');
+							$('#form1').hide();
+							return false;
+						}
+
+						var file = $('#form input[name="file"]').val();
+
+						$("#form1").form(
+								'submit',
+								{
+									url : 'addPicture.do?EQU_MEMO_ONE='
+											+ EQU_MEMO_ONE
+											+ '&EQU_POSITION_NUM='
+											+ EQU_POSITION_NUM,
+									dataType : 'json',
+									success : function(data) {
+
+										$.messager.show({
+											title : '提示',
+											msg : '新增附件成功',
+											timeout : 3000,
+											howType : 'slide'
+										});
+
+										//局部刷新頁面
+										loadImg();
+										//页面影藏
+										$('#form1').hide();
+									}
+								});
+
+					});
+			$('.deletePic').on('click', function() {
+				console.log('执行删除 ');
+				var equ_fil_id = $('.shutter-desc').text();
 				console.log('equ_fil_id');
 				$.ajax({
-					url:'deletePicServlet.do?equ_fil_id='+equ_fil_id,
-					dataType:'json',
-					type:'get',
-					success:function(data){
-						if(data.msg==0){
-							  $.messager.alert('提示','图片删除成功');
-							  loadImg();
+					url : 'deletePicServlet.do?equ_fil_id=' + equ_fil_id,
+					dataType : 'json',
+					type : 'get',
+					success : function(data) {
+						if (data.msg == 0) {
+							$.messager.alert('提示', '图片删除成功');
+							loadImg();
 						}
 					}
 				});
 			});
 		});
-		
 	</script>
 </body>
 </html>
